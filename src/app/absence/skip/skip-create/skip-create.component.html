@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col">
+    <div class="container">
+      <br>
+      <form>
+        <!-- Reference-->
+        <div class="form-group">
+          <label class="sr-only" for="reference">Reference</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Reference</div>
+            </div>
+            <input class="form-control" id="reference" placeholder="Entrer la reference de la mission ..." type="text">
+          </div>
+        </div>
+        <br>
+        <!-- Employe -->
+        <div class="form-group">
+          <label class="sr-only" for="employee">Employe associe</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Employe associe</div>
+            </div>
+            <select class="custom-select" id="employee">
+              <option disabled selected>Entrer l'employe associe ...</option>
+              <option value="1">8973 | Nom1 + Prenom1</option>
+              <option value="2">7856 | Nom2 + Prenom2</option>
+              <option value="3">2453 | Nom3 + Prenom3</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <!-- type-->
+        <div class="form-group">
+          <label class="sr-only" for="type">Type de la mission</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Type de la mission</div>
+            </div>
+            <input class="form-control" id="type" placeholder="Entrer le type de la mission ..." type="text">
+          </div>
+        </div>
+        <br>
+        <!-- Date debut-->
+        <div class="form-group">
+          <label class="sr-only" for="dateDebut">Date debut</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Date debut</div>
+            </div>
+            <input class="form-control" id="dateDebut" placeholder="Entrer la date du debut ..." type="date">
+          </div>
+        </div>
+        <br>
+        <!-- detail-->
+        <div class="form-group">
+          <label class="sr-only" for="detail">Detail</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Detail</div>
+            </div>
+            <select class="custom-select" id="detail">
+              <option disabled selected>Selectionner l(es) horaire(s)</option>
+              <option value="1">V1</option>
+              <option value="2">V2</option>
+              <option value="3">V3</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <button class="btn btn-outline-success" type="submit">Creer</button>
+        <button class="btn btn-outline-secondary ml-2" type="submit">Reinitialiser le formulaire</button>
+      </form>
+    </div>
+  </div>
+  <div class="col">
+    <br>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Reference</th>
+        <th scope="col">Emloye associe</th>
+        <th scope="col">Type</th>
+        <th scope="col">Date debut</th>
+        <th scope="col">Horaire(s)</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">9283</th>
+        <td>Some</td>
+        <td>body</td>
+        <td>body</td>
+        <td>body</td>
+        <td class="float-right">
+          <button class="btn btn-outline-danger">Supprimer</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <br>
+    <button class="btn btn-outline-primary" type="submit">Confirmer</button>
+    <button class="btn btn-outline-secondary ml-2" type="submit">Reinitialiser la liste</button>
+  </div>
+</div>
+

@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-6 col-md-4">
+    <div class="container">
+      <br>
+      <form>
+        <!-- Reference-->
+        <div class="form-group">
+          <label class="sr-only" for="reference">Reference</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Reference</div>
+            </div>
+            <input class="form-control" id="reference" placeholder="Entrer la reference du remplacement ..."
+                   type="text">
+          </div>
+        </div>
+        <br>
+        <!-- Employe original -->
+        <div class="form-group">
+          <label class="sr-only" for="empOrg">Employe original</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Employe original</div>
+            </div>
+            <select class="custom-select" id="empOrg">
+              <option disabled selected>Entrer l'employe original ...</option>
+              <option value="1">8973 | Nom1 + Prenom1</option>
+              <option value="2">7856 | Nom2 + Prenom2</option>
+              <option value="3">2453 | Nom3 + Prenom3</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <!-- Employe remplacent -->
+        <div class="form-group">
+          <label class="sr-only" for="empRmp">Employe remplacant</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Employe remplacant</div>
+            </div>
+            <select class="custom-select" id="empRmp">
+              <option disabled selected>Entrer l'employe remplacant ...</option>
+              <option value="1">8973 | Nom1 + Prenom1</option>
+              <option value="2">7856 | Nom2 + Prenom2</option>
+              <option value="3">2453 | Nom3 + Prenom3</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <!-- Date debut-->
+        <div class="form-group">
+          <label class="sr-only" for="dateRmp">Date du remplacement</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Date du remplacement</div>
+            </div>
+            <input class="form-control" id="dateRmp" placeholder="Entrer la date du remplacement ..." type="date">
+          </div>
+        </div>
+        <br>
+        <!-- detail-->
+        <div class="form-group">
+          <label class="sr-only" for="detail">Detail</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Detail</div>
+            </div>
+            <select class="custom-select" id="detail">
+              <option disabled selected>Selectionner l(es) horaire(s)</option>
+              <option value="1">V1</option>
+              <option value="2">V2</option>
+              <option value="3">V3</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <button class="btn btn-outline-success" type="submit">Creer</button>
+        <button class="btn btn-outline-secondary ml-2" type="submit">Reinitialiser le formulaire</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-md-8">
+    <br>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Reference</th>
+        <th scope="col">Employe original</th>
+        <th scope="col">Employe remplacant</th>
+        <th scope="col">Date du remplacement</th>
+        <th scope="col">Horaire(s)</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">9283</th>
+        <td>Some</td>
+        <td>body</td>
+        <td>body</td>
+        <td>body</td>
+        <td class="float-right">
+          <button class="btn btn-outline-danger">Supprimer</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <br>
+    <button class="btn btn-outline-primary" type="submit">Confirmer</button>
+    <button class="btn btn-outline-secondary ml-2" type="submit">Reinitialiser la liste</button>
+  </div>
+</div>
+

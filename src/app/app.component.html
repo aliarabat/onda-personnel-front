@@ -1,0 +1,47 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#"><img src="../assets/Images/logo-ONDA.png" width="118" height="62" alt=""></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+          aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" >Acceuil<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Gestion
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="employes">Gestion des employes</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="horaires">Gestion des horaires</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Gestion des jours feries</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="services">Gestion des services</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
+           id="navbarDropdown2" role="button">
+          Absences
+        </a>
+        <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+          <a class="dropdown-item" routerLink="missions">Missions</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="conges">Conges</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="remplacements">Remplacements</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="absences">Absences</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+<div class="container-fluid">
+  <router-outlet></router-outlet>
+</div>

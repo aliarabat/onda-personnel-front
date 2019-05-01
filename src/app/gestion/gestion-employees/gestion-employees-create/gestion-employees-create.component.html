@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col">
+    <div class="container">
+      <br>
+      <form>
+        <!-- MATRICULE-->
+        <div class="form-group">
+          <label class="sr-only" for="matricule">Matricule</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Matricule</div>
+            </div>
+            <input type="number" class="form-control"  [(ngModel)]="employee.matricule" name="matricule" id="matricule" placeholder="Entrer la matricule de l'employe ...">
+          </div>
+        </div>
+        <br>
+        <!-- NOM -->
+        <div class="form-group">
+          <label class="sr-only" for="nom">Nom</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Nom</div>
+            </div>
+            <input type="text" class="form-control" id="nom" [(ngModel)]="employee.lastName" name="lastName" placeholder="Entrer le nom de l'employe ...">
+          </div>
+        </div>
+        <br>
+        <!-- PREONOM-->
+        <div class="form-group">
+          <label class="sr-only" for="prenom">Prenom</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Prenom</div>
+            </div>
+            <input type="text" class="form-control" id="prenom" [(ngModel)]="employee.firstName" name="firstName" placeholder="Entrer le prenom de l'employe ...">
+          </div>
+        </div>
+        <br>
+        <!-- FONCTION-->
+        <div class="form-group">
+          <label class="sr-only" for="fonction">Fonction</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Fonction</div>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="employee.fonction" name="fonction"  id="fonction" placeholder="Entrer la fonction de l'employe ...">
+          </div>
+        </div>
+        <br>
+        <!-- Type-->
+        <div class="form-group">
+          <label class="sr-only" for="prenom">Type</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Type</div>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="employee.type" name="type" id="type" placeholder="Entrer le type de l'employe ...">
+          </div>
+        </div>
+        <br>
+
+        <button type="submit"  (click)="addEmployee()" class="btn btn-outline-success">Creer</button>
+        <button type="submit" (click)="renitialiser()" class="btn btn-outline-secondary ml-2">Reinitialiser le formulaire</button>
+      </form>
+    </div>
+  </div>
+  <div class="col">
+    <br>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Matricule</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Prenom</th>
+        <th scope="col">Fonction</th>
+        <th scope="col">Type</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let e of employees">
+        <th >{{e.matricule}}</th>
+        <td>{{e.lastName}}</td>
+        <td>{{e.firstName}}</td>
+        <td>{{e.fonction}}</td>
+        <td>{{e.type}}</td>
+        <td class="float-right">
+          <button class="btn btn-outline-danger" (click)="deleteRow(e.matricule)">Supprimer</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <br>
+    <button type="submit" (click)="saveEmployee()" class="btn btn-outline-primary">Confirmer</button>
+    <button type="submit" class="btn btn-outline-secondary ml-2">Reinitialiser la liste</button>
+  </div>
+</div>

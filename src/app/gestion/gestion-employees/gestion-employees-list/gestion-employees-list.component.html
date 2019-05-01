@@ -1,0 +1,133 @@
+
+<!-- Default unchecked -->
+
+<br>
+<div class="custom-control custom-checkbox col-md-2">
+  <input type="checkbox" class="custom-control-input" value="option1" (click)="selectPerEmployee()" id="inlineCheckboxperyear2">
+  <label class="custom-control-label" for="inlineCheckboxperyear2">Anciens Employes</label>
+</div>
+
+<br>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">Matricule</th>
+    <th scope="col">Nom</th>
+    <th scope="col">Prenom</th>
+    <th scope="col">Fonction</th>
+    <th scope="col">Type</th>
+    <th scope="col">Actions</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let e of allEmployes">
+    <th >{{e.matricule}}</th>
+    <td>{{e.lastName}}</td>
+    <td>{{e.firstName}}</td>
+    <td>{{e.fonction}}</td>
+    <td>{{e.type}}</td>
+    <td>
+      <button class="btn btn-outline-primary mr-2"   data-toggle="modal" (click)="ShowEmployeeInfo(e)" data-target="#exampleModal" data-whatever="@mdo">Modifier</button>
+      <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowEmployeeInfo(e)" data-target="#exampleModal2">Supprimer</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<div class=" modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Informations sur <i>{{(!!employeeInfo ?employeeInfo.lastName:null) +" "+ (!!employeeInfo ?employeeInfo.firstName:null)  }}</i></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!-- MATRICULE-->
+          <div class="form-group">
+            <label class="sr-only" for="matricule">Matricule</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Matricule</div>
+              </div>
+              <input type="number" class="form-control"  [(ngModel)]="newEmployee.matricule" [value]="!!employeeInfo ? employeeInfo.matricule:null" name="matricule" id="matricule" placeholder="Entrer la matricule de l'employe ...">
+            </div>
+          </div>
+          <br>
+          <!-- NOM -->
+          <div class="form-group">
+            <label class="sr-only" for="nom">Nom</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Nom</div>
+              </div>
+              <input type="text" class="form-control" id="nom"  [(ngModel)]="newEmployee.lastName" [value]="!!employeeInfo ? employeeInfo.lastName:null" name="lastName" placeholder="Entrer le nom de l'employe ...">
+            </div>
+          </div>
+          <br>
+          <!-- PREONOM-->
+          <div class="form-group">
+            <label class="sr-only" for="prenom">Prenom</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Prenom</div>
+              </div>
+              <input type="text" class="form-control" id="prenom" [(ngModel)]="newEmployee.firstName" [value]="!!employeeInfo ? employeeInfo.firstName:null"  name="firstName" placeholder="Entrer le prenom de l'employe ...">
+            </div>
+          </div>
+          <br>
+          <!-- FONCTION-->
+          <div class="form-group">
+            <label class="sr-only" for="fonction">Fonction</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Fonction</div>
+              </div>
+              <input type="text" class="form-control"  name="fonction" [(ngModel)]="newEmployee.fonction" [value]="!!employeeInfo ? employeeInfo.fonction:null" id="fonction" placeholder="Entrer la fonction de l'employe ...">
+            </div>
+          </div>
+          <br>
+          <!-- Type-->
+          <div class="form-group">
+            <label class="sr-only" for="prenom">Type</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Type</div>
+              </div>
+              <input type="text" class="form-control"  name="type" [(ngModel)]="newEmployee.type" [value]="!!employeeInfo ? employeeInfo.type:null" id="type" placeholder="Entrer le type de l'employe ...">
+            </div>
+          </div>
+          <br>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit"   class="btn btn-outline-success" data-dismiss="modal" (click)="updateEmployee()">Modifier</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> Voulez vous vraiment supprimer
+          <i>{{(!!employeeInfo ?employeeInfo.lastName:null) +" "+ (!!employeeInfo ?employeeInfo.firstName:null)  }}</i></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteEmployee()" data-dismiss="modal">supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>

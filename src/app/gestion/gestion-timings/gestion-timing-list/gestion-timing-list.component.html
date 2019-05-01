@@ -1,0 +1,139 @@
+<br>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">Libelle</th>
+    <th scope="col">Mode</th>
+    <th scope="col">Heure debut</th>
+    <th scope="col">Heure fin</th>
+    <th scope="col">Panier</th>
+    <th scope="col">Heures effectuees</th>
+    <th scope="col">Heures de nuit
+    <th scope="col">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let d of allDetails">
+    <td>{{d.wording}}</td>
+    <td>{{d.mode}}</td>
+    <td>{{d.startingTimeVo.hour}}:{{d.startingTimeVo.minute}}</td>
+    <td>{{d.endingTimeVo.hour}}:{{d.endingTimeVo.minute}}</td>
+    <td>{{d.pan}}</td>
+    <td>{{d.heVo.hour}}h{{d.heVo.minute}}</td>
+    <td>{{d.hnVo.hour}}h{{d.hnVo.minute}}</td>
+    <td>
+      <button class="btn btn-outline-primary mr-2"   data-toggle="modal" (click)="ShowDetailInfo(d)" data-target="#exampleModal" data-whatever="@mdo">Modifier</button>
+      <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowDetailInfo(d)" data-target="#exampleModal2">Supprimer</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+
+<div class=" modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Informations sur l'horiare de <i>{{(!!detailInfo ?detailInfo.startingTimeVo.hour:null) +"h"+ (!!detailInfo ?detailInfo.startingTimeVo.minute:null) +" a "+ (!!detailInfo ?detailInfo.endingTimeVo.hour:null)+"h"+(!!detailInfo ?detailInfo.endingTimeVo.minute:null) }}</i></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!-- LIBELLE-->
+          <div class="form-group">
+            <label class="sr-only" for="libelle">Libelle</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Libelle</div>
+              </div>
+              <input type="text" [(ngModel)]="newDetail.wording" name="wording" class="form-control"  id="libelle" placeholder="Entrer le libelle d'horaire ...">
+            </div>
+          </div>
+          <br>
+          <!-- MODE-->
+          <div class="form-group">
+            <label class="sr-only" for="mode">Mode</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Mode</div>
+              </div>
+              <select name="mode" [(ngModel)]="newDetail.mode" class="custom-select" id="mode" >
+                <option >Special</option>
+                <option >Normal</option>
+              </select>
+            </div>
+          </div>
+          <br>
+          <!-- HEURE DEBUT -->
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Heure debut</span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="newDetail.startingTimeVo.hour" name="startingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
+            <div class="input-group-append">
+              <span class="input-group-text">H</span>
+            </div>
+            <input type="text" class="form-control"  [(ngModel)]="newDetail.startingTimeVo.minute" name="startingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+            <div class="input-group-append">
+              <span class="input-group-text">M</span>
+            </div>
+          </div>
+          <br>
+          <!-- HEURE FIN-->
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Heure fin</span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="newDetail.endingTimeVo.hour" name="endingTimeHpurs"  placeholder="Entrer l'heure de fin ..." min="0" max="23">
+            <div class="input-group-append">
+              <span class="input-group-text">H</span>
+            </div>
+            <input type="text" class="form-control"   [(ngModel)]="newDetail.endingTimeVo.minute" name="endingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+            <div class="input-group-append">
+              <span class="input-group-text">M</span>
+            </div>
+          </div>
+          <br>
+          <!-- PAN-->
+          <div class="form-group">
+            <label class="sr-only"  for="panier">Panier</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Panier</div>
+              </div>
+              <input type="number" class="form-control" [(ngModel)]="newDetail.pan" name="pan"  id="panier" placeholder="Entrer le panier d'horaire ...">
+            </div>
+          </div>
+          <br>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button"   class="btn btn-outline-success m-2" data-dismiss="modal" (click)="updateDetail()">Modifier</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> Voulez vous vraiment supprimer l'horaire de
+          <i>{{(!!detailInfo ?detailInfo.startingTimeVo.hour:null) +"h"+ (!!detailInfo ?detailInfo.startingTimeVo.minute:null) +" a "+ (!!detailInfo ?detailInfo.endingTimeVo.hour:null)+"h"+(!!detailInfo ?detailInfo.endingTimeVo.minute:null) }}</i></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteDetail()" data-dismiss="modal">supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
