@@ -7,6 +7,7 @@ import {DetailVo} from "../model/detail.model";
 import Swal from "sweetalert2";
 import {WorkVo} from '../model/work.model';
 import {DateModel} from '../model/date.model';
+import {TimingVo} from '../model/timing.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,8 @@ export class DayServiceService {
   private _listWorksByDayAndEmployee: Array<WorkVo> = new Array<WorkVo>();
   //check date credentials
   private _listDate: Array<string> = [];
+  //employee normal to fill the service week automaically
+  private _employeeCheckType:EmployeeVo=new EmployeeVo(0,'','','','','');
 
   public ajouter() {
     if (this._employee.matricule === undefined) {
@@ -170,6 +173,24 @@ export class DayServiceService {
       data => {
         if (data != null) {
           this._listDate = data.map(date => new Date(date).toLocaleDateString());
+          this._employeeCheckType=this._employees.find(emp=>parseInt(emp.matricule)===parseInt(this._employee.matricule));
+          if (this._employeeCheckType.type==='Normal'){
+            for (let i=0; i<=6; i++){
+              let  _dayClone=new DayVo(new Array<DayDetailVo>());
+              let _dayDetailClone:DayDetailVo=new DayDetailVo(0,new  DetailVo('','',new TimingVo('0','0'),new TimingVo('0','0'),'',''));
+
+              if (i<=4){
+                _dayDetailClone.detailVo=this._details.find(dt=>dt.wording==='ADM');
+              } else{
+                _dayDetailClone.detailVo=this._details.find(dt=>dt.wording==='R');
+              }
+              _dayClone.dayDetailsVo.push(_dayDetailClone);
+              this._days.push(_dayClone);
+
+            }
+          } else{
+            this._days=new Array<DayVo>();
+          }
         } else {
           this._listDate = [];
         }
@@ -184,6 +205,7 @@ export class DayServiceService {
     this._detail = new DetailVo('', '');
     this._day = new DayVo();
     this._listDate = [];
+    this._days=[];
   }
 
   substructDetail(dd: DayDetailVo) {

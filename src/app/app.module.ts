@@ -33,6 +33,9 @@ import { AdminPanelComponent } from './access/admin-panel/admin-panel.component'
 import { NavbarComponent } from './parts/navbar/navbar.component';
 import { SidebarComponent } from './parts/sidebar/sidebar.component';
 import {GestionServicesPrintComponent} from './gestion/gestion-services/gestion-services-print/gestion-services-print.component';
+import {GestionHolidaysCreateComponent} from "./gestion/gestion-holidays/gestion-holidays-create/gestion-holidays-create.component";
+import {GestionHolidaysListComponent} from "./gestion/gestion-holidays/gestion-holidays-list/gestion-holidays-list.component";
+import {GestionHolidaysComponent} from "./gestion/gestion-holidays/gestion-holidays.component";
 
 @NgModule({
   declarations: [
@@ -66,6 +69,9 @@ import {GestionServicesPrintComponent} from './gestion/gestion-services/gestion-
     NavbarComponent,
     SidebarComponent,
     GestionServicesPrintComponent,
+    GestionHolidaysComponent,
+    GestionHolidaysCreateComponent,
+    GestionHolidaysListComponent,
   ],
   imports: [
     BrowserModule,

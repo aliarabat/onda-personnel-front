@@ -6,6 +6,7 @@ import {EmployeeVo} from '../../../controller/model/employee.model';
 import Swal from "sweetalert2";
 import {MissionVo} from '../../../controller/model/mission.model';
 import {ReplacementService} from '../../../controller/service/replacement.service';
+import {SkipService} from '../../../controller/service/skip.service';
 
 @Component({
   selector: 'app-mission-create',
@@ -14,7 +15,7 @@ import {ReplacementService} from '../../../controller/service/replacement.servic
 })
 export class MissionCreateComponent implements OnInit {
 
-  constructor(private dayService:DayServiceService,private missionService:MissionService,private remplacementService:ReplacementService) {
+  constructor(private dayService:DayServiceService,private missionService:MissionService,private remplacementService:ReplacementService,private skipService:SkipService) {
   }
 
   ngOnInit() {
@@ -24,6 +25,7 @@ export class MissionCreateComponent implements OnInit {
     this.dayService.employee=new EmployeeVo();
     this.missionService.mission=new MissionVo();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
+    this.skipService.findAllDetails();
 
 
   }
@@ -38,7 +40,9 @@ export class MissionCreateComponent implements OnInit {
   get detailVo(){
     return this.dayService.detailVo;
   }
-
+  get allDetails(){
+    return this.skipService.details;
+  }
   public get detail(){
     return this.dayService.detail;
   }

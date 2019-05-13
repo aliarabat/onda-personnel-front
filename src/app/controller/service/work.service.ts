@@ -83,6 +83,19 @@ export class WorkService {
   }
 
   public searchWorkToPrint() {
+    if (this._dateForPrinting.year===null || this._dateForPrinting.year===undefined){
+      Swal.fire({
+        type: 'error',
+        title: 'Oops...!',
+        text: 'Merci de saisir l\'année'
+      });
+    } else if (this._dateForPrinting.month===null || this._dateForPrinting.month===undefined){
+      Swal.fire({
+        type: 'error',
+        title: 'Oops...!',
+        text: 'Merci de saisir le mois'
+      });
+    } else {
     this.http.get<WorkVo>(this._url + 'worktoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
       data => {
         if (data != null) {
@@ -93,7 +106,7 @@ export class WorkService {
       }, error => {
         console.log(error);
       }
-    );
+    );}
   }
 
   get listEmployeesByYear(): Array<WorkVo> {

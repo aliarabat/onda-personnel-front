@@ -63,13 +63,11 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Horaire</div>
             </div>
-            <select (click)="getTheDay()" (change)="findDetailByWording()" [disabled]="!orgEmployee.matricule || !replacement.replacementDate"class="custom-select" id="detail" [(ngModel)]="replacement.detailVo.wording"name="horaireRemp" >
+            <select  (change)="findDetailByWording()" class="custom-select" id="detail" [(ngModel)]="replacement.detailVo.wording"name="horaireRemp" >
              <option disabled selected>Selectionner l' horaire</option>-->
 
-                <option  *ngFor="let d of dayDetails"   ngValue="{{ d.detailVo.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.detailVo.startingTimeVo.hour+'h'+d.detailVo.endingTimeVo.minute+'min-'+d.detailVo.endingTimeVo.hour+'h'+d.detailVo.endingTimeVo.minute+'min' }}">
+              <option *ngFor="let d of allDetails" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
 
-                  {{ d.detailVo.wording }}
-                </option>
 
 
             </select>
