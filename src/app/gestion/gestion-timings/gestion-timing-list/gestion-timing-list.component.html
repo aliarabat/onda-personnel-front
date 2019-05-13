@@ -22,8 +22,7 @@
     <td>{{d.heVo.hour}}h{{d.heVo.minute}}</td>
     <td>{{d.hnVo.hour}}h{{d.hnVo.minute}}</td>
     <td>
-      <button class="btn btn-outline-primary mr-2"   data-toggle="modal" (click)="ShowDetailInfo(d)" data-target="#exampleModal" data-whatever="@mdo">Modifier</button>
-      <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowDetailInfo(d)" data-target="#exampleModal2">Supprimer</button>
+      <button class="btn btn-outline-primary mr-2"   data-toggle="modal" (click)="findById(d.id)" data-target="#exampleModal" data-whatever="@mdo">Modifier</button>
     </td>
   </tr>
   </tbody>
@@ -35,7 +34,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Informations sur l'horiare de <i>{{(!!detailInfo ?detailInfo.startingTimeVo.hour:null) +"h"+ (!!detailInfo ?detailInfo.startingTimeVo.minute:null) +" a "+ (!!detailInfo ?detailInfo.endingTimeVo.hour:null)+"h"+(!!detailInfo ?detailInfo.endingTimeVo.minute:null) }}</i></h5>
+        <h5 class="modal-title" id="exampleModalLabel">Modification </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -49,7 +48,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Libelle</div>
               </div>
-              <input type="text" [(ngModel)]="newDetail.wording" name="wording" class="form-control"  id="libelle" placeholder="Entrer le libelle d'horaire ...">
+              <input type="text" [(ngModel)]="newDet.wording" name="wording" class="form-control"  id="libelle" placeholder="Entrer le libelle d'horaire ...">
             </div>
           </div>
           <br>
@@ -60,7 +59,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Mode</div>
               </div>
-              <select name="mode" [(ngModel)]="newDetail.mode" class="custom-select" id="mode" >
+              <select name="mode" [(ngModel)]="newDet.mode" class="custom-select" id="mode" >
                 <option >Special</option>
                 <option >Normal</option>
               </select>
@@ -72,7 +71,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Heure debut</span>
             </div>
-            <input type="text" class="form-control" [(ngModel)]="newDetail.startingTimeVo.hour" name="startingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
+            <input type="text" class="form-control" [(ngModel)]="newDet.startingTimeVo.hour" name="startingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
             <div class="input-group-append">
               <span class="input-group-text">H</span>
             </div>
@@ -87,11 +86,11 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Heure fin</span>
             </div>
-            <input type="text" class="form-control" [(ngModel)]="newDetail.endingTimeVo.hour" name="endingTimeHpurs"  placeholder="Entrer l'heure de fin ..." min="0" max="23">
+            <input type="text" class="form-control" [(ngModel)]="newDet.endingTimeVo.hour" name="endingTimeHpurs"  placeholder="Entrer l'heure de fin ..." min="0" max="23">
             <div class="input-group-append">
               <span class="input-group-text">H</span>
             </div>
-            <input type="text" class="form-control"   [(ngModel)]="newDetail.endingTimeVo.minute" name="endingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+            <input type="text" class="form-control"   [(ngModel)]="newDet.endingTimeVo.minute" name="endingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
             <div class="input-group-append">
               <span class="input-group-text">M</span>
             </div>
@@ -104,7 +103,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Panier</div>
               </div>
-              <input type="number" class="form-control" [(ngModel)]="newDetail.pan" name="pan"  id="panier" placeholder="Entrer le panier d'horaire ...">
+              <input type="number" class="form-control" [(ngModel)]="newDet.pan" name="pan"  id="panier" placeholder="Entrer le panier d'horaire ...">
             </div>
           </div>
           <br>
@@ -118,22 +117,3 @@
   </div>
 </div>
 
-
-<div class="modal fade" id="exampleModal2" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> Voulez vous vraiment supprimer l'horaire de
-          <i>{{(!!detailInfo ?detailInfo.startingTimeVo.hour:null) +"h"+ (!!detailInfo ?detailInfo.startingTimeVo.minute:null) +" a "+ (!!detailInfo ?detailInfo.endingTimeVo.hour:null)+"h"+(!!detailInfo ?detailInfo.endingTimeVo.minute:null) }}</i></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" (click)="deleteDetail()" data-dismiss="modal">supprimer</button>
-      </div>
-    </div>
-  </div>
-</div>

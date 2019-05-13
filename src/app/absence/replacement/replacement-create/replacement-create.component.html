@@ -1,48 +1,46 @@
 <div class="row">
-  <div class="col-6 col-md-4">
+  <div class="col">
     <div class="container">
       <br>
       <form>
         <!-- Reference-->
         <div class="form-group">
-          <label class="sr-only" for="reference">Reference</label>
+          <label class="sr-only" for="referenceRemp">Référence</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Reference</div>
+              <div class="input-group-text">Référence</div>
             </div>
-            <input class="form-control" id="reference" placeholder="Entrer la reference du remplacement ..."
+            <input class="form-control" id="referenceRemp"  [(ngModel)]="replacement.reference"         name="referenceRemp" placeholder="Entrer la référence du remplacement ..."
                    type="text">
           </div>
         </div>
         <br>
         <!-- Employe original -->
         <div class="form-group">
-          <label class="sr-only" for="empOrg">Employe original</label>
+          <label class="sr-only" for="empOrg">Employé original</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Employe original</div>
+              <div class="input-group-text">Employé original</div>
             </div>
-            <select class="custom-select" id="empOrg">
-              <option disabled selected>Entrer l'employe original ...</option>
-              <option value="1">8973 | Nom1 + Prenom1</option>
-              <option value="2">7856 | Nom2 + Prenom2</option>
-              <option value="3">2453 | Nom3 + Prenom3</option>
+            <select (change)="getEmployeeByMatricule()" class="custom-select" id="empOrg"  [(ngModel)]="orgEmployee.matricule"    name="empOrg">
+              <option disabled selected>Entrer l'employé original ...</option>
+              <option *ngFor="let emp of employeeVo" [value]="emp.matricule">{{ emp.matricule+" "+emp.firstName+" "+emp.lastName }}</option>
+
             </select>
           </div>
         </div>
         <br>
         <!-- Employe remplacent -->
         <div class="form-group">
-          <label class="sr-only" for="empRmp">Employe remplacant</label>
+          <label class="sr-only" for="empRmp">Employé remplacant</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Employe remplacant</div>
+              <div class="input-group-text">Employé remplacant</div>
             </div>
-            <select class="custom-select" id="empRmp">
-              <option disabled selected>Entrer l'employe remplacant ...</option>
-              <option value="1">8973 | Nom1 + Prenom1</option>
-              <option value="2">7856 | Nom2 + Prenom2</option>
-              <option value="3">2453 | Nom3 + Prenom3</option>
+            <select (change)="getReplacedEmployeeByMatricule()" class="custom-select" id="empRmp"  [(ngModel)]="rempEmployee.matricule" name="empRemp">
+              <option disabled selected>Entrer l'employé remplacant ...</option>
+              <option *ngFor="let emp of employeeVo"  [value]="emp.matricule">{{ emp.matricule+" "+emp.firstName+" "+emp.lastName }}</option>
+
             </select>
           </div>
         </div>
@@ -54,60 +52,35 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Date du remplacement</div>
             </div>
-            <input class="form-control" id="dateRmp" placeholder="Entrer la date du remplacement ..." type="date">
+            <input class="form-control" id="dateRmp" [(ngModel)]="replacement.replacementDate" name="dateRemp" placeholder="Entrer la date du remplacement ..." type="date">
           </div>
         </div>
         <br>
         <!-- detail-->
         <div class="form-group">
-          <label class="sr-only" for="detail">Detail</label>
+          <label class="sr-only" for="detail">Horaire</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Detail</div>
+              <div class="input-group-text">Horaire</div>
             </div>
-            <select class="custom-select" id="detail">
-              <option disabled selected>Selectionner l(es) horaire(s)</option>
-              <option value="1">V1</option>
-              <option value="2">V2</option>
-              <option value="3">V3</option>
+            <select (click)="getTheDay()" (change)="findDetailByWording()" [disabled]="!orgEmployee.matricule || !replacement.replacementDate"class="custom-select" id="detail" [(ngModel)]="replacement.detailVo.wording"name="horaireRemp" >
+             <option disabled selected>Selectionner l' horaire</option>-->
+
+                <option  *ngFor="let d of dayDetails"   ngValue="{{ d.detailVo.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.detailVo.startingTimeVo.hour+'h'+d.detailVo.endingTimeVo.minute+'min-'+d.detailVo.endingTimeVo.hour+'h'+d.detailVo.endingTimeVo.minute+'min' }}">
+
+                  {{ d.detailVo.wording }}
+                </option>
+
+
             </select>
           </div>
         </div>
         <br>
-        <button class="btn btn-outline-success" type="submit">Creer</button>
-        <button class="btn btn-outline-secondary ml-2" type="submit">Reinitialiser le formulaire</button>
+        <button class="btn btn-outline-success" (click)="saveReplacement()" type="submit">Créer</button>
+        <button class="btn btn-outline-secondary ml-2" type="submit">Réinitialiser le formulaire</button>
       </form>
     </div>
   </div>
-  <div class="col-12 col-sm-6 col-md-8">
-    <br>
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Reference</th>
-        <th scope="col">Employe original</th>
-        <th scope="col">Employe remplacant</th>
-        <th scope="col">Date du remplacement</th>
-        <th scope="col">Horaire(s)</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th scope="row">9283</th>
-        <td>Some</td>
-        <td>body</td>
-        <td>body</td>
-        <td>body</td>
-        <td class="float-right">
-          <button class="btn btn-outline-danger">Supprimer</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <br>
-    <button class="btn btn-outline-primary" type="submit">Confirmer</button>
-    <button class="btn btn-outline-secondary ml-2" type="submit">Reinitialiser la liste</button>
-  </div>
+
 </div>
 

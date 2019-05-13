@@ -24,7 +24,7 @@ public  detailInfo : DetailVo = new DetailVo();
   }
 
   public updateDetail(){
-    this.detailService.updateDetail(this.detailInfo)
+    this.detailService.updateDetail(this.newDet)
   }
 
   public get newDetail(){
@@ -32,6 +32,14 @@ public  detailInfo : DetailVo = new DetailVo();
   }
   public deleteDetail(){
     this.detailService.deleteDetail(this.detailInfo.wording)
+  }
+
+  public get newDet(){
+    return this.detailService.newDetail;
+  }
+
+  public findById(id:number){
+    this.detailService.findDetailById(id)
   }
 
 }

@@ -1,27 +1,158 @@
-<div class="container-fluid">
-  <table class="table table-striped">
+<div class="container-fluid" >
+  <table class="table table-striped" >
     <thead>
     <tr>
-      <th scope="col">Reference</th>
-      <th scope="col">Emloye associe</th>
-      <th scope="col">Type</th>
-      <th scope="col">Date debut</th>
+      <th scope="col">Référence</th>
+      <th scope="col">Employé en Mission</th>
+      <th scope="col">Type-Mission</th>
+      <th scope="col">Date Mission</th>
       <th scope="col">Horaire(s)</th>
       <th></th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <th scope="row">9283</th>
-      <td>Some</td>
-      <td>body</td>
-      <td>body</td>
-      <td>body</td>
+    <tr *ngFor="let dayDetail of listOfDayDetails " >
+      <td >{{dayDetail.missionVo.reference}}</td>
+      <td >{{dayDetail.missionVo.employee.firstName}} {{dayDetail.missionVo.employee.lastName}}</td>
+      <td >{{dayDetail.missionVo.type}}</td>
+      <td >{{dayDetail.missionVo.startingDate}}</td>
+      <td >{{dayDetail.missionVo.detailVo.wording}}</td>
+
+
+
       <td class="float-right">
-        <button class="btn btn-outline-warning">Modifier</button>
-        <button class="btn btn-outline-danger ml-2">Supprimer</button>
+        <button type="button" id="btnMission" (click)="findDayDetailById(dayDetail.id)"  class="btn btn-outline-warning ml-sm-1" data-toggle="modal" data-target="#missionModal" data-whatever="@fat">Modifier</button>
+        <button class="btn btn-outline-danger ml-2" (click)="delete(dayDetail)">Supprimer</button>
       </td>
     </tr>
     </tbody>
   </table>
 </div>
+
+
+
+
+
+<!--Modal-->
+<div class="modal fade" id="missionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modification de Mission pour : {{theDayDetail.missionVo.employee.lastName}} {{theDayDetail.missionVo.employee.firstName}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="form-group">
+          <label class="sr-only" for="referenceMissionList">Référence</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Référence</div>
+            </div>
+            <input class="form-control" id="referenceMissionList"  [(ngModel)]="theDayDetail.missionVo.reference" name="referenceMission" placeholder="Entrer la référence de la mission ..." type="text" >
+          </div>
+        </div>
+        <br>
+
+
+<!--
+        <div class="form-group">
+          <label class="sr-only" for="employeMissionList">Employé en Mission</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Employé en Mission</div>
+            </div>
+            <select  class="custom-select" id="employeMissionList" (change)="getEmployeeByMatricule()"   [(ngModel)]="theDayDetail.missionVo.employee.matricule" name="matriculeEmployee"  >
+              <option selected disabled>Selectionner l'employé ...</option>
+              <option *ngFor="let emp of employeeVo" [value]="emp.matricule">{{ emp.matricule+" "+emp.firstName+" "+emp.lastName }}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+-->
+
+
+        <div class="form-group">
+          <label class="sr-only" for="typeMissionlist">Type de la mission</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Type de la mission</div>
+            </div>
+            <input class="form-control" id="typeMissionlist"  [(ngModel)]="theDayDetail.missionVo.type" name="typeList" placeholder="Entrer le type de la mission ..." type="text">
+          </div>
+        </div>
+        <br>
+
+
+
+        <div class="form-group">
+          <label class="sr-only" for="dateDebutMission">Date debut</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Date debut</div>
+            </div>
+            <input class="form-control" id="dateDebutMission" [(ngModel)]="theDayDetail.missionVo.startingDate" name="startingDateMission" placeholder="Entrer le prenom de l'employe ..." type="date">
+          </div>
+        </div>
+        <br>
+
+
+
+
+        <div class="form-group">
+
+          <label class="sr-only" for="horaireMissionlist">Horaire Mission</label>
+
+          <div class="input-group mb-2">
+
+            <div class="input-group-prepend">
+
+              <div class="input-group-text">Horaire Mission</div>
+            </div>
+
+            <select  (change)="findDetailByWording()" (click)="findDetailByWording()"  class="custom-select" [(ngModel)]="theDayDetail.missionVo.detailVo.wording"  name="horaireMissionList" id="horaireMissionlist">
+              <option selected disabled>Selectionner l' horaire ...</option>
+              <option *ngFor="let d of detailVo" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="modifierMission" (click)="updateMission(theDayDetail)"  class="btn btn-outline-info">Modifier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+
+
+
+  $('#btnMission').click(function () {
+    $('#missionModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var recipient = button.data('whatever');
+      // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this);
+      modal.find('.modal-title').text('New message to ' + recipient);
+      modal.find('.modal-body input').val(recipient);
+    })
+  });
+
+
+
+
+
+
+
+
+</script>
+

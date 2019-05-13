@@ -3,6 +3,8 @@ import {DayServiceService} from "../../../controller/service/day-service.service
 import {EmployeeVo} from "../../../controller/model/employee.model";
 import {DayVo} from "../../../controller/model/day.model";
 import {DayDetailVo} from "../../../controller/model/day-detail.model";
+import {MonthUtil} from "../../../util/month-util";
+import {DetailVo} from '../../../controller/model/detail.model';
 
 @Component({
   selector: 'app-gestion-services-create',
@@ -18,6 +20,8 @@ export class GestionServicesCreateComponent implements OnInit {
   ngOnInit() {
     this.dayService.findAllEmployees();
     this.dayService.findAllDetails();
+    this.dayService.detail=new DetailVo();
+    this.dayService.employee=new EmployeeVo();
   }
 
   get listDate(){
@@ -87,5 +91,9 @@ export class GestionServicesCreateComponent implements OnInit {
 
   substructDetail(dd: DayDetailVo) {
     this.dayService.substructDetail(dd);
+  }
+
+  public getDay(index:number){
+    return MonthUtil.day(index);
   }
 }

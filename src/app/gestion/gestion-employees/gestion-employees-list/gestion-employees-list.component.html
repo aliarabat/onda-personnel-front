@@ -28,8 +28,10 @@
     <td>{{e.fonction}}</td>
     <td>{{e.type}}</td>
     <td>
-      <button class="btn btn-outline-primary mr-2"   data-toggle="modal" (click)="ShowEmployeeInfo(e)" data-target="#exampleModal" data-whatever="@mdo">Modifier</button>
-      <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowEmployeeInfo(e)" data-target="#exampleModal2">Supprimer</button>
+      <button class="btn btn-outline-primary mr-2"   data-toggle="modal" *ngIf="e.isExist" (click)="findEmployeeById(e.id)" data-target="#exampleModal" data-whatever="@mdo">Modifier</button>
+      <button class="btn btn-outline-danger"   data-toggle="modal" *ngIf="e.isExist"     (click)="ShowEmployeeInfo(e)" data-target="#exampleModal2">Supprimer</button>
+      <button class="btn btn-outline-danger"   data-toggle="modal" *ngIf="!e.isExist"     (click)="Revert(e.matricule)" data-target="#exampleModa2">Revert</button>
+
     </td>
   </tr>
   </tbody>
@@ -40,7 +42,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Informations sur <i>{{(!!employeeInfo ?employeeInfo.lastName:null) +" "+ (!!employeeInfo ?employeeInfo.firstName:null)  }}</i></h5>
+        <h5 class="modal-title" id="exampleModalLabel">Modification </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -54,7 +56,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Matricule</div>
               </div>
-              <input type="number" class="form-control"  [(ngModel)]="newEmployee.matricule" [value]="!!employeeInfo ? employeeInfo.matricule:null" name="matricule" id="matricule" placeholder="Entrer la matricule de l'employe ...">
+              <input type="number" class="form-control"  [(ngModel)]="newEmpl.matricule" [value]="!!employeeInfo ? employeeInfo.matricule:null" name="matricule" id="matricule" placeholder="Entrer la matricule de l'employe ...">
             </div>
           </div>
           <br>
@@ -65,7 +67,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Nom</div>
               </div>
-              <input type="text" class="form-control" id="nom"  [(ngModel)]="newEmployee.lastName" [value]="!!employeeInfo ? employeeInfo.lastName:null" name="lastName" placeholder="Entrer le nom de l'employe ...">
+              <input type="text" class="form-control" id="nom"  [(ngModel)]="newEmpl.lastName" [value]="!!employeeInfo ? employeeInfo.lastName:null" name="lastName" placeholder="Entrer le nom de l'employe ...">
             </div>
           </div>
           <br>
@@ -76,7 +78,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Prenom</div>
               </div>
-              <input type="text" class="form-control" id="prenom" [(ngModel)]="newEmployee.firstName" [value]="!!employeeInfo ? employeeInfo.firstName:null"  name="firstName" placeholder="Entrer le prenom de l'employe ...">
+              <input type="text" class="form-control" id="prenom" [(ngModel)]="newEmpl.firstName" [value]="!!employeeInfo ? employeeInfo.firstName:null"  name="firstName" placeholder="Entrer le prenom de l'employe ...">
             </div>
           </div>
           <br>
@@ -87,7 +89,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Fonction</div>
               </div>
-              <input type="text" class="form-control"  name="fonction" [(ngModel)]="newEmployee.fonction" [value]="!!employeeInfo ? employeeInfo.fonction:null" id="fonction" placeholder="Entrer la fonction de l'employe ...">
+              <input type="text" class="form-control"  name="fonction" [(ngModel)]="newEmpl.fonction" [value]="!!employeeInfo ? employeeInfo.fonction:null" id="fonction" placeholder="Entrer la fonction de l'employe ...">
             </div>
           </div>
           <br>
@@ -98,7 +100,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Type</div>
               </div>
-              <input type="text" class="form-control"  name="type" [(ngModel)]="newEmployee.type" [value]="!!employeeInfo ? employeeInfo.type:null" id="type" placeholder="Entrer le type de l'employe ...">
+              <input type="text" class="form-control"  name="type" [(ngModel)]="newEmpl.type" [value]="!!employeeInfo ? employeeInfo.type:null" id="type" placeholder="Entrer le type de l'employe ...">
             </div>
           </div>
           <br>

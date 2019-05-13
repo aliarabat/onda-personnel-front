@@ -3,7 +3,7 @@ import {DetailVo} from './detail.model';
 
 export class SkipVo {
 
-  constructor(public id?: number, public reference?: string, public employeeVo?: EmployeeVo, public type?: string, public skipDate?: string, public detail?: DetailVo) {
+  constructor(public id?: number, public reference?: string, public employeeVo?: EmployeeVo, public type?: string, public skipDate?: string, public detailVo: DetailVo=new DetailVo()) {
   }
 
 }

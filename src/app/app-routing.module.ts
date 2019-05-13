@@ -7,8 +7,12 @@ import {VacationComponent} from './absence/vacation/vacation.component';
 import {ReplacementComponent} from './absence/replacement/replacement.component';
 import {SkipComponent} from './absence/skip/skip.component';
 import {MissionComponent} from './absence/mission/mission.component';
+import {SplashComponent} from './access/splash/splash.component';
+import {LoginComponent} from './access/login/login.component';
 
 const routes: Routes = [
+
+  {path: 'acceuil', component: SplashComponent}, // ROOT DESTINATION
   {path: 'employes', component: GestionEmployeesComponent},
   {path: 'horaires', component: GestionTimingsComponent},
   {path: 'services', component: GestionServicesComponent},
@@ -16,6 +20,8 @@ const routes: Routes = [
   {path: 'remplacements', component: ReplacementComponent},
   {path: 'absences', component: SkipComponent},
   {path: 'missions', component: MissionComponent},
+  {path: 'login', component: LoginComponent},
+  { path: '**', redirectTo: 'acceuil' }, // JUST A CATCH ALL ROUTE
 
 ];
 

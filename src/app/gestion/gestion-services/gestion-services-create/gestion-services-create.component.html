@@ -64,14 +64,15 @@
       <tbody>
       <tr *ngFor="let day of days; index as i">
         <th scope="row">{{ employee.matricule }}</th>
-        <th>{{ i+1 }}</th>
+        <td>{{ getDay(i) }}</td>
         <td>
           <div class="d-flex">
           <p *ngFor="let dd of day.dayDetailsVo" class="mr-1">
-          {{ dd.detailVo.wording + " " }}
+          {{" "+ dd.detailVo.wording + " ["+dd.detailVo.startingTimeVo.hour+":"+dd.detailVo.startingTimeVo.minute+"-"
+          +dd.detailVo.endingTimeVo.hour+":"+dd.detailVo.endingTimeVo.minute+"]"}}
         </p>
           </div>
-        <td class="float-right">
+        <td>
           <button (click)="deleteDay(day)" class="btn btn-outline-danger">Supprimer</button>
         </td>
       </tr>

@@ -61,8 +61,6 @@ export class DayServiceService {
         title: 'Info...',
         text: 'Vous avez ajouté 7 jours!'
       });
-    } else if (this._day.dayDetailsVo === []) {
-      console.log("the day shouldn't be null")
     } else {
       this._days.push(this._day);
       this._day = new DayVo();
@@ -73,7 +71,7 @@ export class DayServiceService {
   addDetailToBadges() {
     if (this._day.dayDetailsVo.findIndex(dd => dd.detailVo.wording === this._detail.wording) === -1) {
       let dayDetailClone: DayDetailVo = new DayDetailVo();
-      dayDetailClone.detailVo = this._detail;
+      dayDetailClone.detailVo = this._details.find(d=>d.wording===this._detail.wording);
       this._day.dayDetailsVo.push(dayDetailClone);
       this._detail = new DetailVo();
     } else {

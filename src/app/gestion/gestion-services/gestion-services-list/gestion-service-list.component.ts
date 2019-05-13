@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {WorkServiceService} from "../../../controller/service/work-service.service";
-import {WorkDatailVo} from "../../../controller/model/work-datail.model";
+import {WorkService} from "../../../controller/service/work.service";
 import * as $ from 'jquery';
 import {EmployeeVo} from "../../../controller/model/employee.model";
 import {DayServiceService} from "../../../controller/service/day-service.service";
-import Swal from "sweetalert2";
-import {WorkVo} from "../../../controller/model/work.model";
+import Swal from "sweetalert2";;
 import {DayVo} from "../../../controller/model/day.model";
+import {MonthUtil} from "../../../util/month-util";
+import {DetailVo} from '../../../controller/model/detail.model';
 
 // @ts-ignore
 @Component({
@@ -19,14 +19,15 @@ export class GestionServiceListComponent implements OnInit {
   private selectedDaysFormModal: Array<DayVo> = [];
   private hiddenStateMonth: boolean = true;
 
-  constructor(private workService: WorkServiceService, private dayService: DayServiceService) {
+  constructor(private workService: WorkService, private dayService: DayServiceService) {
   }
 
   private hiddenState: boolean = true;
-  private selectdedWork: WorkDatailVo = new WorkDatailVo(0, '', '', {hour: "0", minute: "0"}, {hour: "0", minute: "0"});
   private employee: EmployeeVo = new EmployeeVo(0, '');
 
   ngOnInit() {
+    this.dayService.detail=new DetailVo();
+    this.dayService.employee=new EmployeeVo();
   }
 
 
@@ -57,13 +58,16 @@ export class GestionServiceListComponent implements OnInit {
           } else {
             if ($("#monthDiv").is(':visible')) {
               if (this.dateByYear.month===undefined||this.dateByYear.month===null){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...!',
+                  text: 'Merci de saisir le mois'
+                });
               } else{
                 this.workService.findWorkByEmployeeAndMonthAndYear(this.employee.matricule);
-                this.employee=new EmployeeVo();
               }
             } else {
               this.workService.findWorkByYear(this.employee.matricule);
-              this.employee=new EmployeeVo();
             }
           }
           return;
@@ -102,18 +106,6 @@ export class GestionServiceListComponent implements OnInit {
     return new Date(workDetailDate);
   }
 
-  get workDetailVoToUpdate(): WorkDatailVo {
-    return this.workService.workDetailVoToUpdate;
-  }
-
-  setSelectedWork(w: WorkDatailVo) {
-    this.selectdedWork = w;
-  }
-
-  update() {
-    this.workService.updateWorkDetail(this.selectdedWork);
-  }
-
   selectPerYear() {
     this.hiddenState = !$("#inlineCheckboxperyear").is(':checked');
   }
@@ -132,5 +124,13 @@ export class GestionServiceListComponent implements OnInit {
 
   selectPerMonth() {
     this.hiddenStateMonth = !$("#inlineCheckboxpermonth").is(':checked');
+  }
+
+  public getMonths(){
+    return MonthUtil.months;
+  }
+
+  public getMonth(index:number){
+    return MonthUtil.getMonth(index);
   }
 }

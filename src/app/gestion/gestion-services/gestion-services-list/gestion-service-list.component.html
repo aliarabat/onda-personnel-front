@@ -3,7 +3,7 @@
 <div class="col-md-12 row justify-content-between">
   <form class="col-md-10">
     <div class="form-row align-items-center">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text">Année</div>
@@ -16,7 +16,10 @@
           <div class="input-group-prepend">
             <div class="input-group-text">Mois</div>
           </div>
-          <input type="number" [(ngModel)]="dateByYear.month" name="mois" id="mois" min="0" max="31" class="form-control" placeholder="Mois">
+          <select class="custom-select" id="mois" [(ngModel)]="dateByYear.month" name="mois">
+            <option selected disabled>Selectionner un employe</option>
+            <option *ngFor="let m of getMonths(); index as i" value="{{ i+1 }}">{{ m }}</option>
+          </select>
         </div>
       </div>
       <div [hidden]="hiddenState" id="employeeDiv" class="col-md-4">
@@ -30,8 +33,8 @@
           </select>
         </div>
       </div>
-      <div class="col-md-3 justify-content-between">
-        <button (click)="findWorkByYear()" type="submit" class="btn btn-outline-success mr-sm-1">Chercher</button>
+      <div class="col-md-4 justify-content-between">
+        <button (click)="findWorkByYear()" type="submit" class="btn btn-outline-success mr-2">Chercher</button>
         <button (click)="reinitializeForm()" type="button" class="btn btn-outline-secondary">Réinitialiser</button>
       </div>
     </div>
@@ -65,18 +68,17 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let w of listEmployeesByYear">
+  <tr *ngFor="let w of listEmployeesByYear" [class]="w.employeeVo.isExist?'':'table-danger'">
     <th scope="row">{{ w.employeeVo.matricule }}</th>
     <td>{{ formatDate(w.workDetailVo.workDetailDate).getFullYear() }}</td>
     <td>{{ w.employeeVo.lastName}}</td>
     <td>{{ w.employeeVo.firstName}}</td>
-    <td >{{ formatDate(w.workDetailVo.workDetailDate).getMonth()+1}}</td>
+    <td >{{ getMonth(formatDate(w.workDetailVo.workDetailDate).getMonth())}}</td>
     <td>{{ w.workDetailVo.pan }}</td>
     <td>{{ w.workDetailVo.hjf.hour+"h"+w.workDetailVo.hjf.minute+"min" }}</td>
     <td>{{ w.workDetailVo.hn.hour+"h"+w.workDetailVo.hn.minute+"min" }}</td>
     <td>
       <button type="button" (click)="setDaysInfo(w.workDetailVo.daysVo)" class="btn btn-outline-primary mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg">Afficher</button>
-      <button type="button" (click)="setSelectedWork(w.workDetailVo)" class="btn btn-outline-warning ml-sm-1" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Modifier</button>
     </td>
   </tr>
   </tbody>
@@ -104,12 +106,15 @@
                 <div *ngIf="day.vacationVo!==null">
                   {{ day.vacationVo.type }}
                 </div>
+                <!--<div *ngIf="day.vacationVo===null&&day.reference!==null">
+                  {{ day.vacationVo.type }}
+                </div>-->
                 <div class="d-flex" *ngIf="day.vacationVo===null">
                   <div *ngFor="let dt of day.dayDetailsVo">
-                    <div class="mr-sm-1" *ngIf="dt.missionVo!=null">{{ dt.missionVo.type }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.missionVo!=null">{{ dt.missionVo.reference }}</div>
                     <div class="mr-sm-1" *ngIf="dt.skipVo!=null">{{ dt.skipVo.type }}</div>
                     <div class="mr-sm-1" *ngIf="dt.replacementVo!=null">{{ dt.replacementVo.reference }}</div>
-                    <div class="mr-sm-1" *ngIf="dt.missionVo===null && dt.skipVo===null && dt.replacementVo===null">
+                    <div class="mr-sm-1" *ngIf="dt.missionVo===null && dt.skipVo===null && dt.replacementVo===null && dt.detailVo!=null">
                       {{ dt.detailVo.wording }}
                     </div>
                   </div>
@@ -119,82 +124,6 @@
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--Modal-->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modification</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form >
-          <div class="form-group">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Pan</span>
-              </div>
-              <input type="number" [(ngModel)]="workDetailVoToUpdate.pan" placeholder="Pan" name="pan" value="{{!!selectdedWork?selectdedWork.pan:null}}" min="0" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Hjf</span>
-              </div>
-              <input type="number" [(ngModel)]="workDetailVoToUpdate.hjf.hour" name="hjfhour"  value="{{!!selectdedWork?selectdedWork.hjf.hour:null}}" class="form-control" placeholder="heure" min="0" max="23">
-              <div class="input-group-append">
-                <span class="input-group-text">H</span>
-              </div>
-              <input type="number" [(ngModel)]="workDetailVoToUpdate.hjf.minute" name="hjfminute"  value="{{!!selectdedWork?selectdedWork.hjf.minute:null}}" class="form-control" placeholder="min" min="0" max="59">
-              <div class="input-group-append">
-                <span class="input-group-text">M</span>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Hn</span>
-              </div>
-              <input type="number" name="hnhour" [(ngModel)]="workDetailVoToUpdate.hn.hour"  value="{{ !!selectdedWork?selectdedWork.hn.hour:null }}" class="form-control" placeholder="heure" min="0" max="23">
-              <div class="input-group-append">
-                <span class="input-group-text">H</span>
-              </div>
-              <input type="number" name="hnminute" [(ngModel)]="workDetailVoToUpdate.hn.minute"  value="{{ !!selectdedWork?selectdedWork.hn.minute:null }}" class="form-control" placeholder="min" min="0" max="59">
-              <div class="input-group-append">
-                <span class="input-group-text">M</span>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" (click)="update()" class="btn btn-primary">Modifier</button>
       </div>
     </div>
   </div>

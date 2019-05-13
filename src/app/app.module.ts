@@ -26,6 +26,13 @@ import {ReplacementCreateComponent} from './absence/replacement/replacement-crea
 import {ReplacementListComponent} from './absence/replacement/replacement-list/replacement-list.component';
 import {SkipListComponent} from './absence/skip/skip-list/skip-list.component';
 import {SkipCreateComponent} from './absence/skip/skip-create/skip-create.component';
+import { AccessComponent } from './access/access.component';
+import { SplashComponent } from './access/splash/splash.component';
+import { LoginComponent } from './access/login/login.component';
+import { AdminPanelComponent } from './access/admin-panel/admin-panel.component';
+import { NavbarComponent } from './parts/navbar/navbar.component';
+import { SidebarComponent } from './parts/sidebar/sidebar.component';
+import {GestionServicesPrintComponent} from './gestion/gestion-services/gestion-services-print/gestion-services-print.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +58,14 @@ import {SkipCreateComponent} from './absence/skip/skip-create/skip-create.compon
     ReplacementCreateComponent,
     ReplacementListComponent,
     SkipListComponent,
-    SkipCreateComponent
+    SkipCreateComponent,
+    AccessComponent,
+    SplashComponent,
+    LoginComponent,
+    AdminPanelComponent,
+    NavbarComponent,
+    SidebarComponent,
+    GestionServicesPrintComponent,
   ],
   imports: [
     BrowserModule,

@@ -29,9 +29,12 @@ export class GestionEmployeesListComponent implements OnInit {
   public ShowEmployeeInfo(employee) {
     this.employeeInfo = employee;
   }
+public Revert(matricule:string){
+    this.employeeService.revert(matricule)
 
+}
   public updateEmployee(){
-    this.employeeService.updateEmployee(this.employeeInfo)
+    this.employeeService.updateEmployee(this.newEmpl)
   }
 
   public get newEmployee(){
@@ -44,5 +47,13 @@ export class GestionEmployeesListComponent implements OnInit {
       this.employeeService.findAllEmployesExist();
 
     }
+  }
+
+  public get newEmpl(){
+    return this.employeeService.newEmployee
+  }
+
+  public findEmployeeById(id:number){
+    this.employeeService.findEmployeeyId(id);
   }
 }
