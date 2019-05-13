@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="row col-md-10 offset-md-1">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Reference</th>
+        <th scope="col">Date début</th>
+        <th scope="col">Date fin</th>
+        <th scope="col">Actions</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngIf="holidayList.length===0">
+        <td colspan="4" class="text-center font-italic"></td>
+      </tr>
+      <tr *ngFor="let hol of holidayList">
+        <th scope="row">{{ hol.reference }}</th>
+        <td>{{ hol.startingDate }}</td>
+        <td>{{ hol.endingDate }}</td>
+        <td class="justify-content-around">
+          <button type="button" (click)="setSelectedHoliday(hol)" class="btn btn-outline-warning mr-sm-1" data-toggle="modal" data-target="#updateHolidayModal" data-whatever="@fat">Modifier</button>
+          <button class="btn btn-outline-danger ml-sm-1" (click)="deleteHoliday(hol.id)">Supprimer</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!--Modal-->
+<div class="modal fade" id="updateHolidayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modification</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form >
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Reference</span>
+              </div>
+              <input type="text" [(ngModel)]="holidayVoToUpdate.reference" placeholder="Reference" name="reference" value="{{!!selectedHoliday?selectedHoliday.reference:null}}" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Date début</span>
+              </div>
+              <input type="date" [(ngModel)]="holidayVoToUpdate.startingDate" name="startingDate"  value="{{!!selectedHoliday?selectedHoliday.startingDate:null}}" class="form-control" placeholder="Date début">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Date fin</span>
+              </div>
+              <input type="date" [(ngModel)]="holidayVoToUpdate.endingDate" name="startingDate"  value="{{!!selectedHoliday?selectedHoliday.endingDate:null}}" class="form-control" placeholder="Date fin" >
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" (click)="update()" class="btn btn-primary">Modifier</button>
+      </div>
+    </div>
+  </div>
+</div>

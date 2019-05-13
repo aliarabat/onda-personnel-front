@@ -1,0 +1,40 @@
+import {Component, OnInit} from '@angular/core';
+import {HolidayService} from '../../../controller/service/holiday.service';
+import {HolidayVo} from '../../../controller/model/holiday.model';
+
+@Component({
+  selector: 'app-gestion-holidays-list',
+  templateUrl: './gestion-holidays-list.component.html',
+  styleUrls: ['./gestion-holidays-list.component.css']
+})
+export class GestionHolidaysListComponent implements OnInit {
+  private selectedHoliday: HolidayVo = new HolidayVo(0, '', '', '');
+
+
+  constructor(private holidayService: HolidayService) {
+  }
+
+  ngOnInit() {
+    this.holidayService.findAll();
+  }
+
+  get holidayList() {
+    return this.holidayService.holidaysList;
+  }
+
+  setSelectedHoliday(hol: HolidayVo) {
+    this.selectedHoliday = hol;
+  }
+
+  get holidayVoToUpdate() {
+    return this.holidayService.holidayVoToUpdate;
+  }
+
+  update() {
+    this.holidayService.updateHoliday(this.selectedHoliday);
+  }
+
+  deleteHoliday(id: number) {
+    this.holidayService.deleteHoliday(id);
+  }
+}

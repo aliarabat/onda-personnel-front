@@ -1,0 +1,53 @@
+<div class="container mt-2">
+  <div class="row col-md-12">
+    <div class="col-md-5">
+      <form>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Année</div>
+              </div>
+              <input type="number" [(ngModel)]="dateToPrint.year" class="form-control" name="year" placeholder="Année">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Mois</div>
+              </div>
+              <select class="custom-select" [(ngModel)]="dateToPrint.month" id="month" name="month">
+                <option selected disabled>Selectionner le mois</option>
+                <option *ngFor="let m of months(); index as i" [value]="i+1">{{ m }}</option>
+              </select>
+            </div>
+          </div>
+        <div class="form-group">
+          <button (click)="searchWorkToPrint()" class="btn btn-block btn-primary">Chercher</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-7">
+      <table class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Année</th>
+            <th scope="col">Mois</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="worksToPrint.workDetailVo.daysVo===undefined">
+            <td colspan="3" class="text-center font-italic">No item found</td>
+          </tr>
+          <tr *ngIf="worksToPrint.workDetailVo.daysVo">
+            <td>{{ formatDate(worksToPrint.workDetailVo.workDetailDate).getFullYear() }}</td>
+            <td>{{ getMonth(formatDate(worksToPrint.workDetailVo.workDetailDate).getMonth()) }}</td>
+            <td>
+              <button (click)="print(formatDate(worksToPrint.workDetailVo.workDetailDate).getFullYear(), formatDate(worksToPrint.workDetailVo.workDetailDate).getMonth())" class="btn btn-outline-success">Imprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
