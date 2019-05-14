@@ -1,8 +1,3 @@
-import {Injectable} from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
-})
 export class MonthUtil {
 
   private static _months:Array<string>=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']

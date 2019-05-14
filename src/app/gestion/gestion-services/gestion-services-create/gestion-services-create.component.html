@@ -33,6 +33,10 @@
             </select>
           </div>
         </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" (change)="ramadanHours()" class="custom-control-input" value="option1" id="inlineCheckboxHoraireRamadan">
+          <label class="custom-control-label" for="inlineCheckboxHoraireRamadan">Horaire Ramadan</label>
+        </div>
         <h5>
           <span class="badge badge-info mr-2" *ngFor="let dd of day.dayDetailsVo">
            <div class="d-flex justify-content-between align-items-center">
@@ -43,10 +47,11 @@
            </div>
           </span>
         </h5>
-        <br>
-        <br>
-        <button (click)="ajouter()" class="btn btn-outline-success">Ajouter</button>
-        <button (click)="reinitializeForm()" class="btn btn-outline-secondary ml-2">Reinitialiser le formulaire</button>
+        <div class="d-flex justify-content-end">
+          <button (click)="reinitializeForm()" class="btn btn-outline-secondary">Reinitialiser le formulaire</button>
+          <button (click)="ajouter()" class="btn btn-outline-success ml-1">Ajouter</button>
+        </div>
+
       </form>
     </div>
   </div>
