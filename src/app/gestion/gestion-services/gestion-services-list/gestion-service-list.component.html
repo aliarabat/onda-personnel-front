@@ -111,9 +111,9 @@
                 </div>-->
                 <div class="d-flex" *ngIf="day.vacationVo===null">
                   <div *ngFor="let dt of day.dayDetailsVo">
-                    <div class="mr-sm-1" *ngIf="dt.missionVo!=null">{{ dt.missionVo.reference }}</div>
-                    <div class="mr-sm-1" *ngIf="dt.skipVo!=null">{{ dt.skipVo.type }}</div>
-                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null">{{ dt.replacementVo.reference }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.missionVo!=null">{{ dt.missionVo.reference+" ("+dt.missionVo.startingTimeVo.hour+":"+dt.missionVo.startingTimeVo.minute+"-"+dt.missionVo.endingTimeVo.hour+":"+dt.missionVo.endingTimeVo.minute+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.skipVo!=null">{{ dt.skipVo.type+" ("+dt.skipVo.detailVo.wording+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null">{{ dt.replacementVo.reference+" ("+dt.replacementVo.detailVo.wording+")" }}</div>
                     <div class="mr-sm-1" *ngIf="dt.missionVo===null && dt.skipVo===null && dt.replacementVo===null && dt.detailVo!=null">
                       {{ dt.detailVo.wording }}
                     </div>

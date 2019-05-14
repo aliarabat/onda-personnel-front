@@ -19,13 +19,10 @@ export class MissionCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dayService.findAllDetails();
     this.dayService.findAllEmployees();
-    this.dayService.detail=new DetailVo();
     this.dayService.employee=new EmployeeVo();
     this.missionService.mission=new MissionVo();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
-    this.skipService.findAllDetails();
 
 
   }
@@ -37,15 +34,7 @@ export class MissionCreateComponent implements OnInit {
   public get employeeVo(){
     return this.dayService.employeeVo;
   }
-  get detailVo(){
-    return this.dayService.detailVo;
-  }
-  get allDetails(){
-    return this.skipService.details;
-  }
-  public get detail(){
-    return this.dayService.detail;
-  }
+
 
   public get mission(){
     return this.missionService.mission;
@@ -59,14 +48,12 @@ export class MissionCreateComponent implements OnInit {
 
   public saveMission(){
     console.log(this.missionService.mission);
-    this.missionService.SaveMission(this.missionService.mission,this.dayService.employee.matricule,this.missionService.mission.detailVo.wording);
-    this.dayService.detail=new DetailVo();
+    this.missionService.SaveMission(this.missionService.mission,this.dayService.employee.matricule);
     this.dayService.employee=new EmployeeVo();
     this.missionService.theEmployee=new EmployeeVo();
-    this.missionService.mission=new MissionVo(0,'',this.missionService.theEmployee,'','',new DetailVo());
+    this.missionService.mission=new MissionVo();
   }
 initForm(){
-  this.dayService.detail=new DetailVo();
   this.dayService.employee=new EmployeeVo();
     this.missionService.formInit();
   }
@@ -75,12 +62,6 @@ initForm(){
     this.missionService.findDayDetailsOfDay(this.missionService.theEmployee.matricule,this.missionService.mission.startingDate);
 
   }
-  public get dayDetails(){
-    return this.missionService.dayDetails;
-  }
 
-  findDetailByWording(){
-    this.missionService.findDetailByWording(this.missionService.mission.detailVo.wording);
-  }
 
 }
