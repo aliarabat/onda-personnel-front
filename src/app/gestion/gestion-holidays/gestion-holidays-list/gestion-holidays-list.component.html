@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row col-md-10 offset-md-1">
-    <table class="table table-striped">
+    <table class="table table-striped table-sm">
       <thead>
       <tr>
         <th scope="col">Reference</th>
@@ -12,7 +12,7 @@
       </thead>
       <tbody>
       <tr *ngIf="holidayList.length===0">
-        <td colspan="4" class="text-center font-italic"></td>
+        <td colspan="5" class="text-center font-italic">No item found</td>
       </tr>
       <tr *ngFor="let hol of holidayList">
         <th scope="row">{{ hol.reference }}</th>
