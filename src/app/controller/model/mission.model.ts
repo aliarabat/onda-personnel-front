@@ -1,9 +1,9 @@
 import {EmployeeVo} from './employee.model';
-import {DetailVo} from './detail.model';
+import {TimingVo} from './timing.model';
 
 export class MissionVo {
 
-  constructor(public id?: number, public reference?: string, public employee?: EmployeeVo, public type?: string, public startingDate?: string,public detailVo: DetailVo=new DetailVo()) {
+  constructor(public id?: number, public reference?: string, public employee: EmployeeVo=new EmployeeVo(), public type?: string, public startingDate?: string,public startingTimeVo: TimingVo = new TimingVo('',''), public endingTimeVo: TimingVo = new TimingVo('','')) {
   }
 
 }

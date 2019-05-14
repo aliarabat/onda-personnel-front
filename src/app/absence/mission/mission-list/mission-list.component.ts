@@ -18,14 +18,11 @@ export class MissionListComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.missionService.findAllWorks();
-    this.missionService.findAlldayDetails();
-    this.dayService.findAllDetails();
     this.dayService.findAllEmployees();
-    this.missionService.detail1=new DetailVo();
     this.missionService.employee1=new EmployeeVo();
     this.missionService.mission=new MissionVo();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
+    this.missionService.findAlldayDetails();
 
 
   }
@@ -55,16 +52,12 @@ export class MissionListComponent implements OnInit {
   public get employeeVo(){
     return this.dayService.employeeVo;
   }
-  public get detail1(){
-    return this.missionService.detail1;
-  }
+
 
   findDayDetailById(id:number){
     this.missionService.findDayDetailById(id);
   }
-  public get theDayDetail1(){
-    return this.missionService.theDayDetail1;
-  }
+
 updateMission(daydetail:DayDetailVo){
     this.missionService.updateMission(daydetail);
 }
@@ -76,12 +69,8 @@ updateMission(daydetail:DayDetailVo){
     return this.missionService.dayDetails;
   }
 
-  get detailVo(){
-    return this.dayService.detailVo;
-  }
-  findDetailByWording(){
-    this.missionService.findDetailByWording(this.missionService.theDayDetail.missionVo.detailVo.wording);
-  }
+
+
   getEmployeeByMatricule(){
     this.missionService.findEmployesByMatricule(this.missionService.theDayDetail.missionVo.employee.matricule);
   }
