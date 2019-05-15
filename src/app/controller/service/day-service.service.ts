@@ -168,7 +168,7 @@ export class DayServiceService {
         if (data != null) {
           this._listDate = data.map(date => new Date(date).toLocaleDateString());
           this._employeeCheckType=this._employees.find(emp=>parseInt(emp.matricule)===parseInt(this._employee.matricule));
-          if (this._employeeCheckType.type==='Normal'){
+          if (this._employeeCheckType.type==='Administratif'){
             for (let i=0; i<=6; i++){
               let  _dayClone=new DayVo(new Array<DayDetailVo>());
               let _dayDetailClone:DayDetailVo=new DayDetailVo(0,new  DetailVo('','',new TimingVo('0','0'),new TimingVo('0','0'),'',''));

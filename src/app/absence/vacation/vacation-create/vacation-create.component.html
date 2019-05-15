@@ -8,20 +8,16 @@
           <label class="sr-only" for="employeVacation">Employé </label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Employé </div>
+              <div class="input-group-text">Employé</div>
             </div>
-            <select  class="custom-select" [(ngModel)]="employee.matricule" id="employeVacation" name="matricule" (change)="test(employee)"  placeholder="Selectionner l'employe ...">
+            <select class="custom-select" [(ngModel)]="employee.matricule" id="employeVacation" name="matricule"
+                    (change)="test(employee)" placeholder="Selectionner l'employe ...">
               <option selected disabled>Selectionner l'employé ...</option>
-              <option *ngFor="let emp of employeeVo" [value]="emp.matricule">{{ emp.matricule+" "+emp.firstName+" "+emp.lastName }}</option>
+              <option *ngFor="let emp of employeeVo"
+                      [value]="emp.matricule">{{ emp.matricule + " " + emp.firstName + " " + emp.lastName }}</option>
             </select>
           </div>
         </div>
-
-
-
-
-
-
 
 
         <br>
@@ -66,9 +62,10 @@
             </select>
           </div>
         </div>
-        <br>
-        <button class="btn btn-outline-success" (click)="saveVacation()" type="submit">Creer</button>
-        <button class="btn btn-outline-secondary ml-2" type="submit">Reinitialiser le formulaire</button>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-outline-secondary mr-1" type="submit">Reinitialiser le formulaire</button>
+          <button class="btn btn-outline-success" (click)="saveVacation()" type="submit">Créer</button>
+        </div>
       </form>
     </div>
   </div>

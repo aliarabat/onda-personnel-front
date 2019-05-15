@@ -1,3 +1,4 @@
+<br>
 <div class="container">
   <div class="row col-md-10 offset-md-1">
     <table class="table table-striped table-sm">
@@ -7,17 +8,16 @@
         <th scope="col">Date début</th>
         <th scope="col">Date fin</th>
         <th scope="col">Actions</th>
-        <th></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngIf="holidayList.length===0">
-        <td colspan="5" class="text-center font-italic">No item found</td>
+        <td colspan="4" class="text-center font-italic">No item found</td>
       </tr>
       <tr *ngFor="let hol of holidayList">
         <th scope="row">{{ hol.reference }}</th>
-        <td>{{ hol.startingDate }}</td>
-        <td>{{ hol.endingDate }}</td>
+        <td>{{ formatDate(hol.startingDate).toLocaleDateString() }}</td>
+        <td>{{ formatDate(hol.endingDate).toLocaleDateString() }}</td>
         <td class="justify-content-around">
           <button type="button" (click)="setSelectedHoliday(hol)" class="btn btn-outline-warning mr-sm-1" data-toggle="modal" data-target="#updateHolidayModal" data-whatever="@fat">Modifier</button>
           <button class="btn btn-outline-danger ml-sm-1" (click)="deleteHoliday(hol.id)">Supprimer</button>

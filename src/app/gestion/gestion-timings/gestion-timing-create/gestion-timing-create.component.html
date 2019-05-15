@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-6 col-md-4">
+  <div class="col-md-5">
     <div class="container">
       <br>
       <form>
@@ -91,13 +91,14 @@
             <input type="text" class="form-control" [(ngModel)]="he.hour+'h'+he.minute"  id="he"  name="he"  placeholder="0" disabled>
           </div>
         </div>
-        <br>
-        <button type="submit" class="btn btn-outline-success" (click)="addDetail()">Creer</button>
-        <button type="submit" class="btn btn-outline-secondary ml-2" (click)="cleanForm()">Reinitialiser le formulaire</button>
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-outline-secondary mr-1" (click)="cleanForm()">Reinitialiser le formulaire</button>
+          <button type="submit" class="btn btn-outline-success" (click)="addDetail()">Ajouter</button>
+        </div>
       </form>
     </div>
   </div>
-  <div class="col-12 col-sm-6 col-md-8">
+  <div class="col-md-7">
     <br>
     <table class="table table-striped">
       <thead>
@@ -125,8 +126,9 @@
       </tr>
       </tbody>
     </table>
-    <br>
-    <button type="submit" class="btn btn-outline-primary" (click)="saveDetails()">Confirmer</button>
-    <button type="submit" class="btn btn-outline-secondary ml-2" (click)="cleanList()">Reinitialiser la liste</button>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-outline-secondary mr-1" (click)="cleanList()">Reinitialiser la liste</button>
+      <button type="submit" class="btn btn-outline-primary" (click)="saveDetails()">Confirmer</button>
+    </div>
   </div>
 </div>

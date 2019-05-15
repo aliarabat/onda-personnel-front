@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col">
+  <div class="col-md-5">
     <div class="container">
       <br>
       <form>
@@ -49,22 +49,26 @@
         <br>
         <!-- Type-->
         <div class="form-group">
-          <label class="sr-only" for="prenom">Type</label>
+          <label class="sr-only" for="type">Type</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Type</div>
             </div>
-            <input type="text" class="form-control" [(ngModel)]="employee.type" name="type" id="type" placeholder="Entrer le type de l'employe ...">
+            <select [(ngModel)]="employee.type" class="custom-select" name="type" id="type"  placeholder="Selectionner le mode hhh ..."   >
+              <option selected disabled>Selectionner le type ...</option>
+              <option >Administratif</option>
+              <option >Technique</option>
+            </select>
           </div>
         </div>
-        <br>
-
-        <button type="submit"  (click)="addEmployee()" class="btn btn-outline-success">Creer</button>
-        <button type="submit" (click)="renitialiser()" class="btn btn-outline-secondary ml-2">Reinitialiser le formulaire</button>
+        <div class="d-flex justify-content-end">
+          <button type="submit" (click)="renitialiser()" class="btn btn-outline-secondary mr-1">Reinitialiser le formulaire</button>
+          <button type="submit"  (click)="addEmployee()" class="btn btn-outline-success">Ajouter</button>
+        </div>
       </form>
     </div>
   </div>
-  <div class="col">
+  <div class="col-md-7">
     <br>
     <table class="table table-striped">
       <thead>
@@ -90,8 +94,9 @@
       </tr>
       </tbody>
     </table>
-    <br>
-    <button type="submit" (click)="saveEmployee()" class="btn btn-outline-primary">Confirmer</button>
-    <button type="submit" class="btn btn-outline-secondary ml-2">Reinitialiser la liste</button>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-outline-secondary mr-1">Reinitialiser la liste</button>
+      <button type="submit" (click)="saveEmployee()" class="btn btn-outline-primary">Confirmer</button>
+    </div>
   </div>
 </div>
