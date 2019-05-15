@@ -16,14 +16,13 @@
   <tr *ngFor="let d of allDetails">
     <td>{{d.wording}}</td>
     <td>{{d.mode}}</td>
-    <td>{{d.startingTimeVo.hour}}:{{d.startingTimeVo.minute}}</td>
-    <td>{{d.endingTimeVo.hour}}:{{d.endingTimeVo.minute}}</td>
+    <td>{{horaire(d.startingTimeVo.hour,d.startingTimeVo.minute)}}</td>
+    <td>{{horaire(d.endingTimeVo.hour,d.endingTimeVo.minute)}}</td>
     <td>{{d.pan}}</td>
     <td>{{d.heVo.hour}}h{{d.heVo.minute}}</td>
     <td>{{d.hnVo.hour}}h{{d.hnVo.minute}}</td>
     <td>
-      <button class="btn btn-outline-info mr-2"   data-toggle="modal" (click)="findById(d.id)" data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-pencil" aria-hidden="true"></i>
-      </button>
+      <button class="btn btn-outline-primary mr-2"   data-toggle="modal" (click)="findById(d.id)" data-target="#exampleModal" data-whatever="@mdo">Modifier</button>
     </td>
   </tr>
   </tbody>

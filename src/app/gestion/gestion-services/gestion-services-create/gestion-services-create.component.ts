@@ -5,6 +5,7 @@ import {DayVo} from "../../../controller/model/day.model";
 import {DayDetailVo} from "../../../controller/model/day-detail.model";
 import {MonthUtil} from "../../../util/month-util";
 import {DetailVo} from '../../../controller/model/detail.model';
+import {DateUtil} from "../../../util/date-util";
 
 @Component({
   selector: 'app-gestion-services-create',
@@ -103,9 +104,13 @@ export class GestionServicesCreateComponent implements OnInit {
 
   ramadanHours() {
     if ($("#inlineCheckboxHoraireRamadan").prop("checked")){
-      this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Special')
+      this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Ramadan')
     } else {
       this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Normal');
     }
+  }
+
+  horaire(hour: string, minute: string) {
+    return DateUtil.horaire(hour, minute);
   }
 }

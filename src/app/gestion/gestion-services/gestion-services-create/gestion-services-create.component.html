@@ -13,9 +13,11 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Employe</div>
             </div>
-            <select [disabled]="!!days.length>0" class="custom-select" (change)="checkDates()" [(ngModel)]="employee.matricule" id="employe" name="matricule">
+            <select [disabled]="!!days.length>0" class="custom-select" (change)="checkDates()"
+                    [(ngModel)]="employee.matricule" id="employe" name="matricule">
               <option selected disabled>Selectionner l'employe ...</option>
-              <option *ngFor="let emp of employeeVo" [value]="emp.matricule">{{ emp.matricule+" "+emp.firstName+" "+emp.lastName }}</option>
+              <option *ngFor="let emp of employeeVo"
+                      [value]="emp.matricule">{{ emp.matricule + " " + emp.firstName + " " + emp.lastName }}</option>
             </select>
           </div>
         </div>
@@ -27,14 +29,17 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Horaire(s)</div>
             </div>
-            <select class="custom-select" [(ngModel)]="detail.wording" (ngModelChange)="addDetailToBadges()" name="horaire" id="horaire">
+            <select class="custom-select" [(ngModel)]="detail.wording" (ngModelChange)="addDetailToBadges()"
+                    name="horaire" id="horaire">
               <option selected disabled>Selectionner l(es) horaire(s) ...</option>
-              <option *ngFor="let d of detailVo" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
+              <option *ngFor="let d of detailVo" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top"
+                      title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
             </select>
           </div>
         </div>
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" (change)="ramadanHours()" class="custom-control-input" value="option1" id="inlineCheckboxHoraireRamadan">
+          <input type="checkbox" (change)="ramadanHours()" class="custom-control-input" value="option1"
+                 id="inlineCheckboxHoraireRamadan">
           <label class="custom-control-label" for="inlineCheckboxHoraireRamadan">Horaire Ramadan</label>
         </div>
         <h5>
@@ -48,7 +53,8 @@
           </span>
         </h5>
         <div class="d-flex justify-content-end">
-          <button (click)="reinitializeForm()" class="btn btn-outline-secondary mr-1">Reinitialiser le formulaire</button>
+          <button (click)="reinitializeForm()" class="btn btn-outline-secondary mr-1">Reinitialiser le formulaire
+          </button>
           <button (click)="ajouter()" class="btn btn-outline-success">Ajouter</button>
         </div>
       </form>
@@ -71,11 +77,12 @@
         <td>{{ getDay(i) }}</td>
         <td>
           <div class="d-flex">
-          <p *ngFor="let dd of day.dayDetailsVo" class="mr-1">
-            {{" "+ dd.detailVo.wording }}
-            <span *ngIf="dd.detailVo.wording!=='R'">{{" ["+dd.detailVo.startingTimeVo.hour+":"+dd.detailVo.startingTimeVo.minute+"-"
-            +dd.detailVo.endingTimeVo.hour+":"+dd.detailVo.endingTimeVo.minute+"]"}}</span>
-          </p>
+            <p *ngFor="let dd of day.dayDetailsVo" class="mr-1">
+              {{" " + dd.detailVo.wording }}
+              <span
+                *ngIf="dd.detailVo.wording!=='R'">{{" [" + horaire(dd.detailVo.startingTimeVo.hour, dd.detailVo.startingTimeVo.minute) + "-"
+              + horaire(dd.detailVo.endingTimeVo.hour, dd.detailVo.endingTimeVo.minute) + "]"}}</span>
+            </p>
           </div>
         <td>
           <button (click)="deleteDay(day)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>
