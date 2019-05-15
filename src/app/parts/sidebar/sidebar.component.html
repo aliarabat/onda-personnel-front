@@ -5,10 +5,10 @@
       <a class="navbar-brand" href="#"><img src="../assets/Images/logo-ONDA.png" width="110" height="62" alt=""></a>
     </div>
     <br><br>
-    <ul class="list-unstyled components">
+    <ul class="list-unstyled components" id="accordion">
       <li>
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-tasks mr-3"></i>Gestion</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
+        <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">
           <li>
             <a routerLink="employes" class="pointer"><i class="fas fa-user mr-3"></i>Gestion des employes</a>
           </li>
@@ -25,7 +25,7 @@
       </li>
       <li>
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-receipt mr-3"></i>Absences</a>
-        <ul class="collapse list-unstyled" id="pageSubmenu">
+        <ul class="collapse list-unstyled" id="pageSubmenu" data-parent="#accordion">
           <li>
             <a routerLink="missions" class="pointer"><i class="fas fa-briefcase mr-3"></i>Missions</a>
           </li>
