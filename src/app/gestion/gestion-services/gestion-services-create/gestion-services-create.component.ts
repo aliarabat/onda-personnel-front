@@ -104,7 +104,7 @@ export class GestionServicesCreateComponent implements OnInit {
 
   ramadanHours() {
     if ($("#inlineCheckboxHoraireRamadan").prop("checked")){
-      this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Special')
+      this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Ramadan')
     } else {
       this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Normal');
     }
