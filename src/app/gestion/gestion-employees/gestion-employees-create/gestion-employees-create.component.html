@@ -1,70 +1,74 @@
 <div class="row">
-  <div class="col">
+  <div class="col-md-5">
     <div class="container">
       <br>
       <form>
         <!-- MATRICULE-->
         <div class="form-group">
-          <label class="sr-only" for="matriculee">Matricule</label>
+          <label class="sr-only" for="matricule">Matricule</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Matricule</div>
             </div>
-            <input type="number" class="form-control"  [(ngModel)]="employee.matricule" name="matriculee" id="matriculee" placeholder="Entrer la matricule de l'employe ...">
+            <input type="number" class="form-control"  [(ngModel)]="employee.matricule" name="matricule" id="matricule" placeholder="Entrer la matricule de l'employe ...">
           </div>
         </div>
         <br>
         <!-- NOM -->
         <div class="form-group">
-          <label class="sr-only" for="lastNamee">Nom</label>
+          <label class="sr-only" for="nom">Nom</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Nom</div>
             </div>
-            <input type="text" class="form-control" id="lastNamee" [(ngModel)]="employee.lastName" name="lastNamee" placeholder="Entrer le nom de l'employe ...">
+            <input type="text" class="form-control" id="nom" [(ngModel)]="employee.lastName" name="lastName" placeholder="Entrer le nom de l'employe ...">
           </div>
         </div>
         <br>
         <!-- PREONOM-->
         <div class="form-group">
-          <label class="sr-only" for="firstNamee">Prenom</label>
+          <label class="sr-only" for="prenom">Prenom</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Prenom</div>
             </div>
-            <input type="text" class="form-control" id="firstNamee" [(ngModel)]="employee.firstName" name="firstNamee" placeholder="Entrer le prenom de l'employe ...">
+            <input type="text" class="form-control" id="prenom" [(ngModel)]="employee.firstName" name="firstName" placeholder="Entrer le prenom de l'employe ...">
           </div>
         </div>
         <br>
         <!-- FONCTION-->
         <div class="form-group">
-          <label class="sr-only" for="fonctionn">Fonction</label>
+          <label class="sr-only" for="fonction">Fonction</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Fonction</div>
             </div>
-            <input type="text" class="form-control" [(ngModel)]="employee.fonction" name="fonctionn"  id="fonctionn" placeholder="Entrer la fonction de l'employe ...">
+            <input type="text" class="form-control" [(ngModel)]="employee.fonction" name="fonction"  id="fonction" placeholder="Entrer la fonction de l'employe ...">
           </div>
         </div>
         <br>
         <!-- Type-->
         <div class="form-group">
-          <label class="sr-only" for="typee">Type</label>
+          <label class="sr-only" for="type">Type</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Type</div>
             </div>
-            <input type="text" class="form-control" [(ngModel)]="employee.type" name="typee" id="typee" placeholder="Entrer le type de l'employe ...">
+            <select [(ngModel)]="employee.type" class="custom-select" name="type" id="type"  placeholder="Selectionner le mode hhh ..."   >
+              <option selected disabled>Selectionner le type ...</option>
+              <option >Administratif</option>
+              <option >Technique</option>
+            </select>
           </div>
         </div>
-        <br>
-
-        <button type="submit"  (click)="addEmployee()" class="btn btn-outline-success">Creer</button>
-        <button type="submit" (click)="renitialiser()" class="btn btn-outline-secondary ml-2">Reinitialiser le formulaire</button>
+        <div class="d-flex justify-content-end">
+          <button type="submit" (click)="renitialiser()" class="btn btn-outline-secondary mr-1">Reinitialiser le formulaire</button>
+          <button type="submit"  (click)="addEmployee()" class="btn btn-outline-success">Ajouter</button>
+        </div>
       </form>
     </div>
   </div>
-  <div class="col">
+  <div class="col-md-7">
     <br>
     <table class="table table-striped">
       <thead>
@@ -85,13 +89,15 @@
         <td>{{e.fonction}}</td>
         <td>{{e.type}}</td>
         <td class="float-right">
-          <button class="btn btn-outline-danger" (click)="deleteRow(e.matricule)">Supprimer</button>
+          <button class="btn btn-outline-danger" (click)="deleteRow(e.matricule)"><i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
         </td>
       </tr>
       </tbody>
     </table>
-    <br>
-    <button type="submit" (click)="saveEmployee()" class="btn btn-outline-primary">Confirmer</button>
-    <button type="submit" class="btn btn-outline-secondary ml-2">Reinitialiser la liste</button>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-outline-secondary mr-1">Reinitialiser la liste</button>
+      <button type="submit" (click)="saveEmployee()" class="btn btn-outline-primary">Confirmer</button>
+    </div>
   </div>
 </div>

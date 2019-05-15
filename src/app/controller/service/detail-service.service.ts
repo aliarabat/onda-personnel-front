@@ -66,7 +66,7 @@ export class DetailServiceService {
         text: 'Merci de saisir les minutes fin!'
       });
     }
-    else if ( this.detailCreate.pan == ''||this.detailCreate.pan == undefined) {
+    else if ( this.detailCreate.pan == undefined) {
       Swal.fire({
         type: 'info',
         title: 'Info...',

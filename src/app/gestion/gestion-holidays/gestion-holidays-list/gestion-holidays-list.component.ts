@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HolidayService} from '../../../controller/service/holiday.service';
 import {HolidayVo} from '../../../controller/model/holiday.model';
+import {DateUtil} from "../../../util/date-util";
 
 @Component({
   selector: 'app-gestion-holidays-list',
@@ -36,5 +37,9 @@ export class GestionHolidaysListComponent implements OnInit {
 
   deleteHoliday(id: number) {
     this.holidayService.deleteHoliday(id);
+  }
+
+  formatDate(workDetailDate: string) {
+    return DateUtil.formatDate(workDetailDate);
   }
 }

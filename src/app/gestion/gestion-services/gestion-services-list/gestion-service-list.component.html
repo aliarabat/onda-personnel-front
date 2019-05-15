@@ -1,9 +1,9 @@
 <!--FORM DATA-->
 <br>
-<div class="col-md-12 row justify-content-between">
-  <form class="col-md-10">
+<div class="container-fluid row">
+  <form class="col-md-12">
     <div class="form-row align-items-center">
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text">Année</div>
@@ -11,13 +11,13 @@
           <input type="number" name="annee" id="annee" min="0" max="{{ date() }}" [(ngModel)]="dateByYear.year" class="form-control" placeholder="Annee">
         </div>
       </div>
-      <div [hidden]="hiddenStateMonth" id="monthDiv" class="col-md-2">
+      <div [hidden]="hiddenStateMonth" id="monthDiv" class="col-md-3">
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text">Mois</div>
           </div>
           <select class="custom-select" id="mois" [(ngModel)]="dateByYear.month" name="mois">
-            <option selected disabled>Selectionner un employe</option>
+            <option selected disabled>Selectionner un mois...</option>
             <option *ngFor="let m of getMonths(); index as i" value="{{ i+1 }}">{{ m }}</option>
           </select>
         </div>
@@ -33,20 +33,20 @@
           </select>
         </div>
       </div>
-      <div class="col-md-4 justify-content-between">
-        <button (click)="findWorkByYear()" type="submit" class="btn btn-outline-success mr-2">Chercher</button>
+      <div class="col-md-2 d-flex justify-content-between">
+        <button (click)="findWorkByYear()" type="submit" class="btn btn-outline-success mr-sm-1">Chercher</button>
         <button (click)="reinitializeForm()" type="button" class="btn btn-outline-secondary">Réinitialiser</button>
       </div>
     </div>
   </form>
 
   <!-- Default unchecked -->
-  <div class="d-flex flex-column">
-    <div class="custom-control custom-checkbox">
+  <div class="col-md-12 d-flex">
+    <div class="col-md-3 custom-control custom-checkbox">
       <input type="checkbox" class="custom-control-input" value="option1" (click)="selectPerYear()" id="inlineCheckboxperyear">
       <label class="custom-control-label" for="inlineCheckboxperyear">Recherche par employé</label>
     </div>
-    <div class="custom-control custom-checkbox">
+    <div class="col-md-3 custom-control custom-checkbox">
       <input type="checkbox" class="custom-control-input" value="option1" (click)="selectPerMonth()" id="inlineCheckboxpermonth">
       <label class="custom-control-label" for="inlineCheckboxpermonth">Recherche par mois</label>
     </div>
@@ -69,7 +69,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let w of listEmployeesByYear" [class]="w.employeeVo.isExist?'':'table-danger'">
-    <th scope="row">{{ w.employeeVo.matricule }}</th>
+    <td>{{ w.employeeVo.matricule }}</td>
     <td>{{ formatDate(w.workDetailVo.workDetailDate).getFullYear() }}</td>
     <td>{{ w.employeeVo.lastName}}</td>
     <td>{{ w.employeeVo.firstName}}</td>
@@ -78,7 +78,8 @@
     <td>{{ w.workDetailVo.hjf.hour+"h"+w.workDetailVo.hjf.minute+"min" }}</td>
     <td>{{ w.workDetailVo.hn.hour+"h"+w.workDetailVo.hn.minute+"min" }}</td>
     <td>
-      <button type="button" (click)="setDaysInfo(w.workDetailVo.daysVo)" class="btn btn-outline-primary mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg">Afficher</button>
+      <button type="button" (click)="setDaysInfo(w.workDetailVo.daysVo)" class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
+      </button>
     </td>
   </tr>
   </tbody>
@@ -101,7 +102,7 @@
               <div class="text-center font-italic" aria-colspan="2">No items found</div>
             </tr>
             <tr *ngFor="let day of selectedDaysFormModal">
-              <td>{{ day.dayDate }}</td>
+              <td>{{ formatDate(day.dayDate).toLocaleDateString() }}</td>
               <td>
                 <div *ngIf="day.vacationVo!==null">
                   {{ day.vacationVo.type }}
@@ -111,9 +112,11 @@
                 </div>-->
                 <div class="d-flex" *ngIf="day.vacationVo===null">
                   <div *ngFor="let dt of day.dayDetailsVo">
-                    <div class="mr-sm-1" *ngIf="dt.missionVo!=null">{{ dt.missionVo.reference }}</div>
-                    <div class="mr-sm-1" *ngIf="dt.skipVo!=null">{{ dt.skipVo.type }}</div>
-                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null">{{ dt.replacementVo.reference }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.missionVo!=null">{{ dt.missionVo.reference+" ("+dt.missionVo.startingTimeVo.hour+":"+dt.missionVo.startingTimeVo.minute+"-"+dt.missionVo.endingTimeVo.hour+":"+dt.missionVo.endingTimeVo.minute+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.skipVo!=null">{{ dt.skipVo.type+" ("+dt.skipVo.detailVo.wording+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null  && dt.detailVo!=null">{{ "Remp"+" ("+dt.replacementVo.detailVo.wording+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null  && dt.detailVo==null">{{ "Rem"+" ("+dt.replacementVo.detailVo.wording+")" }}</div>
+
                     <div class="mr-sm-1" *ngIf="dt.missionVo===null && dt.skipVo===null && dt.replacementVo===null && dt.detailVo!=null">
                       {{ dt.detailVo.wording }}
                     </div>

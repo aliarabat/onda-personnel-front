@@ -9,6 +9,7 @@ import {SkipComponent} from './absence/skip/skip.component';
 import {MissionComponent} from './absence/mission/mission.component';
 import {SplashComponent} from './access/splash/splash.component';
 import {LoginComponent} from './access/login/login.component';
+import {GestionHolidaysComponent} from "./gestion/gestion-holidays/gestion-holidays.component";
 
 const routes: Routes = [
 
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'remplacements', component: ReplacementComponent},
   {path: 'absences', component: SkipComponent},
   {path: 'missions', component: MissionComponent},
+  {path: 'holidays', component: GestionHolidaysComponent},
   {path: 'login', component: LoginComponent},
   { path: '**', redirectTo: 'acceuil' }, // JUST A CATCH ALL ROUTE
 

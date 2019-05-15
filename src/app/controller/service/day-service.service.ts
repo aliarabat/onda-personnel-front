@@ -7,6 +7,7 @@ import {DetailVo} from "../model/detail.model";
 import Swal from "sweetalert2";
 import {WorkVo} from '../model/work.model';
 import {DateModel} from '../model/date.model';
+import {TimingVo} from '../model/timing.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,17 +31,12 @@ export class DayServiceService {
   private _dayDetail: DayDetailVo = new DayDetailVo();
   private _employees: Array<EmployeeVo> = new Array<EmployeeVo>();
   private _details: Array<DetailVo> = new Array<DetailVo>();
+  private _detailsHelper: Array<DetailVo> = new Array<DetailVo>();
   private _detail: DetailVo = new DetailVo('', '', {}, {}, '', '');
-  private _dayDetailsClone: Array<DayDetailVo> = new Array<DayDetailVo>();
-  private _dateByDay: DateModel = new DateModel();
-  private _listEmployeesByDay: Array<DayVo> = new Array<DayVo>();
-  private _dateString: string = 'AAAA-MM-JJ';
-  private _works: Array<WorkVo> = new Array<WorkVo>();
-  private _daysOfWork: Array<DayVo> = new Array<DayVo>();
-  private _listByDay: Array<DayVo> = new Array<DayVo>();
-  private _listWorksByDayAndEmployee: Array<WorkVo> = new Array<WorkVo>();
   //check date credentials
   private _listDate: Array<string> = [];
+  //employee normal to fill the service week automaically
+  private _employeeCheckType:EmployeeVo=new EmployeeVo(0,'','','','','');
 
   public ajouter() {
     if (this._employee.matricule === undefined) {
@@ -95,11 +91,25 @@ export class DayServiceService {
     );
   }
 
+
+  findAllTechEmployees() {
+    this.http.get<Array<EmployeeVo>>(this._url_employees + "type/Technique" ).subscribe(
+      data => {
+        if (data != null) {
+          this._employees = data;
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
   findAllDetails() {
     this.http.get<Array<DetailVo>>(this._url_detail).subscribe(
       data => {
         if (data != null) {
-          this._details = data;
+          this._detailsHelper=data;
+          this._details = data.filter(dt=>dt.mode==='Normal');
         }
       }, error => {
         console.log(error);
@@ -170,6 +180,24 @@ export class DayServiceService {
       data => {
         if (data != null) {
           this._listDate = data.map(date => new Date(date).toLocaleDateString());
+          this._employeeCheckType=this._employees.find(emp=>parseInt(emp.matricule)===parseInt(this._employee.matricule));
+          if (this._employeeCheckType.type==='Administratif'){
+            for (let i=0; i<=6; i++){
+              let  _dayClone=new DayVo(new Array<DayDetailVo>());
+              let _dayDetailClone:DayDetailVo=new DayDetailVo(0,new  DetailVo('','',new TimingVo('0','0'),new TimingVo('0','0'),'',''));
+
+              if (i<=4){
+                _dayDetailClone.detailVo=this._details.find(dt=>dt.wording==='ADM' || dt.wording==='ADM1');
+              } else{
+                _dayDetailClone.detailVo=this._detailsHelper.find(dt=>dt.wording==='R');
+              }
+              _dayClone.dayDetailsVo.push(_dayDetailClone);
+              this._days.push(_dayClone);
+
+            }
+          } else{
+            this._days=new Array<DayVo>();
+          }
         } else {
           this._listDate = [];
         }
@@ -177,13 +205,6 @@ export class DayServiceService {
         console.log(error);
       }
     )
-  }
-
-  reinitializeForm() {
-    this._employee = new EmployeeVo();
-    this._detail = new DetailVo('', '');
-    this._day = new DayVo();
-    this._listDate = [];
   }
 
   substructDetail(dd: DayDetailVo) {
@@ -213,38 +234,6 @@ export class DayServiceService {
     this._url = value;
   }
 
-  get url_employees(): string {
-    return this._url_employees;
-  }
-
-  set url_employees(value: string) {
-    this._url_employees = value;
-  }
-
-  get url_detail(): string {
-    return this._url_detail;
-  }
-
-  set url_detail(value: string) {
-    this._url_detail = value;
-  }
-
-  get url_day(): string {
-    return this._url_day;
-  }
-
-  set url_day(value: string) {
-    this._url_day = value;
-  }
-
-  get url_work(): string {
-    return this._url_work;
-  }
-
-  set url_work(value: string) {
-    this._url_work = value;
-  }
-
   get employee1(): EmployeeVo {
     return this._employee1;
   }
@@ -267,22 +256,6 @@ export class DayServiceService {
 
   set details(value: Array<DetailVo>) {
     this._details = value;
-  }
-
-  get dateByDay(): DateModel {
-    return this._dateByDay;
-  }
-
-  set dateByDay(value: DateModel) {
-    this._dateByDay = value;
-  }
-
-  get listEmployeesByDay(): Array<DayVo> {
-    return this._listEmployeesByDay;
-  }
-
-  set listEmployeesByDay(value: Array<DayVo>) {
-    this._listEmployeesByDay = value;
   }
 
   get employee(): EmployeeVo {
@@ -341,55 +314,11 @@ export class DayServiceService {
     this._detail = value;
   }
 
-  get dayDetailsClone(): Array<DayDetailVo> {
-    return this._dayDetailsClone;
+  get detailsHelper(): Array<DetailVo> {
+    return this._detailsHelper;
   }
 
-  set dayDetailsClone(value: Array<DayDetailVo>) {
-    this._dayDetailsClone = value;
-  }
-
-  get listWorksByDayAndEmployee(): Array<WorkVo> {
-    return this._listWorksByDayAndEmployee;
-  }
-
-  set listWorksByDayAndEmployee(value: Array<WorkVo>) {
-    this._listWorksByDayAndEmployee = value;
-  }
-
-  get listByDay(): Array<DayVo> {
-    return this._listByDay;
-  }
-
-  set listByDay(value: Array<DayVo>) {
-    this._listByDay = value;
-  }
-
-  get daysOfWork(): Array<DayVo> {
-    return this._daysOfWork;
-  }
-
-  set daysOfWork(value: Array<DayVo>) {
-    this._daysOfWork = value;
-  }
-
-  get works(): Array<WorkVo> {
-    return this._works;
-  }
-
-  set works(value: Array<WorkVo>) {
-    this._works = value;
-  }
-
-  public convertDateToString(date: Date): string {
-    return date.toDateString();
-  }
-
-  get dateString(): string {
-    return this._dateString;
-  }
-
-  set dateString(value: string) {
-    this._dateString = value;
+  set detailsHelper(value: Array<DetailVo>) {
+    this._detailsHelper = value;
   }
 }

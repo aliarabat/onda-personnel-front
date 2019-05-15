@@ -7,7 +7,8 @@
       <th scope="col">Type-Mission</th>
       <th scope="col">Date Mission</th>
       <th scope="col">Horaire(s)</th>
-      <th></th>
+
+      <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -16,13 +17,16 @@
       <td >{{dayDetail.missionVo.employee.firstName}} {{dayDetail.missionVo.employee.lastName}}</td>
       <td >{{dayDetail.missionVo.type}}</td>
       <td >{{dayDetail.missionVo.startingDate}}</td>
-      <td >{{dayDetail.missionVo.detailVo.wording}}</td>
+      <td >[{{dayDetail.missionVo.startingTimeVo.hour}}:{{dayDetail.missionVo.startingTimeVo.minute}}-{{dayDetail.missionVo.endingTimeVo.hour}}:{{dayDetail.missionVo.endingTimeVo.minute}}]</td>
+
 
 
 
       <td class="float-right">
-        <button type="button" id="btnMission" (click)="findDayDetailById(dayDetail.id)"  class="btn btn-outline-warning ml-sm-1" data-toggle="modal" data-target="#missionModal" data-whatever="@fat">Modifier</button>
-        <button class="btn btn-outline-danger ml-2" (click)="delete(dayDetail)">Supprimer</button>
+        <button type="button" id="btnMission" (click)="findDayDetailById(dayDetail.id)"  class="btn btn-outline-info ml-sm-1" data-toggle="modal" data-target="#missionModal" data-whatever="@fat"><i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-outline-danger ml-2" (click)="delete(dayDetail)"><i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
       </td>
     </tr>
     </tbody>
@@ -58,21 +62,7 @@
         <br>
 
 
-<!--
-        <div class="form-group">
-          <label class="sr-only" for="employeMissionList">Employé en Mission</label>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">Employé en Mission</div>
-            </div>
-            <select  class="custom-select" id="employeMissionList" (change)="getEmployeeByMatricule()"   [(ngModel)]="theDayDetail.missionVo.employee.matricule" name="matriculeEmployee"  >
-              <option selected disabled>Selectionner l'employé ...</option>
-              <option *ngFor="let emp of employeeVo" [value]="emp.matricule">{{ emp.matricule+" "+emp.firstName+" "+emp.lastName }}</option>
-            </select>
-          </div>
-        </div>
-        <br>
--->
+
 
 
         <div class="form-group">
@@ -102,23 +92,40 @@
 
 
 
-        <div class="form-group">
-
-          <label class="sr-only" for="horaireMissionlist">Horaire Mission</label>
-
-          <div class="input-group mb-2">
-
-            <div class="input-group-prepend">
-
-              <div class="input-group-text">Horaire Mission</div>
-            </div>
-
-            <select  (change)="findDetailByWording()" (click)="findDetailByWording()"  class="custom-select" [(ngModel)]="theDayDetail.missionVo.detailVo.wording"  name="horaireMissionList" id="horaireMissionlist">
-              <option selected disabled>Selectionner l' horaire ...</option>
-              <option *ngFor="let d of detailVo" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
-            </select>
+        <!-- HEURE DEBUT -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Heure debut</span>
+          </div>
+          <input type="text" class="form-control" id="missionStartingTimeH" [(ngModel)]="theDayDetail.missionVo.startingTimeVo.hour" name="updateMissionstartingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
+          <div class="input-group-append">
+            <span class="input-group-text">H</span>
+          </div>
+          <input type="text" class="form-control" id="missionStartingTimeM"  [(ngModel)]="theDayDetail.missionVo.startingTimeVo.minute" name="updateMissionstartingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <div class="input-group-append">
+            <span class="input-group-text">M</span>
           </div>
         </div>
+        <br>
+        <!-- HEURE FIN-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Heure fin</span>
+          </div>
+          <input type="text" class="form-control" id="missionEndingTimeH" [(ngModel)]="theDayDetail.missionVo.endingTimeVo.hour" name="updateMissionendingTimeHpurs"  placeholder="Entrer l'heure de fin ..." min="0" max="23">
+          <div class="input-group-append">
+            <span class="input-group-text">H</span>
+          </div>
+          <input type="text" class="form-control" id="missionEndingTimeM"  [(ngModel)]="theDayDetail.missionVo.endingTimeVo.minute" name="updateMissionendingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <div class="input-group-append">
+            <span class="input-group-text">M</span>
+          </div>
+        </div>
+
+
+
+
+        <br>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>

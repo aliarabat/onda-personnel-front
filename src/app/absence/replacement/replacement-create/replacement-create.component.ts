@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DayServiceService} from '../../../controller/service/day-service.service';
 import {ReplacementService} from '../../../controller/service/replacement.service';
 import {MissionService} from '../../../controller/service/mission.service';
+import {SkipService} from '../../../controller/service/skip.service';
 
 @Component({
   selector: 'app-replacement-create',
@@ -10,12 +11,15 @@ import {MissionService} from '../../../controller/service/mission.service';
 })
 export class ReplacementCreateComponent implements OnInit {
 
-  constructor(private dayService:DayServiceService,private remplacementService:ReplacementService,private  missionService:MissionService) {
+  constructor(private dayService:DayServiceService,private remplacementService:ReplacementService,private  missionService:MissionService,private skipService:SkipService) {
   }
-
+  get allDetails(){
+    return this.skipService.details;
+  }
   ngOnInit() {
-    this.dayService.findAllEmployees();
+    this.dayService.findAllTechEmployees();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
+    this.skipService.findAllDetails();
 
   }
   public get employeeVo(){
@@ -50,5 +54,8 @@ export class ReplacementCreateComponent implements OnInit {
   }
   saveReplacement(){
     this.remplacementService.saveReplacement(this.remplacementService.replacement,this.remplacementService.orgEmployee.matricule,this.remplacementService.rempEmployee.matricule,this.remplacementService.replacement.detailVo.wording);
+  }
+  formInit(){
+    this.remplacementService.formInit();
   }
 }

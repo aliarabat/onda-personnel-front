@@ -29,6 +29,7 @@ export class MissionService {
   private _dayService:DayServiceService;
   private _theDay:DayVo=new DayVo();
   private _dayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
+  private _checkDayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
   private _dayDetails1: Array<DayDetailVo> = new Array<DayDetailVo>();
   private _details: Array<DetailVo> = new Array<DetailVo>();
   private _theEmployee:EmployeeVo=new EmployeeVo();
@@ -36,9 +37,9 @@ export class MissionService {
   private _theDayDetail1:DayDetailVo=new DayDetailVo();
   private _employee1: EmployeeVo = new EmployeeVo(0,'','','','','',false);
   private _detail1: DetailVo = new DetailVo('', '', {}, {}, '', '');
-  private _missionInit:MissionVo=new MissionVo(0,'',this._employee1,'','',new DetailVo());
+  private _missionInit:MissionVo=new MissionVo();
   private _theDayDetail:DayDetailVo=new DayDetailVo(0,this._detail1,null,null,this._missionInit);
-  private _mission:MissionVo=new MissionVo(0,'',this._employee1,'','',new DetailVo());
+  private _mission:MissionVo=new MissionVo();
 
   updateMission(dayDetail:DayDetailVo){
     if (dayDetail.missionVo.reference === '' || dayDetail.missionVo.reference === undefined) {
@@ -66,10 +67,40 @@ export class MissionService {
         text: "Veuillez choisir la date ",
         type: 'warning',
       });
-    } else if ( dayDetail.detailVo.wording=== '' || dayDetail.detailVo.wording === undefined) {
+    } /*else if ( dayDetail.detailVo.wording=== '' || dayDetail.detailVo.wording === undefined) {
       Swal.fire({
         title: 'Erreur!',
         text: "Veuillez choisir l'horaire d'absence ",
+        type: 'warning',
+      });
+    }*/
+
+
+    else if (dayDetail.missionVo.startingTimeVo.hour === '' || dayDetail.missionVo.startingTimeVo.hour === undefined) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: "Veuillez saisir l'heure début ",
+        type: 'warning',
+      });
+    }
+    else if (dayDetail.missionVo.startingTimeVo.minute === '' || dayDetail.missionVo.startingTimeVo.minute === undefined) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: "Veuillez saisir en minutes l'horaire ",
+        type: 'warning',
+      });
+    }
+    else if (dayDetail.missionVo.endingTimeVo.hour === '' || dayDetail.missionVo.endingTimeVo.hour === undefined) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: "Veuillez saisir l'heure fin ",
+        type: 'warning',
+      });
+    }
+    else if (dayDetail.missionVo.endingTimeVo.minute === '' || dayDetail.missionVo.endingTimeVo.minute === undefined) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: "Veuillez saisir en minutes l'horaire ",
         type: 'warning',
       });
     }
@@ -164,7 +195,7 @@ export class MissionService {
   }
 
 
-  SaveMission(mission:MissionVo,matricule:string,wordingDetail:string){
+  SaveMission(mission:MissionVo,matricule:string){
 
     if (mission.reference === '' || mission.reference === undefined) {
       Swal.fire({
@@ -190,10 +221,39 @@ export class MissionService {
         text: "Veuillez choisir la date ",
         type: 'warning',
       });
-    } else if (mission.detailVo.wording === '' || mission.detailVo.wording === undefined) {
+    } /*else if (mission.detailVo.wording === '' || mission.detailVo.wording === undefined) {
       Swal.fire({
         title: 'Erreur!',
         text: "Veuillez choisir l'horaire d'absence ",
+        type: 'warning',
+      });
+    }*/
+
+    else if (mission.startingTimeVo.hour === '' || mission.startingTimeVo.hour === undefined) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: "Veuillez saisir l'heure début ",
+        type: 'warning',
+      });
+    }
+    else if (mission.startingTimeVo.minute === '' || mission.startingTimeVo.minute === undefined) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: "Veuillez saisir en minutes l'horaire ",
+        type: 'warning',
+      });
+    }
+    else if (mission.endingTimeVo.hour === '' || mission.endingTimeVo.hour === undefined) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: "Veuillez saisir l'heure fin ",
+        type: 'warning',
+      });
+    }
+    else if (mission.endingTimeVo.minute === '' || mission.endingTimeVo.minute === undefined) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: "Veuillez saisir en minutes l'horaire ",
         type: 'warning',
       });
     }
@@ -214,10 +274,10 @@ export class MissionService {
 
 
 
-          this.http.put(this._url + 'mission/matricule/' + matricule + '/wordingDetail/' + wordingDetail, mission).subscribe(
+          this.http.put(this._url + 'mission/matricule/' + matricule, mission).subscribe(
             (res) => {
               if (res == 1) {
-                this.mission=new MissionVo(0,'',this._employee1,'','',this._detail1);
+                this.mission=new MissionVo();
                 this.findAlldayDetails();
 
                 Swal.fire({
@@ -279,11 +339,20 @@ export class MissionService {
 
     this.http.get<DayVo>(this._urlDay + "matricule/" + matricule+"/dayDate/"+dateDay).subscribe(
       data => {
-        if (data != null) {
+        if (data != null ) {
           //this.findEmployesByMatricule(matricule);
           this.theDay = data;
           // console.log(this._theDay);
-          this.dayDetails = data.dayDetailsVo;
+          this.checkDayDetails=new Array<DayDetailVo>();
+          for (let dayDetail of data.dayDetailsVo){
+            if(dayDetail.detailVo!=null){
+              this._checkDayDetails.push(dayDetail);
+
+            }
+          }
+          console.log(this._checkDayDetails);
+          this.dayDetails = this._checkDayDetails;
+
           //console.log(this._dayDetails);
         } else{
           Swal.fire({
@@ -336,8 +405,6 @@ export class MissionService {
     this.http.get<DetailVo>(this._urlDetail + 'wording/' + wording).subscribe(
       data => {
         this.theDayDetail.detailVo= data;
-        this.mission.detailVo=data;
-        this.theDayDetail.missionVo.detailVo=data;
       }, error => {
         console.log(error);
       }
@@ -569,5 +636,14 @@ export class MissionService {
         console.log(error);
       }
     );
+  }
+
+
+  get checkDayDetails(): Array<DayDetailVo> {
+    return this._checkDayDetails;
+  }
+
+  set checkDayDetails(value: Array<DayDetailVo>) {
+    this._checkDayDetails = value;
   }
 }

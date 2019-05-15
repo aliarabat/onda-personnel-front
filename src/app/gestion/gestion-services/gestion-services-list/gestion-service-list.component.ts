@@ -7,6 +7,7 @@ import Swal from "sweetalert2";;
 import {DayVo} from "../../../controller/model/day.model";
 import {MonthUtil} from "../../../util/month-util";
 import {DetailVo} from '../../../controller/model/detail.model';
+import {DateUtil} from "../../../util/date-util";
 
 // @ts-ignore
 @Component({
@@ -103,7 +104,7 @@ export class GestionServiceListComponent implements OnInit {
   }
 
   formatDate(workDetailDate: string) {
-    return new Date(workDetailDate);
+    return DateUtil.formatDate(workDetailDate);
   }
 
   selectPerYear() {

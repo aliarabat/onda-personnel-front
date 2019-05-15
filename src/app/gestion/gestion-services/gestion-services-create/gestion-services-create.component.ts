@@ -86,7 +86,11 @@ export class GestionServicesCreateComponent implements OnInit {
   }
 
   reinitializeForm() {
-    this.dayService.reinitializeForm();
+    this.dayService.employee = new EmployeeVo();
+    this.dayService.detail = new DetailVo('', '');
+    this.dayService.day = new DayVo();
+    this.dayService.listDate = [];
+    this.dayService.days=[];
   }
 
   substructDetail(dd: DayDetailVo) {
@@ -95,5 +99,13 @@ export class GestionServicesCreateComponent implements OnInit {
 
   public getDay(index:number){
     return MonthUtil.day(index);
+  }
+
+  ramadanHours() {
+    if ($("#inlineCheckboxHoraireRamadan").prop("checked")){
+      this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Special')
+    } else {
+      this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Normal');
+    }
   }
 }

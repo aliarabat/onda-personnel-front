@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HolidayService} from '../../../controller/service/holiday.service';
 import {HolidayVo} from '../../../controller/model/holiday.model';
+import {DateUtil} from "../../../util/date-util";
 
 @Component({
   selector: 'app-gestion-holidays-create',
@@ -40,5 +41,9 @@ export class GestionHolidaysCreateComponent implements OnInit {
 
   reinitializeList() {
     this.holidayService.reinitializeList();
+  }
+
+  formatDate(workDetailDate: string) {
+    return DateUtil.formatDate(workDetailDate);
   }
 }

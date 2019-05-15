@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-6 col-md-4">
+  <div class="col-md-5">
     <div class="container">
       <br>
       <form>
@@ -10,7 +10,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Libelle</div>
             </div>
-            <input type="text" [(ngModel)]="detail.wording" name="wording" class="form-control"  id="libelle" placeholder="Entrer le libelle d'horaire ...">
+            <input type="text" id="libelle" [(ngModel)]="detail.wording" name="wording" class="form-control"   placeholder="Entrer le libelle d'horaire ...">
           </div>
         </div>
         <br>
@@ -21,7 +21,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Mode</div>
             </div>
-            <select name="mode" [(ngModel)]="detail.mode" class="custom-select"  placeholder="Selectionner le mode hhh ..." id="mode"  >
+            <select id="mode" name="mode" [(ngModel)]="detail.mode" class="custom-select"  placeholder="Selectionner le mode hhh ..."   >
               <option selected disabled>Selectionner le mode ...</option>
               <option >Special</option>
               <option >Normal</option>
@@ -34,11 +34,11 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Heure debut</span>
           </div>
-          <input type="text" class="form-control" [(ngModel)]="detail.startingTimeVo.hour" name="startingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
+          <input type="text" class="form-control" id="startingTimeHours" [(ngModel)]="detail.startingTimeVo.hour" name="startingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
           <div class="input-group-append">
             <span class="input-group-text">H</span>
           </div>
-          <input type="text" class="form-control"  [(ngModel)]="detail.startingTimeVo.minute" name="startingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <input type="text" class="form-control" id="startingTimeMinute" [(ngModel)]="detail.startingTimeVo.minute" name="startingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
           <div class="input-group-append">
             <span class="input-group-text">M</span>
           </div>
@@ -49,11 +49,11 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Heure fin</span>
           </div>
-          <input type="text" class="form-control" [(ngModel)]="detail.endingTimeVo.hour" name="endingTimeHpurs"  placeholder="Entrer l'heure de fin ..." min="0" max="23">
+          <input type="text" class="form-control"  id="endingTimeHours" [(ngModel)]="detail.endingTimeVo.hour" name="endingTimeHours"  placeholder="Entrer l'heure de fin ..." min="0" max="23">
           <div class="input-group-append">
             <span class="input-group-text">H</span>
           </div>
-          <input type="text" class="form-control"   [(ngModel)]="detail.endingTimeVo.minute" name="endingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <input type="text" class="form-control" id="endingTimeMinute"  [(ngModel)]="detail.endingTimeVo.minute" name="endingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
           <div class="input-group-append">
             <span class="input-group-text">M</span>
           </div>
@@ -66,7 +66,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Panier</div>
             </div>
-            <input type="number" class="form-control" [(ngModel)]="detail.pan" name="pan"  id="panier" placeholder="Entrer le panier d'horaire ...">
+            <input type="number" class="form-control"  id="panier" [(ngModel)]="detail.pan" name="pan"   placeholder="Entrer le panier d'horaire ...">
           </div>
         </div>
         <br>
@@ -88,16 +88,17 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Heures effectuees</div>
             </div>
-            <input type="text" class="form-control" [(ngModel)]="he.hour+'h'+he.minute"    name="he" id="he" placeholder="0" disabled>
+            <input type="text" class="form-control" [(ngModel)]="he.hour+'h'+he.minute"  id="he"  name="he"  placeholder="0" disabled>
           </div>
         </div>
-        <br>
-        <button type="submit" class="btn btn-outline-success" (click)="addDetail()">Creer</button>
-        <button type="submit" class="btn btn-outline-secondary ml-2" (click)="cleanForm()">Reinitialiser le formulaire</button>
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-outline-secondary mr-1" (click)="cleanForm()">Reinitialiser le formulaire</button>
+          <button type="submit" class="btn btn-outline-success" (click)="addDetail()">Ajouter</button>
+        </div>
       </form>
     </div>
   </div>
-  <div class="col-12 col-sm-6 col-md-8">
+  <div class="col-md-7">
     <br>
     <table class="table table-striped">
       <thead>
@@ -120,13 +121,15 @@
         <td></td>
         <td></td>
         <td class="float-right">
-          <button class="btn btn-outline-danger" (click)="deleteRow(d.wording)">Supprimer</button>
+          <button class="btn btn-outline-danger" (click)="deleteRow(d.wording)"><i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
         </td>
       </tr>
       </tbody>
     </table>
-    <br>
-    <button type="submit" class="btn btn-outline-primary" (click)="saveDetails()">Confirmer</button>
-    <button type="submit" class="btn btn-outline-secondary ml-2" (click)="cleanList()">Reinitialiser la liste</button>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-outline-secondary mr-1" (click)="cleanList()">Reinitialiser la liste</button>
+      <button type="submit" class="btn btn-outline-primary" (click)="saveDetails()">Confirmer</button>
+    </div>
   </div>
 </div>

@@ -50,28 +50,39 @@
           </div>
         </div>
         <br>
-        <!-- detail-->
-        <div class="form-group">
-
-          <label class="sr-only" for="horaireMission">Horaire Mission</label>
-          <small id="emailHelp" class="form-text text-muted">Veuillez insérer l'employé et la date de mission d'abord:</small>
-
-          <div class="input-group mb-2">
-
-            <div class="input-group-prepend">
-
-              <div class="input-group-text">Horaire Mission</div>
-            </div>
-
-            <select (click)="getTheDay()" (change)="findDetailByWording()" [disabled]="!theEmployee.matricule || !mission.startingDate" class="custom-select" [(ngModel)]="mission.detailVo.wording"  name="horaireMission" id="horaireMission">
-              <option selected disabled>Selectionner l' horaire ...</option>
-              <option *ngFor="let d of dayDetails" ngValue="{{ d.detailVo.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.detailVo.startingTimeVo.hour+'h'+d.detailVo.endingTimeVo.minute+'min-'+d.detailVo.endingTimeVo.hour+'h'+d.detailVo.endingTimeVo.minute+'min' }}">{{ d.detailVo.wording }}</option>
-            </select>
+        <!-- HEURE DEBUT -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Heure debut</span>
+          </div>
+          <input type="text" class="form-control" id="missionCreateStartingTimeH" [(ngModel)]="mission.startingTimeVo.hour" name="missionstartingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
+          <div class="input-group-append">
+            <span class="input-group-text">H</span>
+          </div>
+          <input type="text" class="form-control" id="missionCreateStartingTimeM"  [(ngModel)]="mission.startingTimeVo.minute" name="missionstartingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <div class="input-group-append">
+            <span class="input-group-text">M</span>
           </div>
         </div>
         <br>
-        <button class="btn btn-outline-success" (click)="saveMission()" type="submit">Créer</button>
-        <button class="btn btn-outline-secondary ml-2" (click)="initForm()" type="submit">Réinitialiser le formulaire</button>
+        <!-- HEURE FIN-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Heure fin</span>
+          </div>
+          <input type="text" class="form-control" id="missionCreateEndingTimeH"  [(ngModel)]="mission.endingTimeVo.hour" name="missionendingTimeHpurs"  placeholder="Entrer l'heure de fin ..." min="0" max="23">
+          <div class="input-group-append">
+            <span class="input-group-text">H</span>
+          </div>
+          <input type="text" class="form-control" id="missionCreateEndingTimeM"  [(ngModel)]="mission.endingTimeVo.minute" name="missionendingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <div class="input-group-append">
+            <span class="input-group-text">M</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-outline-secondary mr-1" (click)="initForm()" type="submit">Réinitialiser le formulaire</button>
+          <button class="btn btn-outline-success" (click)="saveMission()" type="submit">Créer</button>
+        </div>
       </form>
     </div>
   </div>
