@@ -7,7 +7,8 @@
     <br><br>
     <ul class="list-unstyled components">
       <li>
-        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-tasks mr-3"></i>Gestion</a>
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i
+          class="fas fa-tasks mr-3"></i>Gestion</a>
         <ul class="collapse list-unstyled" id="homeSubmenu">
           <li>
             <a routerLink="employes" class="pointer"><i class="fas fa-user mr-3"></i>Gestion des employes</a>
@@ -16,7 +17,7 @@
             <a routerLink="horaires" class="pointer"><i class="fas fa-clock-o mr-3"></i>Gestion des horaires</a>
           </li>
           <li>
-            <a  class="pointer"><i class="fas fa-calendar-alt mr-3"></i>Gestion des jours feries</a>
+            <a class="pointer"><i class="fas fa-calendar-alt mr-3"></i>Gestion des jours feries</a>
           </li>
           <li>
             <a routerLink="services" class="pointer"><i class="fas fa-hammer mr-3"></i>Gestion des services</a>
@@ -24,7 +25,8 @@
         </ul>
       </li>
       <li>
-        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-receipt mr-3"></i>Absences</a>
+        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i
+          class="fas fa-receipt mr-3"></i>Absences</a>
         <ul class="collapse list-unstyled" id="pageSubmenu">
           <li>
             <a routerLink="missions" class="pointer"><i class="fas fa-briefcase mr-3"></i>Missions</a>
@@ -49,14 +51,16 @@
           <li class="nav-item dropdown mr-4">
             <a class="nav-link dropdown-toggle" href="#" id="profile" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-              {{userData.lastName + " " + userData.firstName+" ( @"+userData.username+" )"}}
+              {{userData.lastName + " " + userData.firstName + " ( @" + userData.username + " )"}}
             </a>
             <div class="dropdown-menu" aria-labelledby="profile">
-              <a class="dropdown-item pointer"(click)="triggerUserDataChangeModal()"><i class="fas fa-user-cog mr-3"></i>Parametres</a>
+              <a class="dropdown-item pointer" (click)="triggerUserDataChangeModal()"><i
+                class="fas fa-user-cog mr-3"></i>Parametres</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item pointer" href="#"><i class="fas fa-user-plus mr-3"></i>Ajouter un compte</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item text-danger pointer" href="#" (click)="logout()"><i class="fas fa-sign-out-alt mr-3"></i>Deconnexion</a>
+              <a class="dropdown-item text-danger pointer" href="#" (click)="logout()"><i
+                class="fas fa-sign-out-alt mr-3"></i>Deconnexion</a>
             </div>
           </li>
         </ul>
@@ -65,67 +69,25 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-<!--MODAL FOR USER DATA CHANGE-->
-<div class="modal fade" id="userDataChange" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--MODAL FOR USER DATA CHANGE PERSO-->
+<div class="modal fade" id="userDataChangeFormPerso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-
       <div class="modal-body">
         <div class="container">
           <br>
           <form>
             <!-- USERNAME -->
             <div class="form-group">
-              <label class="sr-only" for="username">Username</label>
+              <label class="sr-only" for="username">@</label>
               <div class="input-group mb-2">
                 <div class="input-group-prepend">
-                  <div class="input-group-text">Username</div>
+                  <div class="input-group-text">@</div>
                 </div>
-                <input type="text" class="form-control" id="username" [(ngModel)]="userModifiedData.username" name="username">
+                <input type="text" class="form-control" id="username" [(ngModel)]="userDataChangeRequestLocal.username"
+                       name="username">
                 <div class="invalid-feedback">
                   Le nom d'utilsateur que vous avez entre est invalid
-                </div>
-              </div>
-            </div>
-            <br>
-            <!-- EMAIL -->
-            <div class="form-group">
-              <label class="sr-only" for="emailAdd">Email</label>
-              <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">Email</div>
-                </div>
-                <input type="email" class="form-control" id="emailAdd" [(ngModel)]="userModifiedData.email" name="email">
-                <div class="invalid-feedback">
-                  L'email que vous avez entre est invalid
-                </div>
-              </div>
-            </div>
-            <br>
-            <!-- PASSWORD-->
-            <div class="form-group">
-              <label class="sr-only" for="pwdAdd">Mot de passe</label>
-              <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">Mot de passe</div>
-                </div>
-                <input type="password" class="form-control" id="pwdAdd" [(ngModel)]="userModifiedData.password" name="pwdAdd">
-                <div class="invalid-feedback">
-                  Le mot de passe que vous avez entre est invalid
-                </div>
-              </div>
-            </div>
-            <br>
-            <!-- PASSWORD CONFIRMATION-->
-            <div class="form-group">
-              <label class="sr-only" for="pwdConfirmation">Confirmation</label>
-              <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">Confirmation</div>
-                </div>
-                <input type="password" class="form-control" [(ngModel)]="pwdConfirmation" name="pwdConfirmation"  id="pwdConfirmation">
-                <div class="invalid-feedback">
-                  Les deux mot de passes sont non identiques
                 </div>
               </div>
             </div>
@@ -137,7 +99,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text">Prenom</div>
                 </div>
-                <input type="text" class="form-control" [(ngModel)]="userModifiedData.firstName" name="pnom" id="pnom">
+                <input type="text" class="form-control" [(ngModel)]="userDataChangeRequestLocal.firstName" name="pnom" id="pnom">
                 <div class="invalid-feedback">
                   Le prenom que vous avez entre est invalid
                 </div>
@@ -151,21 +113,10 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text">Nom</div>
                 </div>
-                <input type="text" class="form-control" id="nomm" [(ngModel)]="userModifiedData.lastName" name="nomm">
+                <input type="text" class="form-control" id="nomm" [(ngModel)]="userDataChangeRequestLocal.lastName" name="nomm">
                 <div class="invalid-feedback">
                   Le nom que vous avez entre est invalid
                 </div>
-              </div>
-            </div>
-            <br>
-            <!-- RANG -->
-            <div class="form-group">
-              <label class="sr-only" for="rang">Rang</label>
-              <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">Rang</div>
-                </div>
-                <input type="text" class="form-control" id="rang" [(ngModel)]="userModifiedData.rang" name="rang">
               </div>
             </div>
           </form>
@@ -178,11 +129,129 @@
     </div>
   </div>
 </div>
-<!--MODAL FOR CREATING NEW USER-->
-
-
-
-
+<!--MODAL FOR USER DATA CHANGE Email-->
+<div class="modal fade" id="userDataChangeFormEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <br>
+          <form>
+            <!-- EMAIL -->
+            <div class="form-group">
+              <label class="sr-only" for="emailOld">Ancien email</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Ancien email</div>
+                </div>
+                <input type="email" class="form-control" id="emailOld" [(ngModel)]="emailChangeRequestLocal.originalEmail"
+                       name="email">
+                <div class="invalid-feedback">
+                  L'email que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- EMAIL -->
+            <div class="form-group">
+              <label class="sr-only" for="emailNew">Nouveau email</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Nouveau email</div>
+                </div>
+                <input type="email" class="form-control" id="emailNew" [(ngModel)]="emailChangeRequestLocal.newEmail"
+                       name="email">
+                <div class="invalid-feedback">
+                  L'email que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quitter</button>
+        <button type="button" class="btn btn-outline-primary" (click)="updateEmail()">Sauvegarder</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--MODAL FOR USER DATA CHANGE PWD-->
+<div class="modal fade" id="userDataChangeFormPwd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <br>
+          <form>
+            <!-- PASSWORD-->
+            <div class="form-group">
+              <label class="sr-only" for="pwdOld">Ancien mot de passe</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Ancien mot de passe</div>
+                </div>
+                <input type="password" class="form-control" id="pwdOld" [(ngModel)]="pwdChangeRequestLocal.oldPassword"
+                       name="pwdAdd">
+                <div class="invalid-feedback">
+                  Le mot de passe que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- PASSWORD-->
+            <div class="form-group">
+              <label class="sr-only" for="pwdNew">Mot de passe</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Mot de passe</div>
+                </div>
+                <input type="password" class="form-control" id="pwdNew" [(ngModel)]="pwdChangeRequestLocal.newPassword"
+                       name="pwdAdd">
+                <div class="invalid-feedback">
+                  Le mot de passe que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- PASSWORD CONFIRMATION-->
+            <div class="form-group">
+              <label class="sr-only" for="pwdConfirmation">Confirmation</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Confirmation</div>
+                </div>
+                <input type="password" class="form-control" [(ngModel)]="pwdChangeConfirmation" name="pwdConfirmation"
+                       id="pwdConfirmation">
+                <div class="invalid-feedback">
+                  Les deux mot de passes sont non identiques
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quitter</button>
+        <button type="button" class="btn btn-outline-primary" (click)="updatePassword()">Sauvegarder</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--MODAL PARAMETRES-->
+<div class="modal" id="userDataChange" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ml-0 mr-0">
+      <div class="modal-body">
+        <input class="btn btn-outline-info mb-2" type="button" value="Modifier l'adresse email" data-toggle="modal" data-target="#userDataChangeFormEmail" data-dismiss="modal">
+        <br>
+        <input class="btn btn-outline-info mb-2" type="submit" value="Modifier le mot de passe" data-toggle="modal" data-target="#userDataChangeFormPwd" data-dismiss="modal">
+        <br>
+        <input class="btn btn-outline-info mb-2" type="reset" value="Modifier les informations personneles" data-toggle="modal" data-target="#userDataChangeFormPerso" data-dismiss="modal">
+      </div>
+    </div>
+  </div>
+</div>
 
 
 </body>
