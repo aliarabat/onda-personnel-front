@@ -253,7 +253,11 @@ export class ReplacementService {
     });
 
   }
-
+  formInit(){
+    this.replacement=new ReplacementVo();
+    this.orgEmployee=new EmployeeVo();
+    this.rempEmployee=new EmployeeVo();
+  }
 
   get orgEmployee(): EmployeeVo {
     return this._orgEmployee;

@@ -17,7 +17,7 @@ export class ReplacementCreateComponent implements OnInit {
     return this.skipService.details;
   }
   ngOnInit() {
-    this.dayService.findAllEmployees();
+    this.dayService.findAllTechEmployees();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
     this.skipService.findAllDetails();
 
@@ -54,5 +54,8 @@ export class ReplacementCreateComponent implements OnInit {
   }
   saveReplacement(){
     this.remplacementService.saveReplacement(this.remplacementService.replacement,this.remplacementService.orgEmployee.matricule,this.remplacementService.rempEmployee.matricule,this.remplacementService.replacement.detailVo.wording);
+  }
+  formInit(){
+    this.remplacementService.formInit();
   }
 }

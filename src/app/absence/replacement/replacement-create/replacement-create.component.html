@@ -59,23 +59,22 @@
         <!-- detail-->
         <div class="form-group">
           <label class="sr-only" for="detail">Horaire</label>
+          <small id="emailHelp" class="form-text text-muted">Veuillez saisir d'abord l'employé original et la date de remplacement</small>
+
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Horaire</div>
             </div>
-            <select  (change)="findDetailByWording()" class="custom-select" id="detail" [(ngModel)]="replacement.detailVo.wording"name="horaireRemp" >
-             <option disabled selected>Selectionner l' horaire</option>-->
-
-              <option *ngFor="let d of allDetails" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
-
-
-
+            <select (click)="getTheDay()" (change)="findDetailByWording()" [disabled]="!orgEmployee.matricule || !replacement.replacementDate"class="custom-select" id="detail" [(ngModel)]="replacement.detailVo.wording"name="horaireRemp">
+              <option disabled selected>Selectionner l' horaire</option>
+              <option *ngFor="let d of dayDetails" ngValue="{{ d.detailVo.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.detailVo.startingTimeVo.hour+'h'+d.detailVo.endingTimeVo.minute+'min-'+d.detailVo.endingTimeVo.hour+'h'+d.detailVo.endingTimeVo.minute+'min' }}">{{ d.detailVo.wording }}</option>
             </select>
+
           </div>
         </div>
         <br>
         <button class="btn btn-outline-success" (click)="saveReplacement()" type="submit">Créer</button>
-        <button class="btn btn-outline-secondary ml-2" type="submit">Réinitialiser le formulaire</button>
+        <button class="btn btn-outline-secondary ml-2" (click)="formInit()" type="submit">Réinitialiser le formulaire</button>
       </form>
     </div>
   </div>

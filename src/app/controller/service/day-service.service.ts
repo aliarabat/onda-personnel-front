@@ -91,6 +91,19 @@ export class DayServiceService {
     );
   }
 
+
+  findAllTechEmployees() {
+    this.http.get<Array<EmployeeVo>>(this._url_employees + "type/Technique" ).subscribe(
+      data => {
+        if (data != null) {
+          this._employees = data;
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
   findAllDetails() {
     this.http.get<Array<DetailVo>>(this._url_detail).subscribe(
       data => {

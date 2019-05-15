@@ -7,6 +7,7 @@ import {VacationVo} from '../model/vacation.model';
 import {SkipVo} from '../model/skip.model';
 import {DayDetailVo} from '../model/day-detail.model';
 import {DayVo} from '../model/day.model';
+import {ReplacementVo} from '../model/replacement.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,7 @@ export class SkipService {
   private _detail1: DetailVo = new DetailVo('', '', {}, {}, '', '');
   private _skipInit:SkipVo=new SkipVo(0,'',this._employee1,'','',new DetailVo());
   private _selectedDayDetail:DayDetailVo=new DayDetailVo(0,this._detail1,null,this._skipInit,null);
+  private _skip:SkipVo=new SkipVo();
   constructor(private _http: HttpClient) {
   }
 
@@ -78,7 +80,7 @@ export class SkipService {
         text: 'Merci de saisir la date de skip'
       });
     }
-    else if (this._detail.wording == '' || this._detail.wording == undefined ) {
+    else if (this.skipCreate.detailVo.wording == '' || this.skipCreate.detailVo.wording == undefined ) {
       Swal.fire({
         type: 'info',
         title: 'Info...',
@@ -102,11 +104,12 @@ export class SkipService {
       }).then((result) => {
         if (result.value) {
 
-          this._http.put(this._url_skip + 'matricule/' + this.employee.matricule+'/wordingDetail/'+this.detail.wording, this._skipCreate).subscribe(
+          this._http.put(this._url_skip + 'matricule/' + this.employee.matricule+'/wordingDetail/'+this._skipCreate.detailVo.wording, this._skipCreate).subscribe(
             data => {
               console.log(data)
               this._employee = new EmployeeVo();
               this._detail = new DetailVo();
+              this._skipCreate=new SkipVo();
               this.findAllSkips();
               this.deleteAllDayDetailsWhereIsNull();
             }, error1 => {
@@ -132,7 +135,15 @@ export class SkipService {
       }
     )
   }
-
+  findSkipedEmployesByMatricule(matricule:string) {
+    this.http.get<EmployeeVo>(this._url + 'employee/matricule/' + matricule).subscribe(
+      data => {
+        this.employee= data;
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
 
   findDetailByWording(wording:string) {
     this.http.get<DetailVo>(this._url_detail + 'wording/' + wording).subscribe(
@@ -140,6 +151,7 @@ export class SkipService {
         if(data!=null){
           this.selectedDayDetail.skipVo.detailVo=data;
           this.selectedDayDetail.detailVo=data;
+          this.skipCreate.detailVo=data;
         }
 
       }, error => {
@@ -291,6 +303,11 @@ export class SkipService {
     );
   }
 
+  formInit(){
+    this.skipCreate=new SkipVo();
+    this.employee=new EmployeeVo();
+  }
+
   get url_dayDetail(): string {
     return this._url_dayDetail;
   }
@@ -427,5 +444,21 @@ export class SkipService {
 
   set urlDay(value: string) {
     this._urlDay = value;
+  }
+
+  get urlSkip(): string {
+    return this._urlSkip;
+  }
+
+  set urlSkip(value: string) {
+    this._urlSkip = value;
+  }
+
+  get skip(): SkipVo {
+    return this._skip;
+  }
+
+  set skip(value: SkipVo) {
+    this._skip = value;
   }
 }

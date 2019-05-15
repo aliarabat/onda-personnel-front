@@ -19,8 +19,10 @@
         <td>{{ hol.startingDate }}</td>
         <td>{{ hol.endingDate }}</td>
         <td class="justify-content-around">
-          <button type="button" (click)="setSelectedHoliday(hol)" class="btn btn-outline-warning mr-sm-1" data-toggle="modal" data-target="#updateHolidayModal" data-whatever="@fat">Modifier</button>
-          <button class="btn btn-outline-danger ml-sm-1" (click)="deleteHoliday(hol.id)">Supprimer</button>
+          <button type="button" (click)="setSelectedHoliday(hol)" class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target="#updateHolidayModal" data-whatever="@fat"><i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-outline-danger ml-sm-1" (click)="deleteHoliday(hol.id)"><i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
         </td>
       </tr>
       </tbody>
