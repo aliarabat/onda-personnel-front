@@ -69,7 +69,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let w of listEmployeesByYear" [class]="w.employeeVo.isExist?'':'table-danger'">
-    <th scope="row">{{ w.employeeVo.matricule }}</th>
+    <td>{{ w.employeeVo.matricule }}</td>
     <td>{{ formatDate(w.workDetailVo.workDetailDate).getFullYear() }}</td>
     <td>{{ w.employeeVo.lastName}}</td>
     <td>{{ w.employeeVo.firstName}}</td>
@@ -78,7 +78,8 @@
     <td>{{ w.workDetailVo.hjf.hour+"h"+w.workDetailVo.hjf.minute+"min" }}</td>
     <td>{{ w.workDetailVo.hn.hour+"h"+w.workDetailVo.hn.minute+"min" }}</td>
     <td>
-      <button type="button" (click)="setDaysInfo(w.workDetailVo.daysVo)" class="btn btn-outline-primary mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg">Afficher</button>
+      <button type="button" (click)="setDaysInfo(w.workDetailVo.daysVo)" class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
+      </button>
     </td>
   </tr>
   </tbody>
@@ -113,7 +114,9 @@
                   <div *ngFor="let dt of day.dayDetailsVo">
                     <div class="mr-sm-1" *ngIf="dt.missionVo!=null">{{ dt.missionVo.reference+" ("+dt.missionVo.startingTimeVo.hour+":"+dt.missionVo.startingTimeVo.minute+"-"+dt.missionVo.endingTimeVo.hour+":"+dt.missionVo.endingTimeVo.minute+")" }}</div>
                     <div class="mr-sm-1" *ngIf="dt.skipVo!=null">{{ dt.skipVo.type+" ("+dt.skipVo.detailVo.wording+")" }}</div>
-                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null">{{ dt.replacementVo.reference+" ("+dt.replacementVo.detailVo.wording+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null  && dt.detailVo!=null">{{ "Remp"+" ("+dt.replacementVo.detailVo.wording+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null  && dt.detailVo==null">{{ "Rem"+" ("+dt.replacementVo.detailVo.wording+")" }}</div>
+
                     <div class="mr-sm-1" *ngIf="dt.missionVo===null && dt.skipVo===null && dt.replacementVo===null && dt.detailVo!=null">
                       {{ dt.detailVo.wording }}
                     </div>

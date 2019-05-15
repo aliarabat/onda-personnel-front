@@ -6,7 +6,7 @@
       <th scope="col">Type d'absence</th>
       <th scope="col">Date d'absence</th>
       <th scope="col">Horaire(s)</th>
-      <th></th>
+      <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -15,10 +15,10 @@
       <td>{{dd.skipVo.type}}</td>
       <td>{{dd.skipVo.skipDate}}</td>
       <td>{{dd.skipVo.detailVo.wording}}</td>
-      <td></td>
       <td class="float-right">
-        <button class="btn btn-outline-primary mr-2"  id="skipBtn"  data-toggle="modal" (click)="findDayDetailById(dd.id)" data-target="#skipModal" data-whatever="@mdo">Modifier</button>
-        <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowDetailInfo(dd)" data-target="#exampleModal2">Supprimer</button>
+        <button class="btn btn-outline-info mr-2"  id="skipBtn"  data-toggle="modal" (click)="findDayDetailById(dd.id)" data-target="#skipModal" data-whatever="@mdo"><i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowDetailInfo(dd)" data-target="#exampleModal2"><i class="fa fa-trash" aria-hidden="true"></i></button>
       </td>
     </tr>
     </tbody>

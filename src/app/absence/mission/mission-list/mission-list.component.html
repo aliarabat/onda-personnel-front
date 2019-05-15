@@ -8,7 +8,7 @@
       <th scope="col">Date Mission</th>
       <th scope="col">Horaire(s)</th>
 
-      <th></th>
+      <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -23,8 +23,10 @@
 
 
       <td class="float-right">
-        <button type="button" id="btnMission" (click)="findDayDetailById(dayDetail.id)"  class="btn btn-outline-warning ml-sm-1" data-toggle="modal" data-target="#missionModal" data-whatever="@fat">Modifier</button>
-        <button class="btn btn-outline-danger ml-2" (click)="delete(dayDetail)">Supprimer</button>
+        <button type="button" id="btnMission" (click)="findDayDetailById(dayDetail.id)"  class="btn btn-outline-info ml-sm-1" data-toggle="modal" data-target="#missionModal" data-whatever="@fat"><i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-outline-danger ml-2" (click)="delete(dayDetail)"><i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
       </td>
     </tr>
     </tbody>

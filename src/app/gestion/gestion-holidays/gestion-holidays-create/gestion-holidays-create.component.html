@@ -67,7 +67,8 @@
         <td>{{ formatDate(h.startingDate).toLocaleDateString() }}</td>
         <td>{{ formatDate(h.endingDate).toLocaleDateString() }}</td>
         <td>
-          <button class="btn btn-outline-danger" (click)="substructHoliday(h)">Supprimer</button>
+          <button class="btn btn-outline-danger" (click)="substructHoliday(h)"><i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
         </td>
       </tr>
       </tbody>

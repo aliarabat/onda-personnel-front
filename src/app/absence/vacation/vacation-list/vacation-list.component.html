@@ -14,8 +14,9 @@
     <td>{{v.endingDate}}</td>
     <td>{{v.type}}</td>
     <td class="float-right">
-      <button class="btn btn-outline-primary mr-2"   data-toggle="modal" (click)="findVacationById(v.id)" data-target="#exampleModal" data-whatever="@mdo">Modifier</button>
-      <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowDetailInfo(v)" data-target="#exampleModal2">Supprimer</button>
+      <button class="btn btn-outline-info mr-2"   data-toggle="modal" (click)="findVacationById(v.id)" data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-pencil" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowDetailInfo(v)" data-target="#exampleModal2"><i class="fa fa-trash" aria-hidden="true"></i></button>
     </td>
   </tr>
   </tbody>

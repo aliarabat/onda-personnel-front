@@ -43,7 +43,8 @@
             <td>{{ formatDate(worksToPrint.workDetailVo.workDetailDate).getFullYear() }}</td>
             <td>{{ getMonth(formatDate(worksToPrint.workDetailVo.workDetailDate).getMonth()) }}</td>
             <td>
-              <button (click)="print(formatDate(worksToPrint.workDetailVo.workDetailDate).getFullYear(), formatDate(worksToPrint.workDetailVo.workDetailDate).getMonth())" class="btn btn-outline-success">Imprimer</button>
+              <button (click)="print(formatDate(worksToPrint.workDetailVo.workDetailDate).getFullYear(), formatDate(worksToPrint.workDetailVo.workDetailDate).getMonth())" class="btn btn-outline-success"><i class="fa fa-print" aria-hidden="true"></i>
+              </button>
             </td>
           </tr>
         </tbody>

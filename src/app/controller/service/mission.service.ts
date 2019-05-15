@@ -29,6 +29,7 @@ export class MissionService {
   private _dayService:DayServiceService;
   private _theDay:DayVo=new DayVo();
   private _dayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
+  private _checkDayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
   private _dayDetails1: Array<DayDetailVo> = new Array<DayDetailVo>();
   private _details: Array<DetailVo> = new Array<DetailVo>();
   private _theEmployee:EmployeeVo=new EmployeeVo();
@@ -338,11 +339,20 @@ export class MissionService {
 
     this.http.get<DayVo>(this._urlDay + "matricule/" + matricule+"/dayDate/"+dateDay).subscribe(
       data => {
-        if (data != null) {
+        if (data != null ) {
           //this.findEmployesByMatricule(matricule);
           this.theDay = data;
           // console.log(this._theDay);
-          this.dayDetails = data.dayDetailsVo;
+          this.checkDayDetails=new Array<DayDetailVo>();
+          for (let dayDetail of data.dayDetailsVo){
+            if(dayDetail.detailVo!=null){
+              this._checkDayDetails.push(dayDetail);
+
+            }
+          }
+          console.log(this._checkDayDetails);
+          this.dayDetails = this._checkDayDetails;
+
           //console.log(this._dayDetails);
         } else{
           Swal.fire({
@@ -626,5 +636,14 @@ export class MissionService {
         console.log(error);
       }
     );
+  }
+
+
+  get checkDayDetails(): Array<DayDetailVo> {
+    return this._checkDayDetails;
+  }
+
+  set checkDayDetails(value: Array<DayDetailVo>) {
+    this._checkDayDetails = value;
   }
 }
