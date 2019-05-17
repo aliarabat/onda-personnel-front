@@ -6,6 +6,8 @@ import {DayDetailVo} from '../../../controller/model/day-detail.model';
 import {DetailVo} from '../../../controller/model/detail.model';
 import {ReplacementVo} from '../../../controller/model/replacement.model';
 import {DayServiceService} from '../../../controller/service/day-service.service';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 
 @Component({
   selector: 'app-skip-list',
@@ -14,10 +16,11 @@ import {DayServiceService} from '../../../controller/service/day-service.service
 })
 export class SkipListComponent implements OnInit {
   public dayDetailInfo : DayDetailVo = new DayDetailVo(0,new DetailVo(),new ReplacementVo(),new SkipVo(0,'',new EmployeeVo()))
-  constructor(public skipService: SkipService,private dayService:DayServiceService) {
+  constructor(public skipService: SkipService,private dayService:DayServiceService, private router:Router) {
   }
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
     this.skipService.findAllSkips();
     this.dayService.findAllDetails();
 

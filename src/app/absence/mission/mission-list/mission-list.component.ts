@@ -19,7 +19,7 @@ export class MissionListComponent implements OnInit {
   }
 
   ngOnInit() {
-    // MiddleWare.checkIfUserIsLogged(this.router);
+    MiddleWare.checkIfUserIsLogged(this.router);
     this.dayService.findAllEmployees();
     this.missionService.employee1 = new EmployeeVo();
     this.missionService.mission = new MissionVo();

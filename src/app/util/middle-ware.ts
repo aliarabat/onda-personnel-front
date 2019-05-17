@@ -7,7 +7,7 @@ export class MiddleWare {
       if (Session.retrieve('loggedUser')) {
         router.navigate(['employes']);
       } else {
-        router.navigate(['Accueil']);
+        router.navigate(['login']);
       }
   }
 }

@@ -3,6 +3,8 @@ import {DayServiceService} from '../../../controller/service/day-service.service
 import {ReplacementService} from '../../../controller/service/replacement.service';
 import {MissionService} from '../../../controller/service/mission.service';
 import {SkipService} from '../../../controller/service/skip.service';
+import {MiddleWare} from '../../../util/middle-ware';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-replacement-create',
@@ -11,12 +13,13 @@ import {SkipService} from '../../../controller/service/skip.service';
 })
 export class ReplacementCreateComponent implements OnInit {
 
-  constructor(private dayService:DayServiceService,private remplacementService:ReplacementService,private  missionService:MissionService,private skipService:SkipService) {
+  constructor(private dayService:DayServiceService,private remplacementService:ReplacementService,private  missionService:MissionService,private skipService:SkipService, private router:Router) {
   }
   get allDetails(){
     return this.skipService.details;
   }
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
     this.dayService.findAllTechEmployees();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
     this.skipService.findAllDetails();

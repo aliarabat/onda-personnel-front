@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {EmployeeServiceService} from '../../../controller/service/employee-service.service';
 import {EmployeeVo} from '../../../controller/model/employee.model';
 import * as $ from 'jquery';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 @Component({
   selector: 'app-gestion-employees-list',
   templateUrl: './gestion-employees-list.component.html',
@@ -9,10 +11,11 @@ import * as $ from 'jquery';
 })
 export class GestionEmployeesListComponent implements OnInit {
 
-  constructor(private  employeeService : EmployeeServiceService) { }
+  constructor(private  employeeService : EmployeeServiceService, private router:Router) { }
 
   public employeeInfo : EmployeeVo = new EmployeeVo() ;
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
     this.employeeService.findAllEmployesExist();
 
   }

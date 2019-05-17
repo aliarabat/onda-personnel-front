@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {VacationService} from '../../../controller/service/vacation.service';
 import {VacationVo} from '../../../controller/model/vacation.model';
 import {EmployeeVo} from '../../../controller/model/employee.model';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 
 @Component({
   selector: 'app-vacation-list',
@@ -11,10 +13,11 @@ import {EmployeeVo} from '../../../controller/model/employee.model';
 export class VacationListComponent implements OnInit {
   public vacationInfo : VacationVo = new VacationVo(0,new EmployeeVo(),'','','','');
 
-  constructor(public vacationService: VacationService) {
+  constructor(public vacationService: VacationService, private router:Router) {
   }
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
     this.vacationService.findAllVacations();
   }
 

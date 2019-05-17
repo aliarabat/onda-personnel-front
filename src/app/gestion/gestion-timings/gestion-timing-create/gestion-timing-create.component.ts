@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {DetailServiceService} from '../../../controller/service/detail-service.service';
 import {TimingVo} from '../../../controller/model/timing.model';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 
 @Component({
   selector: 'app-gestion-timing-create',
@@ -9,10 +11,10 @@ import {TimingVo} from '../../../controller/model/timing.model';
 })
 export class GestionTimingCreateComponent implements OnInit {
 
-  constructor(private detailService : DetailServiceService) { }
+  constructor(private detailService : DetailServiceService, private router:Router) { }
 
   ngOnInit() {
-
+    MiddleWare.checkIfUserIsLogged(this.router);
   }
  public get detail(){
     return this.detailService.detailCreate

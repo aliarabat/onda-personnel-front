@@ -1,13 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {WorkService} from "../../../controller/service/work.service";
+import {WorkService} from '../../../controller/service/work.service';
 import * as $ from 'jquery';
-import {EmployeeVo} from "../../../controller/model/employee.model";
-import {DayServiceService} from "../../../controller/service/day-service.service";
-import Swal from "sweetalert2";;
-import {DayVo} from "../../../controller/model/day.model";
-import {MonthUtil} from "../../../util/month-util";
+import {EmployeeVo} from '../../../controller/model/employee.model';
+import {DayServiceService} from '../../../controller/service/day-service.service';
+import Swal from 'sweetalert2';
+import {DayVo} from '../../../controller/model/day.model';
+import {MonthUtil} from '../../../util/month-util';
 import {DetailVo} from '../../../controller/model/detail.model';
-import {DateUtil} from "../../../util/date-util";
+import {DateUtil} from '../../../util/date-util';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
+
+;
 
 // @ts-ignore
 @Component({
@@ -20,15 +24,16 @@ export class GestionServiceListComponent implements OnInit {
   private selectedDaysFormModal: Array<DayVo> = [];
   private hiddenStateMonth: boolean = true;
 
-  constructor(private workService: WorkService, private dayService: DayServiceService) {
+  constructor(private workService: WorkService, private dayService: DayServiceService, private router:Router) {
   }
 
   private hiddenState: boolean = true;
   private employee: EmployeeVo = new EmployeeVo(0, '');
 
   ngOnInit() {
-    this.dayService.detail=new DetailVo();
-    this.dayService.employee=new EmployeeVo();
+    MiddleWare.checkIfUserIsLogged(this.router);
+    this.dayService.detail = new DetailVo();
+    this.dayService.employee = new EmployeeVo();
   }
 
 
@@ -41,15 +46,15 @@ export class GestionServiceListComponent implements OnInit {
   }
 
   findWorkByYear() {
-    if (this.dateByYear.year === undefined||this.dateByYear.year ===null) {
+    if (this.dateByYear.year === undefined || this.dateByYear.year === null) {
       Swal.fire({
         type: 'error',
         title: 'Oops...!',
         text: 'Merci de saisir l\'année'
-      })
+      });
     } else {
-      if ($("#employeeDiv").is(':visible') || $("#monthDiv").is(':visible')) {
-        if ($("#employeeDiv").is(':visible')) {
+      if ($('#employeeDiv').is(':visible') || $('#monthDiv').is(':visible')) {
+        if ($('#employeeDiv').is(':visible')) {
           if (this.employee.matricule === undefined || this.employee.matricule === '') {
             Swal.fire({
               type: 'error',
@@ -57,14 +62,14 @@ export class GestionServiceListComponent implements OnInit {
               text: 'Merci de choisir l\'employé'
             });
           } else {
-            if ($("#monthDiv").is(':visible')) {
-              if (this.dateByYear.month===undefined||this.dateByYear.month===null){
+            if ($('#monthDiv').is(':visible')) {
+              if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
                 Swal.fire({
                   type: 'error',
                   title: 'Oops...!',
                   text: 'Merci de saisir le mois'
                 });
-              } else{
+              } else {
                 this.workService.findWorkByEmployeeAndMonthAndYear(this.employee.matricule);
               }
             } else {
@@ -73,14 +78,14 @@ export class GestionServiceListComponent implements OnInit {
           }
           return;
         }
-        if ($("#monthDiv").is(':visible')) {
+        if ($('#monthDiv').is(':visible')) {
           if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
             Swal.fire({
               type: 'error',
               title: 'Oops...!',
               text: 'Merci de saisir le mois'
             });
-          }else{
+          } else {
             this.workService.findWorksByMonth();
           }
         }
@@ -108,7 +113,7 @@ export class GestionServiceListComponent implements OnInit {
   }
 
   selectPerYear() {
-    this.hiddenState = !$("#inlineCheckboxperyear").is(':checked');
+    this.hiddenState = !$('#inlineCheckboxperyear').is(':checked');
   }
 
   reinitializeForm() {
@@ -124,14 +129,14 @@ export class GestionServiceListComponent implements OnInit {
   }
 
   selectPerMonth() {
-    this.hiddenStateMonth = !$("#inlineCheckboxpermonth").is(':checked');
+    this.hiddenStateMonth = !$('#inlineCheckboxpermonth').is(':checked');
   }
 
-  public getMonths(){
+  public getMonths() {
     return MonthUtil.months;
   }
 
-  public getMonth(index:number){
+  public getMonth(index: number) {
     return MonthUtil.getMonth(index);
   }
 }

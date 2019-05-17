@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {WorkService} from '../../../controller/service/work.service';
 import {MonthUtil} from '../../../util/month-util';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 
 @Component({
   selector: 'app-gestion-services-print',
@@ -9,9 +11,10 @@ import {MonthUtil} from '../../../util/month-util';
 })
 export class GestionServicesPrintComponent implements OnInit {
 
-  constructor(private workService:WorkService) { }
+  constructor(private workService:WorkService, private router:Router) { }
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
   }
 
   get dateToPrint(){

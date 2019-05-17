@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {EmployeeServiceService} from '../../../controller/service/employee-service.service';
 import {EmployeeVo} from '../../../controller/model/employee.model';
 import {VacationService} from '../../../controller/service/vacation.service';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 
 @Component({
   selector: 'app-vacation-create',
@@ -10,11 +12,12 @@ import {VacationService} from '../../../controller/service/vacation.service';
 })
 export class VacationCreateComponent implements OnInit {
 
-  constructor( private  vacationService : VacationService) {
+  constructor( private  vacationService : VacationService, private router:Router) {
   }
 
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
     this.vacationService.findAllEmployees();
   }
 

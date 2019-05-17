@@ -10,7 +10,7 @@ import {MiddleWare} from '../../util/middle-ware';
 export class MissionComponent implements OnInit {
 
   constructor(private router:Router) {
-    // MiddleWare.checkIfUserIsLogged(this.router);
+    MiddleWare.checkIfUserIsLogged(this.router);
   }
 
   ngOnInit() {
