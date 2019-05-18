@@ -16,6 +16,7 @@ export class Session {
     }if (key === null || key === undefined) {
       return -2;
     } else {
+      localStorage.removeItem(key);
       localStorage.setItem(key, JSON.stringify(object));
       return 1;
     }

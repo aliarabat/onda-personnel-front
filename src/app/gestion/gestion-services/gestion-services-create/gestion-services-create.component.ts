@@ -6,6 +6,8 @@ import {DayDetailVo} from "../../../controller/model/day-detail.model";
 import {MonthUtil} from "../../../util/month-util";
 import {DetailVo} from '../../../controller/model/detail.model';
 import {DateUtil} from "../../../util/date-util";
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 
 @Component({
   selector: 'app-gestion-services-create',
@@ -14,11 +16,12 @@ import {DateUtil} from "../../../util/date-util";
 })
 export class GestionServicesCreateComponent implements OnInit {
 
-  constructor(private dayService:DayServiceService) {  }
+  constructor(private dayService:DayServiceService, private router:Router) {  }
 
   private selectedEmployee:EmployeeVo;
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
     this.dayService.findAllEmployees();
     this.dayService.findAllDetails();
     this.dayService.detail=new DetailVo();

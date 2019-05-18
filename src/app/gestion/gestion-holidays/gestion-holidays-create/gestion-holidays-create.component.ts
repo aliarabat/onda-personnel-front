@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HolidayService} from '../../../controller/service/holiday.service';
 import {HolidayVo} from '../../../controller/model/holiday.model';
 import {DateUtil} from "../../../util/date-util";
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 
 @Component({
   selector: 'app-gestion-holidays-create',
@@ -10,9 +12,10 @@ import {DateUtil} from "../../../util/date-util";
 })
 export class GestionHolidaysCreateComponent implements OnInit {
 
-  constructor(private holidayService:HolidayService) { }
+  constructor(private holidayService:HolidayService, private router:Router) { }
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
   }
 
   get holidayCreate(){

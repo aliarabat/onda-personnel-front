@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../util/middle-ware';
 
 @Component({
   selector: 'app-mission',
@@ -7,7 +9,8 @@ import {Component, OnInit} from '@angular/core';
 })
 export class MissionComponent implements OnInit {
 
-  constructor() {
+  constructor(private router:Router) {
+    MiddleWare.checkIfUserIsLogged(this.router);
   }
 
   ngOnInit() {

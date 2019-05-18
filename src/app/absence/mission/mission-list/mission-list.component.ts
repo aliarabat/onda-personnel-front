@@ -2,10 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {MissionService} from '../../../controller/service/mission.service';
 import {DayDetailVo} from '../../../controller/model/day-detail.model';
 import {DayServiceService} from '../../../controller/service/day-service.service';
-import {DetailVo} from '../../../controller/model/detail.model';
 import {EmployeeVo} from '../../../controller/model/employee.model';
 import {MissionVo} from '../../../controller/model/mission.model';
 import {ReplacementService} from '../../../controller/service/replacement.service';
+import {MiddleWare} from '../../../util/middle-ware';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-mission-list',
@@ -14,64 +15,72 @@ import {ReplacementService} from '../../../controller/service/replacement.servic
 })
 export class MissionListComponent implements OnInit {
 
-  constructor(private missionService:MissionService,private dayService:DayServiceService,private remplacementService:ReplacementService) {
+  constructor(private missionService: MissionService, private dayService: DayServiceService, private remplacementService: ReplacementService, private router: Router) {
   }
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
     this.dayService.findAllEmployees();
-    this.missionService.employee1=new EmployeeVo();
-    this.missionService.mission=new MissionVo();
+    this.missionService.employee1 = new EmployeeVo();
+    this.missionService.mission = new MissionVo();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
     this.missionService.findAlldayDetails();
 
 
   }
-  public get listOfWorks(){
+
+  public get listOfWorks() {
     return this.missionService.works;
   }
-  public get listOfDayDetails(){
+
+  public get listOfDayDetails() {
     return this.missionService.dayDetails1;
   }
-  public get mission(){
+
+  public get mission() {
     return this.missionService.mission;
   }
-  delete(dayDetail:DayDetailVo){
+
+  delete(dayDetail: DayDetailVo) {
     this.missionService.deleteMission(dayDetail);
   }
 
-  getDayDetail(dayDetail:DayDetailVo){
+  getDayDetail(dayDetail: DayDetailVo) {
     this.missionService.getTheDayDetail(dayDetail);
   }
-  public get theDayDetail(){
+
+  public get theDayDetail() {
     return this.missionService.theDayDetail;
   }
-  public get employee1(){
+
+  public get employee1() {
     return this.missionService.employee1;
   }
 
-  public get employeeVo(){
+  public get employeeVo() {
     return this.dayService.employeeVo;
   }
 
 
-  findDayDetailById(id:number){
+  findDayDetailById(id: number) {
     this.missionService.findDayDetailById(id);
   }
 
-updateMission(daydetail:DayDetailVo){
+  updateMission(daydetail: DayDetailVo) {
     this.missionService.updateMission(daydetail);
-}
-  getTheDay(){
-    this.missionService.findDayDetailsOfDay(this.missionService.theDayDetail.missionVo.employee.matricule,this.missionService.theDayDetail.missionVo.startingDate);
+  }
+
+  getTheDay() {
+    this.missionService.findDayDetailsOfDay(this.missionService.theDayDetail.missionVo.employee.matricule, this.missionService.theDayDetail.missionVo.startingDate);
 
   }
-  public get dayDetails(){
+
+  public get dayDetails() {
     return this.missionService.dayDetails;
   }
 
 
-
-  getEmployeeByMatricule(){
+  getEmployeeByMatricule() {
     this.missionService.findEmployesByMatricule(this.missionService.theDayDetail.missionVo.employee.matricule);
   }
 

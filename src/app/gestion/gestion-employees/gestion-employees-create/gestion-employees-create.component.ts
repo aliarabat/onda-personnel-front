@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {EmployeeServiceService} from '../../../controller/service/employee-service.service';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 
 @Component({
   selector: 'app-gestion-employees-create',
@@ -8,9 +10,10 @@ import {EmployeeServiceService} from '../../../controller/service/employee-servi
 })
 export class GestionEmployeesCreateComponent implements OnInit {
 
-  constructor(private employeeService : EmployeeServiceService) { }
+  constructor(private employeeService : EmployeeServiceService, private router:Router) { }
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
   }
 
   public get employee(){

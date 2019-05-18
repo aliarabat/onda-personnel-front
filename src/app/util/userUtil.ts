@@ -24,4 +24,17 @@ export class UserUtil {
     return oldPassword === newPassword;
   }
 
+  public static updateUser(userData){
+    let originalUser:User = Session.retrieve('loggedUser');
+    originalUser.username = userData.username;
+    originalUser.firstName = userData.firstName;
+    originalUser.lastName = userData.lastName;
+    Session.modify(originalUser,'loggedUser');
+    return originalUser;
+  }
+
+  public static getLoggedUser():User{
+    return Session.retrieve('loggedUser');
+  }
+
 }

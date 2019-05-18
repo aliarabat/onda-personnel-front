@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {SkipService} from '../../../controller/service/skip.service';
 import {MissionService} from '../../../controller/service/mission.service';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
 
 @Component({
   selector: 'app-skip-create',
@@ -9,10 +11,11 @@ import {MissionService} from '../../../controller/service/mission.service';
 })
 export class SkipCreateComponent implements OnInit {
 
-  constructor(public skipService: SkipService,private  missionService:MissionService) {
+  constructor(public skipService: SkipService,private  missionService:MissionService, private router:Router) {
   }
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
     this.skipService.findAllEmployees();
     this.skipService.findAllDetails();
   }

@@ -28,12 +28,9 @@
     <td>{{e.fonction}}</td>
     <td>{{e.type}}</td>
     <td>
-      <button class="btn btn-outline-info mr-2"   data-toggle="modal" *ngIf="e.isExist" (click)="findEmployeeById(e.id)" data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-pencil" aria-hidden="true"></i>
-      </button>
-      <button class="btn btn-outline-danger"   data-toggle="modal" *ngIf="e.isExist"     (click)="ShowEmployeeInfo(e)" data-target="#exampleModal2"><i class="fa fa-trash" aria-hidden="true"></i>
-      </button>
-      <button class="btn btn-outline-success"   data-toggle="modal" *ngIf="!e.isExist"     (click)="Revert(e.matricule)" data-target="#exampleModa2"><i class="fa fa-reply-all" aria-hidden="true"></i>
-      </button>
+      <button class="btn btn-outline-primary mr-2"   data-toggle="modal" *ngIf="e.isExist" (click)="findEmployeeById(e.id)" data-target="#exampleModal" data-whatever="@mdo">Modifier</button>
+      <button class="btn btn-outline-danger"   data-toggle="modal" *ngIf="e.isExist"     (click)="ShowEmployeeInfo(e)" data-target="#exampleModal2">Supprimer</button>
+      <button class="btn btn-outline-danger"   data-toggle="modal" *ngIf="!e.isExist"     (click)="Revert(e.matricule)" data-target="#exampleModa2">Revert</button>
 
     </td>
   </tr>
@@ -41,11 +38,11 @@
 </table>
 
 
-<div class=" modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+<div class=" modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel1">Modification </h5>
+        <h5 class="modal-title" id="exampleModalLabel">Modification </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
