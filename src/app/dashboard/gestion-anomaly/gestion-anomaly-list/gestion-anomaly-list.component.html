@@ -1,0 +1,112 @@
+<!--FORM DATA-->
+<br>
+<div class="container-fluid row">
+  <form class="col-md-12">
+    <div class="form-row align-items-center">
+      <div class="col-md-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Année</div>
+          </div>
+          <input type="number" name="annee" id="annee" min="0" max="2019" class="form-control" placeholder="Année">
+        </div>
+      </div>
+      <div [hidden]="hiddenStateInterventionMonth" id="monthDiv" class="col-md-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Mois</div>
+          </div>
+          <select class="custom-select" id="mois"  name="mois">
+            <option selected disabled>Selectionner un mois...</option>
+            <option *ngFor="let m of getMonths(); index as i" value="{{ i+1 }}">{{ m }}</option>
+          </select>
+        </div>
+      </div>
+      <div [hidden]="hiddenStateEquipement" id="employeeDiv" class="col-md-4">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Équipement</div>
+          </div>
+          <select class="custom-select" id="inputGroupSelectEmployee"  name="equipementmatricule">
+            <option selected disabled>Selectionner un employe</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2 d-flex justify-content-between">
+        <button  type="submit" class="btn btn-outline-success mr-sm-1">Chercher</button>
+        <button  type="button" class="btn btn-outline-secondary">Réinitialiser</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Default unchecked -->
+  <div class="col-md-12 d-flex">
+    <div class="col-md-3 custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" value="option1" (click)="selectPerYearIntervention()" id="inlineCheckboxperyearIntervention">
+      <label class="custom-control-label" for="inlineCheckboxperyearIntervention">Recherche par équipement</label>
+    </div>
+    <div class="col-md-4 custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" value="option1" (click)="selectPerMonthIntervention()" id="inlineCheckboxpermonthIntervention">
+      <label class="custom-control-label" for="inlineCheckboxpermonthIntervention">Recherche par mois</label>
+    </div>
+  </div>
+</div>
+<br>
+<table class="table table-striped table-sm">
+  <thead>
+  <tr>
+    <th scope="col">Nom</th>
+    <th scope="col">Type</th>
+    <th scope="col">Année</th>
+    <th scope="col">Mois</th>
+    <th scope="col">Tmp.Voulu</th>
+    <th scope="col">Tmp.Réalisé</th>
+    <th scope="col">Maint.prévue</th>
+    <th scope="col">Maint.nonPrévue</th>
+    <th scope="col">TBF</th>
+    <th ></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Wifi</td>
+    <td>système wifi</td>
+    <td>2019</td>
+    <td>Mai</td>
+    <td>720.00</td>
+    <td>719.30</td>
+    <td>00:30</td>
+    <td>3:30</td>
+    <td>99,93%</td>
+
+    <td>
+      <button type="button"  class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<!--Large Modal-->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="container-fluid">
+        <div class="row col-md-10 offset-1">
+          <table class="table table-hover table-sm">
+            <thead>
+            <tr class="text-center">
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <div class="text-center font-italic" aria-colspan="2">No items found</div>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
