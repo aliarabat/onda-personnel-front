@@ -10,6 +10,8 @@ import {MissionComponent} from './absence/mission/mission.component';
 import {SplashComponent} from './access/splash/splash.component';
 import {LoginComponent} from './access/login/login.component';
 import {GestionHolidaysComponent} from "./gestion/gestion-holidays/gestion-holidays.component";
+import {GestionEquipmentComponent} from './dashboard/gestion-equipment/gestion-equipment.component';
+import {GestionAnomalyComponent} from './dashboard/gestion-anomaly/gestion-anomaly.component';
 
 const routes: Routes = [
 
@@ -23,6 +25,9 @@ const routes: Routes = [
   {path: 'missions', component: MissionComponent},
   {path: 'holidays', component: GestionHolidaysComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'equipements', component: GestionEquipmentComponent},
+  {path: 'anomalies', component:  GestionAnomalyComponent},
+
   { path: '**', redirectTo: 'acceuil' }, // JUST A CATCH ALL ROUTE
 
 ];

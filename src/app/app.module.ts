@@ -36,6 +36,14 @@ import {GestionServicesPrintComponent} from './gestion/gestion-services/gestion-
 import {GestionHolidaysCreateComponent} from "./gestion/gestion-holidays/gestion-holidays-create/gestion-holidays-create.component";
 import {GestionHolidaysListComponent} from "./gestion/gestion-holidays/gestion-holidays-list/gestion-holidays-list.component";
 import {GestionHolidaysComponent} from "./gestion/gestion-holidays/gestion-holidays.component";
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { GestionAnomalyComponent } from './dashboard/gestion-anomaly/gestion-anomaly.component';
+import { GestionAnomalyListComponent } from './dashboard/gestion-anomaly/gestion-anomaly-list/gestion-anomaly-list.component';
+import {GestionAnomalyCreateComponent} from './dashboard/gestion-anomaly/gestion-anomaly-create/gestion-anomaly-create.component';
+import { GestionEquipmentComponent } from './dashboard/gestion-equipment/gestion-equipment.component';
+import { GestionEquipmentCreateComponent } from './dashboard/gestion-equipment/gestion-equipment-create/gestion-equipment-create.component';
+import { GestionEquipmentListComponent } from './dashboard/gestion-equipment/gestion-equipment-list/gestion-equipment-list.component';
+import { GestionAnomalyPrintComponent } from './dashboard/gestion-anomaly/gestion-anomaly-print/gestion-anomaly-print.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +80,15 @@ import {GestionHolidaysComponent} from "./gestion/gestion-holidays/gestion-holid
     GestionHolidaysComponent,
     GestionHolidaysCreateComponent,
     GestionHolidaysListComponent,
+    DashboardComponent,
+    GestionAnomalyComponent,
+    GestionAnomalyListComponent,
+    GestionAnomalyCreateComponent,
+    GestionEquipmentComponent,
+    GestionEquipmentCreateComponent,
+    GestionEquipmentListComponent,
+    GestionAnomalyPrintComponent,
+
   ],
   imports: [
     BrowserModule,
