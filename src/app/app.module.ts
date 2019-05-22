@@ -44,6 +44,7 @@ import { GestionEquipmentComponent } from './dashboard/gestion-equipment/gestion
 import { GestionEquipmentCreateComponent } from './dashboard/gestion-equipment/gestion-equipment-create/gestion-equipment-create.component';
 import { GestionEquipmentListComponent } from './dashboard/gestion-equipment/gestion-equipment-list/gestion-equipment-list.component';
 import { GestionAnomalyPrintComponent } from './dashboard/gestion-anomaly/gestion-anomaly-print/gestion-anomaly-print.component';
+import { GestionEquipmentTypeComponent } from './dashboard/gestion-equipment/gestion-equipment-type/gestion-equipment-type.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { GestionAnomalyPrintComponent } from './dashboard/gestion-anomaly/gestio
     GestionEquipmentCreateComponent,
     GestionEquipmentListComponent,
     GestionAnomalyPrintComponent,
+    GestionEquipmentTypeComponent,
 
   ],
   imports: [

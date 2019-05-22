@@ -54,7 +54,16 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Type</div>
             </div>
-            <input type="text" class="form-control" [(ngModel)]="employee.type" name="typee" id="typee" placeholder="Entrer le type de l'employe ...">
+            <select  class="custom-select"
+                     name="typee" id="typee" [(ngModel)]="employee.type" >
+              <option selected disabled>Selectionner le type d'équipement ...</option>
+              <option >Administratif</option>
+              <option >Technique</option>
+
+
+
+            </select>
+            <!--<input type="text" class="form-control" [(ngModel)]="employee.type" name="typee" id="typee" placeholder="Entrer le type de l'employe ...">-->
           </div>
         </div>
         <br>

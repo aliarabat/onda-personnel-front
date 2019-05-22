@@ -21,7 +21,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
+    if (Session.retrieve('loggedUser')) {
+      this.router.navigate(['employes']);
+    }
   }
 
   public get loginRequest() {

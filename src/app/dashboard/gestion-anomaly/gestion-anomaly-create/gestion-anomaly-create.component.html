@@ -1,17 +1,19 @@
 <div class="row">
-  <div class="col">
+  <div class="col-md-5">
     <div class="container">
       <br>
+      <small id="emailHelp4" class="form-text text-muted">*Interv : Intervention</small>
+<br>
       <form>
         <div class="form-group">
-          <label class="sr-only" for="typeEquiinterv">Type équipement</label>
+          <label class="sr-only" for="typeEquiinterv">Type d'équipement</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Type équipement</div>
             </div>
             <select  class="custom-select"
                      id="typeEquiinterv" name="type">
-              <option selected disabled>Selectionner le type d'équipement ...</option>
+              <option selected disabled>Selectionner le type</option>
               <option >TÉLÉAFFICHAGE TISYS</option>
               <option >Système Informatique</option>
               <option >SYSTÈME CUTE</option>
@@ -34,8 +36,8 @@
               <div class="input-group-text">Équipement</div>
             </div>
             <select disabled class="custom-select"
-                     id="equipement" name="nom">
-              <option selected disabled>Selectionner l'équipement ...</option>
+                    id="equipement" name="nom">
+              <option selected disabled>Selectionner l'équipement</option>
             </select>
           </div>
         </div>
@@ -58,12 +60,14 @@
         <!-- Date d'appel-->
 
         <div class="form-group">
-          <label class="sr-only" for="Date&heuredappel">Date & heure d'appel</label>
+          <label class="sr-only" for="Date&heuredappel">Appel Interv</label>
+
+
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Date & heure d'appel</div>
+              <div class="input-group-text">Appel Interv</div>
             </div>
-            <input class="form-control" id="Date&heuredappel"  placeholder="Entrer la date et l'heure d'appel"  type="datetime-local" >
+            <input class="form-control" id="Date&heuredappel" name="appel"   placeholder="Entrer la date et l'heure d'appel"  type="datetime-local" >
           </div>
         </div>
         <br>
@@ -72,10 +76,11 @@
 
         <!-- Date & heure début d'intervention-->
         <div class="form-group">
-          <label class="sr-only" for="Date&heuredebut">Date & heure début d'intervention</label>
+          <label class="sr-only" for="Date&heuredebut">Début d'Interv</label>
+
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Date & heure début d'intervention</div>
+              <div class="input-group-text">Début d'Interv</div>
             </div>
             <input class="form-control" id="Date&heuredebut"  placeholder="Entrer la date & heure début d'intervention"  type="datetime-local" >
           </div>
@@ -85,10 +90,11 @@
 
         <!-- Date & heure fin d'intervention-->
         <div class="form-group">
-          <label class="sr-only" for="Date & heure fin d'intervention">Date & heure fin d'intervention</label>
+          <label class="sr-only" for="Date & heure fin d'intervention">Fin d'Interv</label>
+
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Date & heure fin d'intervention</div>
+              <div class="input-group-text">Fin d'Interv</div>
             </div>
             <input class="form-control" id="Date & heure fin d'intervention"  placeholder="Entrer la date & heure fin d'intervention" type="datetime-local">
           </div>
@@ -99,10 +105,10 @@
 
         <!-- Nombre d'arrets-->
         <div class="form-group">
-          <label class="sr-only" for="nombreDarrets">Nombre d'arrets</label>
+          <label class="sr-only" for="nombreDarrets">Nombre d'arrêts</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Nombre d'arrets</div>
+              <div class="input-group-text">Nombre d'arrêts</div>
             </div>
             <input class="form-control" id="nombreDarrets"  placeholder="Entrer le nombre d'arrets" type="number" >
           </div>
@@ -130,55 +136,134 @@
           <button  class="btn btn-outline-success">Ajouter</button>
         </div>
       </form>
+
     </div>
   </div>
-</div>
-<div class="row">
 
-<div class="col">
+
+
+
+
+  <div class="col-md-7">
+
+
     <br>
-    <table class="table table-striped table-responsive-lg">
+    <table class="table table-striped table-sm">
       <thead>
       <tr>
         <th scope="col">Équipement</th>
         <th scope="col">Anomalie</th>
-        <th scope="col">Appel d'intervention</th>
-        <th scope="col">Début d'intervention</th>
-        <th scope="col">Fin d'intervention</th>
-        <th scope="col">Temps d'arret</th>
-        <th scope="col">Temps de réparation</th>
-        <th scope="col">Nbre d'arrets</th>
-        <th scope="col">Action</th>
+        <th scope="col">Tmps d'arrêt</th>
         <th scope="col"></th>
-
-
-
-
       </tr>
       </thead>
       <tbody>
-      <tr>
-     <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
+      <tr >
+        <td>horloge</td>
+        <td>horloge paf arrivee non </td>
+        <td>23:23</td>
+
 
 
         <td>
+          <button type="button"  class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example1-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
+          </button>
+
           <button  class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>
           </button>
         </td>
+
       </tr>
       </tbody>
     </table>
+    <br>
+    <!-- somme temps d'arret-->
+    <div class="form-group">
+      <label class="sr-only" for="smA">Somme:Temps des arrêts</label>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Somme:Temps des arrêts</div>
+        </div>
+        <input type="text" class="form-control"  id="smA"   name="smA" placeholder="0" disabled>
+      </div>
+    </div>
+    <!-- somme temps réparation-->
+    <div class="form-group">
+      <label class="sr-only" for="smR">Somme:Temps des réparations</label>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Somme:Temps des réparations</div>
+        </div>
+        <input type="text" class="form-control"   id="smR"  name="smR"  placeholder="0" disabled>
+      </div>
+    </div>
+
+    <!-- somme nbre d'arrets-->
+    <div class="form-group">
+      <label class="sr-only" for="nbrArr">Nbre d'arrêts</label>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Nbre d'arrêts</div>
+        </div>
+        <input type="text" class="form-control"   id="nbrArr"  name="nbrArr"  placeholder="0" disabled>
+      </div>
+    </div>
+
     <div class="d-flex justify-content-end">
-      <button  class="btn btn-outline-secondary mr-1">Réinitialiser la liste</button>
+      <button  class="btn btn-outline-secondary mr-1">Reinitialiser la liste</button>
       <button  class="btn btn-outline-primary">Confirmer</button>
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+<!--Large Modal-->
+<div class="modal fade bd-example1-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-full">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Détails de l'intervention : <small id="emailHelp6" class="form-text text-muted">*interv : intervention</small>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="container-fluid">
+          <table class="table table-hover table-md">
+            <thead >
+            <tr>
+              <th scope="col">Appel d'interv</th>
+              <th scope="col">Début d'interv</th>
+              <th scope="col">Fin d'interv</th>
+              <th scope="col">Tmps d'arrêt</th>
+              <th scope="col">Tmps de réparation</th>
+              <th scope="col">Nbre d'arrêts</th>
+              <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody  >
+            <tr>
+              <td>2019-12-05 23:23</td>
+              <td>2019-12-05 23:23</td>
+              <td>2019-12-05 23:23</td>
+              <td>23:23</td>
+              <td>23:23</td>
+              <td>1</td>
+              <td>test test test</td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
