@@ -11,14 +11,9 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Type équipement</div>
             </div>
-            <select  class="custom-select"
-                     id="typeEquiinterv" name="type">
+            <select  class="custom-select" [(ngModel)]="selectedType.name"  (change)="findEquipmentByType()" id="typeEquiinterv" name="type">
               <option selected disabled>Selectionner le type</option>
-              <option >TÉLÉAFFICHAGE TISYS</option>
-              <option >Système Informatique</option>
-              <option >SYSTÈME CUTE</option>
-              <option >Système wifi</option>
-              <option >Autre</option>
+              <option *ngFor="let t of types"  value="{{t.name}}" >{{t.name}} </option>
 
 
             </select>
@@ -28,16 +23,17 @@
 
         <!-- Equipement-->
         <div class="form-group">
-          <label class="sr-only" for="equipement">Équipement</label>
+          <label class="sr-only"  for="equipement">Équipement</label>
           <small id="emailHelp3" class="form-text text-muted">Veuillez saisir d'abord le type d'équipement</small>
 
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Équipement</div>
             </div>
-            <select disabled class="custom-select"
-                    id="equipement" name="nom">
+            <select  class="custom-select" [disabled]="!!interventions.length>0" [(ngModel)]="equipement.name" id="equipement" name="equi">
               <option selected disabled>Selectionner l'équipement</option>
+              <option *ngFor="let e of equipements"   value="{{e.name}}" >{{e.name}} </option>
+
             </select>
           </div>
         </div>
@@ -51,7 +47,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Anomalie</div>
             </div>
-            <input class="form-control" id="anomalie"  placeholder="Entrer l'anomalie" type="text" >
+            <input class="form-control" name="anomalie" [(ngModel)]="interventionCreate.anomaly" id="anomalie"  placeholder="Entrer l'anomalie" type="text" >
           </div>
         </div>
         <br>
@@ -67,7 +63,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Appel Interv</div>
             </div>
-            <input class="form-control" id="Date&heuredappel" name="appel"   placeholder="Entrer la date et l'heure d'appel"  type="datetime-local" >
+            <input class="form-control" id="Date&heuredappel" name="appel" [(ngModel)]="interventionCreate.callIntervention"  placeholder="Entrer la date et l'heure d'appel"  type="datetime-local" >
           </div>
         </div>
         <br>
@@ -82,7 +78,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Début d'Interv</div>
             </div>
-            <input class="form-control" id="Date&heuredebut"  placeholder="Entrer la date & heure début d'intervention"  type="datetime-local" >
+            <input class="form-control" id="Date&heuredebut" name="Date&heuredebut" [(ngModel)]="interventionCreate.interventionStart" placeholder="Entrer la date & heure début d'intervention"  type="datetime-local" >
           </div>
         </div>
         <br>
@@ -96,7 +92,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Fin d'Interv</div>
             </div>
-            <input class="form-control" id="Date & heure fin d'intervention"  placeholder="Entrer la date & heure fin d'intervention" type="datetime-local">
+            <input class="form-control" id="Date & heure fin d'intervention" name="heure fin d'intervention" [(ngModel)]="interventionCreate.interventionEnd" placeholder="Entrer la date & heure fin d'intervention" type="datetime-local">
           </div>
         </div>
         <br>
@@ -110,7 +106,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Nombre d'arrêts</div>
             </div>
-            <input class="form-control" id="nombreDarrets"  placeholder="Entrer le nombre d'arrets" type="number" >
+            <input class="form-control" id="nombreDarrets"  name="nombreDarrets" [(ngModel)]="interventionCreate.breakNumber" placeholder="Entrer le nombre d'arrets" type="number" >
           </div>
         </div>
         <br>
@@ -123,7 +119,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Action</div>
             </div>
-            <input class="form-control" id="action"  placeholder="Entrer l'action" type="text" >
+            <input class="form-control" id="action" name="actions" [(ngModel)]="interventionCreate.actions" placeholder="Entrer l'action" type="text" >
           </div>
         </div>
         <br>
@@ -133,7 +129,7 @@
         <div class="d-flex justify-content-end">
           <button  class="btn btn-outline-secondary mr-1">Réinitialiser le formulaire
           </button>
-          <button  class="btn btn-outline-success">Ajouter</button>
+          <button  class="btn btn-outline-success" (click)="addIntervention()">Ajouter</button>
         </div>
       </form>
 
@@ -153,23 +149,23 @@
       <tr>
         <th scope="col">Équipement</th>
         <th scope="col">Anomalie</th>
-        <th scope="col">Tmps d'arrêt</th>
+        <th scope="col">date d'intervention</th>
         <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
-      <tr >
-        <td>horloge</td>
-        <td>horloge paf arrivee non </td>
-        <td>23:23</td>
+      <tr *ngFor="let i of interventions" >
+        <td>{{equipement.name}}</td>
+        <td>{{i.anomaly}} </td>
+        <td>{{toDate(i.interventionStart) | date:'yyyy-MM-dd'}}</td>
 
 
 
         <td>
-          <button type="button"  class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example1-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
+          <button type="button" (click)="show(i)" class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example1-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
           </button>
 
-          <button  class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>
+          <button  class="btn btn-outline-danger" (click)="deleteRow(i.id)"><i class="fa fa-trash" aria-hidden="true"></i>
           </button>
         </td>
 
@@ -179,51 +175,51 @@
     <br>
     <!-- somme temps d'arret-->
     <div class="form-group">
-      <label class="sr-only" for="smA">Somme:Temps des arrêts</label>
+      <label class="sr-only" for="smA">Duree d'arrêt</label>
       <div class="input-group mb-2">
         <div class="input-group-prepend">
-          <div class="input-group-text">Somme:Temps des arrêts</div>
+          <div class="input-group-text">Duree d'arrêt</div>
         </div>
-        <input type="text" class="form-control"  id="smA"   name="smA" placeholder="0" disabled>
+        <input type="text" class="form-control" [(ngModel)]="breakDuration" id="smA"   name="smA" placeholder="0" disabled>
       </div>
     </div>
     <!-- somme temps réparation-->
     <div class="form-group">
-      <label class="sr-only" for="smR">Somme:Temps des réparations</label>
+      <label class="sr-only" for="smR">Duree de réparation</label>
       <div class="input-group mb-2">
         <div class="input-group-prepend">
-          <div class="input-group-text">Somme:Temps des réparations</div>
+          <div class="input-group-text">Duree de réparation</div>
         </div>
-        <input type="text" class="form-control"   id="smR"  name="smR"  placeholder="0" disabled>
+        <input type="text" class="form-control" [(ngModel)]="reparationDuration"  id="smR"  name="smR"  placeholder="0" disabled>
       </div>
     </div>
 
     <!-- somme nbre d'arrets-->
-    <div class="form-group">
-      <label class="sr-only" for="nbrArr">Nbre d'arrêts</label>
-      <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <div class="input-group-text">Nbre d'arrêts</div>
-        </div>
-        <input type="text" class="form-control"   id="nbrArr"  name="nbrArr"  placeholder="0" disabled>
-      </div>
-    </div>
+    <!-- <div class="form-group">
+       <label class="sr-only" for="nbrArr">Nbre d'arrêts</label>
+       <div class="input-group mb-2">
+         <div class="input-group-prepend">
+           <div class="input-group-text">Nbre d'arrêts</div>
+         </div>
+         <input type="text" class="form-control" [(ngModel)]="breakNumberTotal"  id="nbrArr"  name="nbrArr"  placeholder="0" disabled>
+       </div>
+     </div>-->
 
-    <div class="d-flex justify-content-end">
-      <button  class="btn btn-outline-secondary mr-1">Reinitialiser la liste</button>
-      <button  class="btn btn-outline-primary">Confirmer</button>
-    </div>
-  </div>
-</div>
-
-
+     <div class="d-flex justify-content-end">
+       <button  class="btn btn-outline-secondary mr-1">Reinitialiser la liste</button>
+       <button (click)="saveIntervention(equipement.name)" class="btn btn-outline-primary">Confirmer</button>
+     </div>
+   </div>
+ </div>
 
 
 
 
 
 
-<!--Large Modal-->
+
+
+ <!--Large Modal-->
 <div class="modal fade bd-example1-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-full">
     <div class="modal-content">
@@ -239,24 +235,26 @@
           <table class="table table-hover table-md">
             <thead >
             <tr>
-              <th scope="col">Appel d'interv</th>
-              <th scope="col">Début d'interv</th>
-              <th scope="col">Fin d'interv</th>
-              <th scope="col">Tmps d'arrêt</th>
-              <th scope="col">Tmps de réparation</th>
+             <th scope="col">Date d'appel d'interv</th>
+              <th scope="col">Heure d'appel d'interv</th>
+              <th scope="col">Date début d'interv</th>
+              <th scope="col">Heure début d'interv</th>
+              <th scope="col">Date fin de réparation</th>
+              <th scope="col">Heure fin de réparation</th>
               <th scope="col">Nbre d'arrêts</th>
               <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody  >
             <tr>
-              <td>2019-12-05 23:23</td>
-              <td>2019-12-05 23:23</td>
-              <td>2019-12-05 23:23</td>
-              <td>23:23</td>
-              <td>23:23</td>
-              <td>1</td>
-              <td>test test test</td>
+              <td>{{toDate(interventionDetail.callIntervention) | date:'yyyy-MM-dd'}}</td>
+              <td>{{toDate(interventionDetail.callIntervention) | date:'HH:mm'}}</td>
+              <td>{{toDate(interventionDetail.interventionStart) | date:'yyyy-MM-dd'}}</td>
+              <td>{{toDate(interventionDetail.interventionStart) | date:'HH:mm'}}</td>
+              <td>{{toDate(interventionDetail.interventionEnd) | date:'yyyy-MM-dd'}}</td>
+              <td>{{toDate(interventionDetail.interventionEnd) | date:'HH:mm'}}</td>
+              <td>{{interventionDetail.breakNumber}}</td>
+              <td>{{interventionDetail.actions}}</td>
             </tr>
             </tbody>
           </table>
