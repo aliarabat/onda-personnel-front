@@ -8,32 +8,34 @@
           <div class="input-group-prepend">
             <div class="input-group-text">Année</div>
           </div>
-          <input type="number" name="annee" id="annee" min="0" max="2019" class="form-control" placeholder="Année">
+          <input type="number" name="annee" id="annee" min="0" max="{{ date() }}" [(ngModel)]="dateByYear.year" class="form-control" placeholder="Année">
         </div>
       </div>
-      <div [hidden]="hiddenStateInterventionMonth" id="monthDiv" class="col-md-3">
+      <div [hidden]="hiddenStateInterventionMonth" id="monthIntervDiv" class="col-md-3">
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text">Mois</div>
           </div>
-          <select class="custom-select" id="mois"  name="mois">
+          <select class="custom-select" id="moisInterv" [(ngModel)]="dateByYear.month" name="mois">
             <option selected disabled>Selectionner un mois...</option>
             <option *ngFor="let m of getMonths(); index as i" value="{{ i+1 }}">{{ m }}</option>
           </select>
         </div>
       </div>
-      <div [hidden]="hiddenStateEquipement" id="employeeDiv" class="col-md-4">
+      <div [hidden]="hiddenStateEquipement" id="equipementDiv" class="col-md-4">
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text">Équipement</div>
           </div>
-          <select class="custom-select" id="inputGroupSelectEmployee"  name="equipementmatricule">
-            <option selected disabled>Selectionner un employe</option>
+          <select class="custom-select" id="inputGroupSelectEmployee" [(ngModel)]="equipement.name" name="equipementmatricule">
+            <option selected disabled>Selectionner un équipement</option>
+            <option *ngFor="let equip of allEquipements" value="{{ equip.name }}">{{ equip.name}}</option>
+
           </select>
         </div>
       </div>
       <div class="col-md-2 d-flex justify-content-between">
-        <button  type="submit" class="btn btn-outline-success mr-sm-1">Chercher</button>
+        <button  type="submit" (click)="findInterventionsByYear()" class="btn btn-outline-success mr-sm-1">Chercher</button>
         <button  type="button" class="btn btn-outline-secondary">Réinitialiser</button>
       </div>
     </div>
@@ -68,12 +70,12 @@
   </tr>
   </thead>
   <tbody>
-  <tr>
-    <td>Wifi</td>
-    <td>système wifi</td>
-    <td>2019</td>
-    <td>Mai</td>
-    <td>720.00</td>
+  <tr *ngFor="let intv of listInterventionsByYear">
+    <td>{{intv.equipementVo.name}}</td>
+    <td>{{intv.equipementVo.typeVo.name}}</td>
+    <td>{{ formatDate(intv.dateIntervention).getFullYear() }}</td>
+    <td >{{ getMonth(formatDate(intv.dateIntervention).getMonth())}}</td>
+    <td>{{intv.}}</td>
     <td>719.30</td>
     <td>00:30</td>
     <td>3:30</td>

@@ -53,7 +53,7 @@
 <br>
 
         <div class="d-flex justify-content-end">
-          <button type="submit"  class="btn btn-outline-secondary mr-1">Réinitialiser le formulaire</button>
+          <button type="submit" (click)="initForm()" class="btn btn-outline-secondary mr-1">Réinitialiser le formulaire</button>
           <button type="submit" (click)="addEquipement()"  class="btn btn-outline-success">Ajouter</button>
         </div>
       </form>
@@ -85,7 +85,7 @@
       </tbody>
     </table>
     <div class="d-flex justify-content-end">
-      <button type="submit" class="btn btn-outline-secondary mr-1">Réinitialiser la liste</button>
+      <button type="submit" (click)="initList()" class="btn btn-outline-secondary mr-1">Réinitialiser la liste</button>
       <button type="submit" (click)="saveEquipement()" class="btn btn-outline-primary">Confirmer</button>
     </div>
   </div>

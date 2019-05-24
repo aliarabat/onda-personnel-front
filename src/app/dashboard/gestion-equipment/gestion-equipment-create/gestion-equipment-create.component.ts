@@ -35,4 +35,11 @@ removeEquipement(equipement:EquipementVo){
 public get equipementsToBeAdded(){
     return this.equipementService.equipementTobeAdded;
 }
+initForm(){
+    this.equipementService.initForm();
+}
+  initList(){
+    this.equipementService.initList();
+  }
+
 }

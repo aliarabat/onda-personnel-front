@@ -199,6 +199,9 @@ private _typeCreate:TypeVo=new TypeVo();
     });
   }
 
+  initForm(){
+    this._typeCreate=new TypeVo();
+  }
   get url(): string {
     return this._url;
   }

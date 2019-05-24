@@ -36,4 +36,8 @@ export class GestionEquipmentTypeComponent implements OnInit {
     this.typeService.findTypeById(id);
   }
 
+  initForm(){
+    this.typeService.initForm();
+  }
+
 }

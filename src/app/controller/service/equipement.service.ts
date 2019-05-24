@@ -69,43 +69,55 @@ export class EquipementService {
   }
 
   createEquipement() {
+    if (this._equipementTobeAdded.length === 0) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: 'Ajout échoué:veuillez remplire la liste  ',
+        type: 'warning',
+      });
+    } else{
+      Swal.fire({
+        title: 'Ajout',
+        text: 'Vous êtes sûr de l\'ajout',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d6d20b',
+        cancelButtonText: 'Annuler',
 
-    Swal.fire({
-      title: 'Ajout',
-      text: 'Vous êtes sûr de l\'ajout',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d6d20b',
-      cancelButtonText: 'Annuler',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmer'
+      }).then((result) => {
+        if (result.value) {
+          this.http.post(this._url, this._equipementTobeAdded).subscribe(
+            (res) => {
+              if (res == 1) {
+                this._equipementTobeAdded = new Array<EquipementVo>();
+                this.findAllEquipements();
+                Swal.fire({
+                  title: 'Ajout équipement(s)',
+                  text: ' Ajout réussit',
+                  type: 'success',
+                });
 
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmer'
-    }).then((result) => {
-      if (result.value) {
-        this.http.post(this._url, this._equipementTobeAdded).subscribe(
-          (res) => {
-            if (res == 1) {
-              this._equipementTobeAdded = new Array<EquipementVo>();
-              this.findAllEquipements();
-              Swal.fire({
-                title: 'Ajout équipement(s)',
-                text: ' Ajout réussit',
-                type: 'success',
-              });
-
-            } else {
-              Swal.fire({
-                title: 'Erreur!',
-                text: 'Ajout échoué:l\'un des équipements existe déjà ',
-                type: 'error',
-              });
+              } else if (res == -2) {
+                Swal.fire({
+                  title: 'Erreur!',
+                  text: 'Ajout échoué:l\'un des équipements existe déjà  ',
+                  type: 'error',
+                });
+              } else {
+                Swal.fire({
+                  title: 'Erreur!',
+                  text: 'Ajout échoué:l\'un des équipements existe déjà ',
+                  type: 'error',
+                });
+              }
             }
-          }
-        );
-      }
+          );
+        }
 
-    });
-
+      });
+  }
   }
 
 
@@ -219,6 +231,18 @@ export class EquipementService {
                 $('#equipmentModal').modal('hide');
 
 
+              }else if(res==-3) {
+                Swal.fire({
+                  title: 'Erreur!',
+                  text: 'Ajout échoué:Ce nom existe déjà ',
+                  type: 'error',
+                });
+              }else if(res==-1) {
+                Swal.fire({
+                  title: 'Erreur!',
+                  text: 'Ajout échoué:équipement indisponible ',
+                  type: 'error',
+                });
               } else {
                 Swal.fire({
                   title: 'Erreur!',
@@ -250,6 +274,13 @@ export class EquipementService {
         console.log(error);
       }
     );
+  }
+
+  initForm(){
+    this._equipementCreate=new EquipementVo();
+  }
+  initList(){
+    this._equipementTobeAdded=new Array<EquipementVo>();
   }
 
   get url(): string {
