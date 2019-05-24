@@ -157,7 +157,7 @@
       <tr *ngFor="let i of interventions" >
         <td>{{equipement.name}}</td>
         <td>{{i.anomaly}} </td>
-        <td>{{i.callIntervention}}</td>
+        <td>{{toDate(i.interventionStart) | date:'yyyy-MM-dd'}}</td>
 
 
 
@@ -235,18 +235,24 @@
           <table class="table table-hover table-md">
             <thead >
             <tr>
-              <th scope="col">Appel d'interv</th>
-              <th scope="col">Début d'interv</th>
-              <th scope="col">Tmps de réparation</th>
+             <th scope="col">Date d'appel d'interv</th>
+              <th scope="col">Heure d'appel d'interv</th>
+              <th scope="col">Date début d'interv</th>
+              <th scope="col">Heure début d'interv</th>
+              <th scope="col">Date fin de réparation</th>
+              <th scope="col">Heure fin de réparation</th>
               <th scope="col">Nbre d'arrêts</th>
               <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody  >
             <tr>
-              <td>{{interventionDetail.callIntervention}}</td>
-              <td>{{interventionDetail.interventionStart}}</td>
-              <td>{{interventionDetail.interventionEnd}}</td>
+              <td>{{toDate(interventionDetail.callIntervention) | date:'yyyy-MM-dd'}}</td>
+              <td>{{toDate(interventionDetail.callIntervention) | date:'HH:mm'}}</td>
+              <td>{{toDate(interventionDetail.interventionStart) | date:'yyyy-MM-dd'}}</td>
+              <td>{{toDate(interventionDetail.interventionStart) | date:'HH:mm'}}</td>
+              <td>{{toDate(interventionDetail.interventionEnd) | date:'yyyy-MM-dd'}}</td>
+              <td>{{toDate(interventionDetail.interventionEnd) | date:'HH:mm'}}</td>
               <td>{{interventionDetail.breakNumber}}</td>
               <td>{{interventionDetail.actions}}</td>
             </tr>

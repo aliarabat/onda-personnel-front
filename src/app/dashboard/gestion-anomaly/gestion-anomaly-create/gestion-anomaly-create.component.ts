@@ -5,6 +5,7 @@ import {TimingVo} from '../../../controller/model/timing.model';
 import {DateUtil} from '../../../util/date-util';
 import {TypeVo} from '../../../controller/model/type';
 import {EquipementVo} from '../../../controller/model/equipement';
+import DateTimeFormat = Intl.DateTimeFormat;
 
 
 @Component({
@@ -16,7 +17,6 @@ export class GestionAnomalyCreateComponent implements OnInit {
 
   constructor(private interventionDayService:InterventionDayService) { }
   public interventionDetail : InterventionDayVo = new InterventionDayVo();
-  public selectedType : TypeVo = new TypeVo();
   ngOnInit() {
     this.interventionDayService.findAllType()
   }
@@ -67,6 +67,9 @@ export class GestionAnomalyCreateComponent implements OnInit {
     return this.interventionDayService.allTypes;
  }
 
+ public get selectedType(){
+    return this.interventionDayService.selectedType;
+ }
      public findEquipmentByType(){
   this.interventionDayService.findByType(this.selectedType)
  }
@@ -83,7 +86,11 @@ export class GestionAnomalyCreateComponent implements OnInit {
   }
   public saveIntervention(name :string){
     this.interventionDayService.saveIntervention(name);
-    this.selectedType = new TypeVo();
-
   }
+
+  public  toDate (ldt :string){
+    let newDate = new Date(ldt);
+    return newDate
+  }
+
 }
