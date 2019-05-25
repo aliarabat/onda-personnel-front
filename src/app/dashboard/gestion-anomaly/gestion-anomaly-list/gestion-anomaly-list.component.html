@@ -83,7 +83,7 @@
     <td>{{intv.tbf+'%'}}</td>
 
     <td>
-      <button type="button"  class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
+      <button type="button" (click)="findById(intv.id)" class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
       </button>
     </td>
   </tr>
@@ -91,20 +91,40 @@
 </table>
 <!--Large Modal-->
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-full">
     <div class="modal-content">
       <div class="container-fluid">
         <div class="row col-md-10 offset-1">
           <table class="table table-hover table-sm">
             <thead>
-            <tr class="text-center">
-              <th scope="col"></th>
-              <th scope="col"></th>
+            <tr >
+              <th scope="col">Anomalie</th>
+              <th scope="col">Appel d'interv</th>
+              <th scope="col">Début d'interv</th>
+              <th scope="col">Fin de réparation</th>
+              <th scope="col">Durée de réparation</th>
+                <th scope="col">Durée d'arret</th>
+              <th scope="col">Nbre d'arrêts</th>
+              <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <div class="text-center font-italic" aria-colspan="2">No items found</div>
+            <tr *ngFor="let d of listInterventionsDay">
+              <td>{{d.anomaly}}</td>
+              <td>{{d.callIntervention}}</td>
+              <td>{{d.interventionStart}}</td>
+              <td>{{d.interventionEnd}}</td>
+              <td>{{d.reparationDuration.hour}}:{{d.reparationDuration.minute}}</td>
+              <td>{{d.breakDuration.hour}}:{{d.breakDuration.minute}}</td>
+              <td>{{d.breakNumber}}</td>
+              <td>{{d.actions}}</td>
+
+
+
+
+
+
+
             </tr>
             </tbody>
           </table>

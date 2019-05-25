@@ -105,4 +105,14 @@ export class GestionAnomalyListComponent implements OnInit {
   public getMonth(index: number) {
     return MonthUtil.getMonth(index);
   }
+  findById(id:number){
+    this.interventionMonthService.findInterventionMonthById(id);
+  }
+  public get listInterventionsDay(){
+    return this.interventionMonthService.listInterventionsByDay;
+  }
+  public  toDate (ldt :string){
+    let newDate = new Date(ldt);
+    return newDate
+  }
 }
