@@ -22,6 +22,7 @@
           </select>
         </div>
       </div>
+
       <div [hidden]="hiddenStateEquipement" id="equipementDiv" class="col-md-4">
         <div class="input-group">
           <div class="input-group-prepend">
@@ -75,11 +76,11 @@
     <td>{{intv.equipementVo.typeVo.name}}</td>
     <td>{{ formatDate(intv.dateIntervention).getFullYear() }}</td>
     <td >{{ getMonth(formatDate(intv.dateIntervention).getMonth())}}</td>
-    <td>{{intv.}}</td>
-    <td>719.30</td>
-    <td>00:30</td>
-    <td>3:30</td>
-    <td>99,93%</td>
+    <td>{{intv.functionalityTimeWanted.hour}}:{{intv.functionalityTimeWanted.minute}}</td>
+    <td>{{intv.functionalityTimeAchieved.hour}}:{{intv.functionalityTimeAchieved.minute}}</td>
+    <td>{{intv.equipementVo.expectedBreakPeriodMaintenance.hour}}:{{intv.equipementVo.expectedBreakPeriodMaintenance.minute}}</td>
+    <td>{{intv.currentBreakPeriodMaintenance.hour}}:{{intv.currentBreakPeriodMaintenance.minute}}</td>
+    <td>{{intv.tbf+'%'}}</td>
 
     <td>
       <button type="button"  class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>

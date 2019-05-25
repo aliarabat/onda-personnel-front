@@ -4,7 +4,6 @@ import * as $ from 'jquery';
 import {WorkService} from '../../../controller/service/work.service';
 import {EquipementService} from '../../../controller/service/equipement.service';
 import {InterventionMonthService} from '../../../controller/service/intervention-month.service';
-import {EmployeeVo} from '../../../controller/model/employee.model';
 import {EquipementVo} from '../../../controller/model/equipement';
 import {TimingVo} from '../../../controller/model/timing.model';
 import {TypeVo} from '../../../controller/model/type';
@@ -101,7 +100,7 @@ export class GestionAnomalyListComponent implements OnInit {
     return new Date().getFullYear();
   }
   get dateByYear() {
-    return this.workService.dateByAnnee;
+    return this.interventionMonthService.dateByAnnee;
   }
   public getMonth(index: number) {
     return MonthUtil.getMonth(index);

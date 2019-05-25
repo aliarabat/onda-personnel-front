@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {InterventionMonthVo} from '../model/intervention-month';
 import {DateModel} from '../model/date.model';
-import {WorkVo} from '../model/work.model';
 
 @Injectable({
   providedIn: 'root'
