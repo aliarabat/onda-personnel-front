@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {InterventionDayVo} from '../model/intervention-day';
 import {TimingVo} from '../model/timing.model';
 import {HttpClient} from '@angular/common/http';
@@ -7,6 +7,7 @@ import {EquipementVo} from '../model/equipement';
 import {TypeVo} from '../model/type';
 import {EmployeeVo} from '../model/employee.model';
 import Swal from "sweetalert2";
+import {SwalUtil} from "../../util/swal-util";
 
 @Injectable({
   providedIn: 'root'
@@ -15,114 +16,76 @@ export class InterventionDayService {
   private _url: string = 'http://localhost:8097/dashboard-api/dashboards/interventionDay/';
   private _urlType: string = 'http://localhost:8097/dashboard-api/dashboards/type/';
   private _urlEquipement: string = 'http://localhost:8097/dashboard-api/dashboards/equipement/';
-  private _interventionCreate : InterventionDayVo = new InterventionDayVo();
-  private _breakNumberTotal : number = 0;
-  private _breakDuration : TimingVo = new TimingVo('0','0');
-  private _reparationDuration : TimingVo = new TimingVo('0','0');
-  private _breakDurationTotal : TimingVo = new TimingVo('0','0');
-    private _reparationDurationTotal : TimingVo = new TimingVo();
-  private _breakDurationTotalHour : number = 0;
-  private _breakDurationTotalMinute : number=0;
-  private _allTypes :  Array<TypeVo> = []
-  private _equipments : Array<EquipementVo> = []
-  private _interventions  : Array<InterventionDayVo> =[];
-  private _equipement : EquipementVo = new EquipementVo(0,'')
-  private _selectedType : TypeVo = new TypeVo();
+  private _interventionCreate: InterventionDayVo = new InterventionDayVo();
+  private _breakNumberTotal: number = 0;
+  private _breakDuration: TimingVo = new TimingVo('0', '0');
+  private _reparationDuration: TimingVo = new TimingVo('0', '0');
+  private _breakDurationTotal: TimingVo = new TimingVo('0', '0');
+  private _reparationDurationTotal: TimingVo = new TimingVo();
+  private _breakDurationTotalHour: number = 0;
+  private _breakDurationTotalMinute: number = 0;
+  private _allTypes: Array<TypeVo> = []
+  private _equipments: Array<EquipementVo> = []
+  private _interventions: Array<InterventionDayVo> = [];
+  private _equipement: EquipementVo = new EquipementVo(0, '')
+  private _selectedType: TypeVo = new TypeVo();
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {
+  }
 
-  public addIntervention(){
+  public addIntervention() {
     if (this.selectedType.name === '' || this.selectedType.name === undefined) {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de sélectionner le type de l\'equipement'
-      });
+      SwalUtil.insert(" le type d'équipement");
     } else if (this.equipement.name == '' || this.equipement.name == undefined) {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de sélectionner l\'equipement'
-      });
-    } else if (this.interventionCreate.anomaly == '' || this.interventionCreate.anomaly  == undefined) {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir l\'anomalie '
-      });
+      SwalUtil.insert(" l'équipement");
+    } else if (this.interventionCreate.anomaly == '' || this.interventionCreate.anomaly == undefined) {
+      SwalUtil.insert(" l'anomalie");
     } else if (this.interventionCreate.callIntervention == undefined || this.interventionCreate.callIntervention == '') {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir la date d\'appel d\'intervention '
-      });
-    }else if (this.interventionCreate.interventionStart == undefined || this.interventionCreate.interventionStart == '') {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir la date debut d\'intervention '
-      });
-    }else if (this.interventionCreate.interventionEnd == undefined || this.interventionCreate.interventionEnd == '') {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir la date fin d\'intervention '
-      });
+      SwalUtil.insert("la date d'appel d'intervention")
+    } else if (this.interventionCreate.interventionStart == undefined || this.interventionCreate.interventionStart == '') {
+      SwalUtil.insert("la date début d'intervention")
+    } else if (this.interventionCreate.interventionEnd == undefined || this.interventionCreate.interventionEnd == '') {
+      SwalUtil.insert("la date fin d'intervention")
     } else if (this.interventionCreate.breakNumber == undefined || this.interventionCreate.breakNumber == '') {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir le Nombre d\'arrêts'
-      });
+      SwalUtil.insert("le nombre d'arrêts")
     } else if (this.interventionCreate.actions == undefined || this.interventionCreate.actions == '') {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir l\'action d\'anomalie'
-      });
+      SwalUtil.insert("l'action d'anomalie")
     } else if (this.interventionCreate.interventionStart < this.interventionCreate.callIntervention || this.interventionCreate.interventionEnd < this.interventionCreate.interventionStart || this.interventionCreate.interventionEnd < this.interventionCreate.callIntervention) {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de verifier les dates'
-      });
+      SwalUtil.insert("les dates");
     } else {
-
-          this.getBreakDuration();
-          this.getReparationDuration();
-          this.breakNumberTotal += parseInt(this.interventionCreate.breakNumber);
-          let interventionClone = new InterventionDayVo(0,this.interventionCreate.anomaly,this.interventionCreate.interventionStart,this.interventionCreate.interventionEnd,this.interventionCreate.callIntervention,this.breakDuration,this.reparationDuration,this.interventionCreate.breakNumber,this.interventionCreate.actions)
-          this._interventions.push(interventionClone);
-          this.interventionCreate = new InterventionDayVo();
-        }
-
-
+      this.getBreakDuration();
+      this.getReparationDuration();
+      this.breakNumberTotal += parseInt(this.interventionCreate.breakNumber);
+      let interventionClone = new InterventionDayVo(0, this.interventionCreate.anomaly, this.interventionCreate.interventionStart, this.interventionCreate.interventionEnd, this.interventionCreate.callIntervention, this.breakDuration, this.reparationDuration, this.interventionCreate.breakNumber, this.interventionCreate.actions)
+      this._interventions.push(interventionClone);
+      this.interventionCreate = new InterventionDayVo();
+    }
   }
 
   public getBreakDuration() {
-    this.http.get<TimingVo>(this._url+"call/"+this.interventionCreate.callIntervention+"/startOrAnd/"+this.interventionCreate.interventionEnd).subscribe(
-      data=>{
+    this.http.get<TimingVo>(this._url + "call/" + this.interventionCreate.callIntervention + "/startOrAnd/" + this.interventionCreate.interventionEnd).subscribe(
+      data => {
         this.breakDuration = data;
         console.log(this.breakDuration)
-      },error1 => {
+      }, error1 => {
         console.log(error1)
       }
     )
   }
 
   public getReparationDuration() {
-    this.http.get<TimingVo>(this._url+"call/"+this.interventionCreate.callIntervention+"/startOrAnd/"+this.interventionCreate.interventionStart).subscribe(
-      data=>{
+    this.http.get<TimingVo>(this._url + "call/" + this.interventionCreate.callIntervention + "/startOrAnd/" + this.interventionCreate.interventionStart).subscribe(
+      data => {
         this.reparationDuration = data;
-      },error1 => {
+      }, error1 => {
         console.log(error1)
       }
     )
   }
 
-  public  findAllType(){
+  public findAllType() {
     this.http.get<Array<TypeVo>>(this._urlType).subscribe(
-      data=>{
+      data => {
         this._allTypes = data;
       }, error1 => {
         console.log(error1)
@@ -130,9 +93,9 @@ export class InterventionDayService {
     )
   }
 
-  public  findByType(type:TypeVo){
-    this.http.get<Array<EquipementVo>>(this._urlEquipement+"nameEquipement/"+type.name).subscribe(
-      data=>{
+  public findByType(type: TypeVo) {
+    this.http.get<Array<EquipementVo>>(this._urlEquipement + "nameEquipement/" + type.name).subscribe(
+      data => {
         this.equipments = data;
       }, error1 => {
         console.log(error1)
@@ -140,36 +103,37 @@ export class InterventionDayService {
     )
   }
 
-  public saveIntervention(nameEquipement : string){
+  public saveIntervention(nameEquipement: string) {
     if (this.interventions.length != 0) {
-    Swal.fire({
-      title: 'Ajout',
-      text: 'Vous êtes sûr de l\'ajout',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d6d20b',
-      cancelButtonText: 'Annuler',
+      Swal.fire({
+        title: 'Ajout',
+        text: 'Vous êtes sûr de l\'ajout',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d6d20b',
+        cancelButtonText: 'Annuler',
 
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmer'
-    }).then((result) => {
-      if (result.value) {
-        this._http.post(this._url+"equipement/"+nameEquipement, this.interventions).subscribe(
-          data => {
-            this.interventions = new Array<InterventionDayVo>();
-            this.interventionCreate = new InterventionDayVo();
-            this.interventions = new Array<InterventionDayVo>();
-            this.breakDuration = new TimingVo('0','0');
-            this.reparationDuration= new TimingVo('0','0');
-            this.equipement = new EquipementVo();
-            this.selectedType = new TypeVo();
-          }, error1 => {
-            console.log(error1);
-          }
-        );
-      }
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmer'
+      }).then((result) => {
+        if (result.value) {
+          this._http.post(this._url + "equipement/" + nameEquipement, this.interventions).subscribe(
+            data => {
+              this.interventions = new Array<InterventionDayVo>();
+              this.interventionCreate = new InterventionDayVo();
+              this.interventions = new Array<InterventionDayVo>();
+              this.breakDuration = new TimingVo('0', '0');
+              this.reparationDuration = new TimingVo('0', '0');
+              this.equipement = new EquipementVo();
+              this.selectedType = new TypeVo();
+            }, error1 => {
+              console.log(error1);
+            }
+          );
+        }
 
-    });}else {
+      });
+    } else {
       Swal.fire({
         type: 'error',
         title: 'Error...',
@@ -178,6 +142,7 @@ export class InterventionDayService {
     }
 
   }
+
   get interventionCreate(): InterventionDayVo {
     return this._interventionCreate;
   }

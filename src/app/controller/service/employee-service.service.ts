@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {error} from 'selenium-webdriver';
 import Swal from 'sweetalert2';
 import {VacationVo} from '../model/vacation.model';
+import {SwalUtil} from "../../util/swal-util";
 
 @Injectable({
   providedIn: 'root'
@@ -15,47 +16,24 @@ export class EmployeeServiceService {
   private _employeeCreate: EmployeeVo = new EmployeeVo();
   private _employees: Array<EmployeeVo> = [];
   private _allEmployees: Array<EmployeeVo> = [];
- private _newEmployee : EmployeeVo = new EmployeeVo();
+  private _newEmployee: EmployeeVo = new EmployeeVo();
 
   constructor(private _http: HttpClient) {
   }
 
 
   public addEmployee() {
-    if (this.employeeCreate.matricule == '' || this.employeeCreate.matricule == undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le matricule!'
-      });
-    }
-    else if (this.employeeCreate.lastName == '' || this.employeeCreate.lastName == undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le nom!'
-      });
-    }
-    else if (this.employeeCreate.firstName == '' || this.employeeCreate.firstName == undefined) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le prenom!'
-      });
-    }
-    else if (this.employeeCreate.fonction == undefined || this.employeeCreate.fonction == '' ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir la fonction!'
-      });
-    }    else if (this.employeeCreate.type == '' || this.employeeCreate.type == undefined) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le type!'
-      });
-    }else {
+    if (this.employeeCreate.matricule == '' || this.employeeCreate.matricule == undefined) {
+      SwalUtil.insert("le matricule!");
+    } else if (this.employeeCreate.lastName == '' || this.employeeCreate.lastName == undefined) {
+      SwalUtil.insert("le nom!");
+    } else if (this.employeeCreate.firstName == '' || this.employeeCreate.firstName == undefined) {
+      SwalUtil.insert("le prénom!");
+    } else if (this.employeeCreate.fonction == undefined || this.employeeCreate.fonction == '') {
+      SwalUtil.insert("la fonction!");
+    } else if (this.employeeCreate.type == '' || this.employeeCreate.type == undefined) {
+      SwalUtil.insert("le type!");
+    } else {
       let EmployeeClone = new EmployeeVo(0, this._employeeCreate.matricule, this._employeeCreate.firstName, this._employeeCreate.lastName, this._employeeCreate.fonction, this._employeeCreate.type, false);
       this._employees.push(EmployeeClone);
       this._employeeCreate = new EmployeeVo();
@@ -104,11 +82,7 @@ export class EmployeeServiceService {
         }
       });
     } else {
-      Swal.fire({
-        type: 'error',
-        title: 'Error...',
-        text: 'Merci de remplir le tableau'
-      });
+      SwalUtil.fillTheTable();
     }
   }
 
@@ -137,24 +111,25 @@ export class EmployeeServiceService {
     this._http.delete(this._url + 'matricule/' + parseInt(matricule)).subscribe(data => {
         console.log(matricule);
         this.findAllEmployesExist();
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-      });
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
+        });
 
-      Toast.fire({
-        type: 'success',
-        title: 'Supression avec succés'
-      })
+        Toast.fire({
+          type: 'success',
+          title: 'Supression avec succés'
+        })
       }, error1 => {
         console.log(error1);
       }
     );
 
   }
-  revert(matricule:string){
+
+  revert(matricule: string) {
     this._http.delete(this._url + 'revert/matricule/' + parseInt(matricule)).subscribe(data => {
         this.findAllEmployeNotExist()
 
@@ -163,41 +138,17 @@ export class EmployeeServiceService {
   }
 
   updateEmployee(newEmployee: EmployeeVo) {
-    if (this.newEmployee.matricule == '' || this.newEmployee.matricule == undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le matricule!'
-      });
-    }
-    else if (this.newEmployee.lastName == '' || this.newEmployee.lastName == undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le nom!'
-      });
-    }
-    else if (this.newEmployee.firstName == '' || this.newEmployee.firstName == undefined) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le prenom!'
-      });
-    }
-    else if (this.newEmployee.fonction == undefined || this.newEmployee.fonction == '' ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir la fonction!'
-      });
-    }    else if (this.newEmployee.type == '' || this.newEmployee.type == undefined) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le type!'
-      });
-    }else {
-
+    if (this.newEmployee.matricule == '' || this.newEmployee.matricule == undefined) {
+      SwalUtil.insert("le matricule!");
+    } else if (this.newEmployee.lastName == '' || this.newEmployee.lastName == undefined) {
+      SwalUtil.insert("le nom!");
+    } else if (this.newEmployee.firstName == '' || this.newEmployee.firstName == undefined) {
+      SwalUtil.insert("le prénom!");
+    } else if (this.newEmployee.fonction == undefined || this.newEmployee.fonction == '') {
+      SwalUtil.insert("la fonction!");
+    } else if (this.newEmployee.type == '' || this.newEmployee.type == undefined) {
+      SwalUtil.insert("le type!");
+    } else {
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success ml-1',
@@ -233,11 +184,11 @@ export class EmployeeServiceService {
 
   }
 
-  findEmployeeyId(id:number){
-    this._http.get<EmployeeVo>(this._url+'id/'+id).subscribe(
-      data=>{
+  findEmployeeyId(id: number) {
+    this._http.get<EmployeeVo>(this._url + 'id/' + id).subscribe(
+      data => {
         this._newEmployee = data;
-      },error1 => {
+      }, error1 => {
         console.log(error1)
       }
     );

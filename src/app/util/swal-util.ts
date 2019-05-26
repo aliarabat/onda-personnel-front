@@ -83,4 +83,76 @@ export class SwalUtil {
       text: 'L\'utilisateur existe deja'
     })
   }
+
+  public static insert(subject:string){
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...!',
+      text: 'Merci de saisir '+subject
+    });
+  }
+
+  public static select(subject:string){
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...!',
+      text: 'Merci de choisir '+subject
+    });
+  }
+
+  public static alreadyExist(subject:string){
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...!',
+      text: subject+' existe déja'
+    });
+  }
+
+  public static passed(subject:string){
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...!',
+      text: 'Vous avez dépassé '+subject
+    });
+  }
+
+  public static deleted(subject:string, text:string){
+    Swal.fire({
+      type: 'success',
+      title: 'Suppression de '+subject,
+      text: text
+    });
+  }
+
+  public static updateOf(subject:string, othermessage?:string){
+    Swal.fire({
+      type: 'success',
+      title: 'Modification de '+subject,
+      text: 'Modification de '+!!othermessage?othermessage:subject+' réussite'
+    });
+  }
+
+  public static fillTheTable(){
+    Swal.fire({
+      type: 'warning',
+      title: 'Opss..!',
+      text: 'Merci de remplir le tableau'
+    });
+  }
+
+  public static veridyData(subject:string){
+    Swal.fire({
+      type: 'warning',
+      title: 'Oops...',
+      text: 'Merci de verifier '+subject
+    });
+  }
+
+  public static any(title:string, text:string){
+    Swal.fire({
+      type: 'error',
+      title: title,
+      text: text
+    });
+  }
 }

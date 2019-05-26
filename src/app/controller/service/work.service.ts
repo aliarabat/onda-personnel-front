@@ -5,23 +5,27 @@ import {DateModel} from '../model/date.model';
 import {WorkDatailVo} from '../model/work-datail.model';
 import {EmployeeVo} from '../model/employee.model';
 import Swal from 'sweetalert2';
+import {SwalUtil} from "../../util/swal-util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   private _url = 'http://localhost:8099/personnel-api/personnels/work/';
   private _url_workdetail = 'http://localhost:8099/personnel-api/personnels/workDetail/';
   private _listEmployeesByYear: Array<WorkVo> = new Array<WorkVo>();
   private _listEmployeesByYearUntouched: Array<WorkVo> = [];
   private _listEmployeesByMonth: Array<WorkVo> = new Array<WorkVo>();
-  private _listEmployeesByDay: Array<WorkVo> = new Array<WorkVo>();
   private _workVoSearch: WorkVo = new WorkVo({}, {});
 
-  private _workDetailVoToUpdate: WorkDatailVo = new WorkDatailVo(0, '', '', {hour: '', minute: ''}, {hour: '', minute: ''});
+  private _workDetailVoToUpdate: WorkDatailVo = new WorkDatailVo(0, '', '', {hour: '', minute: ''}, {
+    hour: '',
+    minute: ''
+  });
 
   private _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());
   private _dateByMonth: DateModel = new DateModel();
@@ -30,7 +34,6 @@ export class WorkService {
   private _monthOfTheYear: number;
 
   private _employee: EmployeeVo = new EmployeeVo();
-
 
   findWorkByYear(matricule?: string) {
     this.http.get<Array<WorkVo>>(this._url + 'annee/' + this._dateByAnnee.year).subscribe(
@@ -83,30 +86,23 @@ export class WorkService {
   }
 
   public searchWorkToPrint() {
-    if (this._dateForPrinting.year===null || this._dateForPrinting.year===undefined){
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Merci de saisir l\'année'
-      });
-    } else if (this._dateForPrinting.month===null || this._dateForPrinting.month===undefined){
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Merci de saisir le mois'
-      });
+    if (this._dateForPrinting.year === null || this._dateForPrinting.year === undefined) {
+      SwalUtil.insert("l'année");
+    } else if (this._dateForPrinting.month === null || this._dateForPrinting.month === undefined) {
+      SwalUtil.insert("'le mois");
     } else {
-    this.http.get<WorkVo>(this._url + 'worktoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
-      data => {
-        if (data != null) {
-          this._workVoSearch = data;
-        } else {
-          this._workVoSearch = new WorkVo({}, {});
+      this.http.get<WorkVo>(this._url + 'worktoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
+        data => {
+          if (data != null) {
+            this._workVoSearch = data;
+          } else {
+            this._workVoSearch = new WorkVo({}, {});
+          }
+        }, error => {
+          console.log(error);
         }
-      }, error => {
-        console.log(error);
-      }
-    );}
+      );
+    }
   }
 
   get listEmployeesByYear(): Array<WorkVo> {
@@ -132,23 +128,6 @@ export class WorkService {
 
   set dateByAnnee(value: DateModel) {
     this._dateByAnnee = value;
-  }
-
-  get dateByMonth(): DateModel {
-    return this._dateByMonth;
-  }
-
-  set dateByMonth(value: DateModel) {
-    this._dateByMonth = value;
-  }
-
-
-  get workDetailVoToUpdate(): WorkDatailVo {
-    return this._workDetailVoToUpdate;
-  }
-
-  set workDetailVoToUpdate(value: WorkDatailVo) {
-    this._workDetailVoToUpdate = value;
   }
 
   get listEmployeesByYearUntouched(): Array<WorkVo> {
@@ -185,9 +164,7 @@ export class WorkService {
       console.log('awwdi rah data aslan kayna');
       this._listEmployeesByYear = this._listEmployeesByYearUntouched.filter(w => w.employeeVo.matricule === matricule);
     }
-
   }
-
 
   get url(): string {
     return this._url;
@@ -281,11 +258,12 @@ export class WorkService {
 
     if (type) {
       const httpOptions = {
-        responseType : 'blob' as 'blob' //This also worked
+        responseType: 'blob' as 'blob' //This also worked
       };
-      return this.http.get(this._url+"generatedoc/year/"+fullYear+"/month/"+(month+1)+"/type/"+type,httpOptions).subscribe((resultBlob: Blob) => {
+      return this.http.get(this._url + "generatedoc/year/" + fullYear + "/month/" + (month + 1) + "/type/" + type, httpOptions).subscribe((resultBlob: Blob) => {
         var downloadURL = URL.createObjectURL(resultBlob);
-        window.open(downloadURL);});
+        window.open(downloadURL);
+      });
     }
   }
 }

@@ -10,10 +10,8 @@ import {DetailVo} from '../../../controller/model/detail.model';
 import {DateUtil} from '../../../util/date-util';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import {SwalUtil} from "../../../util/swal-util";
 
-;
-
-// @ts-ignore
 @Component({
   selector: 'app-gestion-services-list',
   templateUrl: './gestion-service-list.component.html',
@@ -24,7 +22,7 @@ export class GestionServiceListComponent implements OnInit {
   private selectedDaysFormModal: Array<DayVo> = [];
   private hiddenStateMonth: boolean = true;
 
-  constructor(private workService: WorkService, private dayService: DayServiceService, private router:Router) {
+  constructor(private workService: WorkService, private dayService: DayServiceService, private router: Router) {
   }
 
   private hiddenState: boolean = true;
@@ -35,7 +33,6 @@ export class GestionServiceListComponent implements OnInit {
     this.dayService.detail = new DetailVo();
     this.dayService.employee = new EmployeeVo();
   }
-
 
   get employeeVo() {
     return this.dayService.employeeVo;
@@ -56,19 +53,11 @@ export class GestionServiceListComponent implements OnInit {
       if ($('#employeeDiv').is(':visible') || $('#monthDiv').is(':visible')) {
         if ($('#employeeDiv').is(':visible')) {
           if (this.employee.matricule === undefined || this.employee.matricule === '') {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...!',
-              text: 'Merci de choisir l\'employé'
-            });
+            SwalUtil.insert("l'employé");
           } else {
             if ($('#monthDiv').is(':visible')) {
               if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops...!',
-                  text: 'Merci de saisir le mois'
-                });
+                SwalUtil.insert("le mois");
               } else {
                 this.workService.findWorkByEmployeeAndMonthAndYear(this.employee.matricule);
               }
@@ -80,16 +69,11 @@ export class GestionServiceListComponent implements OnInit {
         }
         if ($('#monthDiv').is(':visible')) {
           if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...!',
-              text: 'Merci de saisir le mois'
-            });
+            SwalUtil.insert("le mois");
           } else {
             this.workService.findWorksByMonth();
           }
         }
-
       } else {
         this.workService.findWorkByYear();
       }
@@ -125,7 +109,6 @@ export class GestionServiceListComponent implements OnInit {
     this.selectedDaysFormModal = w.sort((a, b) => {
       return a.id - b.id;
     });
-
   }
 
   selectPerMonth() {

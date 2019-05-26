@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {InterventionDayService} from '../../../controller/service/intervention-day.service';
 import {InterventionDayVo} from '../../../controller/model/intervention-day';
-import {TimingVo} from '../../../controller/model/timing.model';
 import {DateUtil} from '../../../util/date-util';
-import {TypeVo} from '../../../controller/model/type';
 import {EquipementVo} from '../../../controller/model/equipement';
-import DateTimeFormat = Intl.DateTimeFormat;
 
 
 @Component({

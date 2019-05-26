@@ -7,7 +7,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Année</div>
             </div>
-            <input type="number"  class="form-control" name="year" placeholder="Année">
+            <input type="number" [(ngModel)]="dateToPrint.year"  class="form-control" name="year" placeholder="Année">
           </div>
         </div>
         <div class="form-group">
@@ -15,14 +15,14 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Mois</div>
             </div>
-            <select class="custom-select"  id="monthAnomaly" name="month">
+            <select class="custom-select" [(ngModel)]="dateToPrint.month" id="monthAnomaly" name="month">
               <option selected disabled>Selectionner le mois</option>
               <option *ngFor="let m of months(); index as i" [value]="i+1">{{ m }}</option>
             </select>
           </div>
         </div>
         <div class="form-group">
-          <button  class="btn btn-block btn-primary">Chercher</button>
+          <button (click)="searchInterventionMonthToPrint()" class="btn btn-block btn-primary">Chercher</button>
         </div>
       </form>
     </div>
@@ -36,17 +36,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr >
+        <tr *ngIf="interventionToPrint.id===undefined">
           <td colspan="3" class="text-center font-italic">No item found</td>
         </tr>
-       <!-- <tr>
-          <td></td>
-          <td></td>
+        <tr *ngIf="interventionToPrint.id">
+          <td>{{ formatDate(interventionToPrint.dateIntervention).getFullYear() }}</td>
+          <td>{{ getMonth(formatDate(interventionToPrint.dateIntervention).getMonth()) }}</td>
           <td>
-            <button  class="btn btn-outline-success"><i class="fa fa-print" aria-hidden="true"></i>
+            <button (click)="print(formatDate(interventionToPrint.dateIntervention).getFullYear(), formatDate(interventionToPrint.dateIntervention).getMonth())" class="btn btn-outline-success"><i class="fa fa-print" aria-hidden="true"></i>
             </button>
           </td>
-        </tr>-->
+        </tr>
         </tbody>
       </table>
     </div>

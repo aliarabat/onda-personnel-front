@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {EquipementVo} from '../model/equipement';
 import Swal from 'sweetalert2';
 import {TypeVo} from '../model/type';
+import {SwalUtil} from "../../util/swal-util";
 
 
 @Injectable({
@@ -22,29 +23,13 @@ export class EquipementService {
 
   addEquipement() {
     if (this._equipementCreate.name === '' || this._equipementCreate.name === undefined) {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir le nom'
-      });
+      SwalUtil.insert("le nom!");
     } else if (this._equipementCreate.typeVo.name == '' || this._equipementCreate.typeVo.name == undefined) {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir le type'
-      });
+      SwalUtil.insert("le type!");
     } else if (this._equipementCreate.expectedBreakPeriodMaintenance.hour == '' || this._equipementCreate.expectedBreakPeriodMaintenance.hour == undefined) {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir l\'heure de la maintenance prévue '
-      });
+      SwalUtil.insert("l'heure de la maintenance prévue!");
     } else if (this._equipementCreate.expectedBreakPeriodMaintenance.minute == undefined || this._equipementCreate.expectedBreakPeriodMaintenance.minute == '') {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops...',
-        text: 'Merci de saisir la minute de la maintenance prévue '
-      });
+      SwalUtil.insert("la minute de la maintenance prévue!");
     } else {
       Swal.fire({
         title: 'Ajout',
@@ -63,19 +48,14 @@ export class EquipementService {
           this._equipementCreate = new EquipementVo();
           console.log(equipementClone);
         }
-
       });
     }
   }
 
   createEquipement() {
     if (this._equipementTobeAdded.length === 0) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: 'Ajout échoué:veuillez remplire la liste  ',
-        type: 'warning',
-      });
-    } else{
+      SwalUtil.fillTheTable();
+    } else {
       Swal.fire({
         title: 'Ajout',
         text: 'Vous êtes sûr de l\'ajout',
@@ -100,24 +80,15 @@ export class EquipementService {
                 });
 
               } else if (res == -2) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: 'Ajout échoué:l\'un des équipements existe déjà  ',
-                  type: 'error',
-                });
+                SwalUtil.any("Erreur!", "Ajout échoué: l'un des équipements existe déjà");
               } else {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: 'Ajout échoué:l\'un des équipements existe déjà ',
-                  type: 'error',
-                });
+                SwalUtil.any("Erreur!", "Ajout échoué: l'un des équipements existe déjà");
               }
             }
           );
         }
-
       });
-  }
+    }
   }
 
 
@@ -160,17 +131,9 @@ export class EquipementService {
           (res) => {
             if (res == 1) {
               this.findAllEquipements();
-              Swal.fire({
-                title: 'Suppression de l\'équipement',
-                text: ' Type Supprimé',
-                type: 'success',
-              });
+              SwalUtil.deleted("l'équipement", "Type Supprimé");
             } else {
-              Swal.fire({
-                title: 'Erreur!',
-                text: 'Suppression échouée:Erreur inconnue ',
-                type: 'error',
-              });
+              SwalUtil.any("Erreur!", "Suppression échouée:Erreur inconnue");
             }
           }
         );
@@ -180,29 +143,13 @@ export class EquipementService {
 
   editEquip() {
     if (this._editEquipement.name === '' || this._editEquipement.name === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: 'Veuillez saisir le nom d\'équipement ',
-        type: 'warning',
-      });
+      SwalUtil.insert("l'équipement");
     } else if (this._editEquipement.typeVo.name === '' || this._editEquipement.typeVo.name === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: 'Veuillez saisir le nom du type  ',
-        type: 'warning',
-      });
+      SwalUtil.insert("le type");
     } else if (this._editEquipement.expectedBreakPeriodMaintenance.hour === '' || this._editEquipement.expectedBreakPeriodMaintenance.hour === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: 'Merci de saisir l\'heure de la maintenance prévue ',
-        type: 'warning',
-      });
+      SwalUtil.insert("l'heure de la maintenance prévue!");
     } else if (this._editEquipement.expectedBreakPeriodMaintenance.minute === '' || this._editEquipement.expectedBreakPeriodMaintenance.minute === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: 'Merci de saisir la minute de la maintenance prévue ',
-        type: 'warning',
-      });
+      SwalUtil.insert("la minute de la maintenance prévue!");
     } else {
       Swal.fire({
         title: 'Modification',
@@ -222,41 +169,24 @@ export class EquipementService {
             (res) => {
               if (res == 1) {
                 this.findAllEquipements();
-                Swal.fire({
-                  title: 'Modification de l\'équipement',
-                  text: 'Modification de l\'équipement réussite',
-                  type: 'success',
-                });
+                SwalUtil.updateOf("l'équipement");
                 // @ts-ignore
                 $('#equipmentModal').modal('hide');
-
-
-              }else if(res==-3) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: 'Ajout échoué:Ce nom existe déjà ',
-                  type: 'error',
-                });
-              }else if(res==-1) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: 'Ajout échoué:équipement indisponible ',
-                  type: 'error',
-                });
+              } else if (res == -3) {
+                SwalUtil.alreadyExist("Ce nom");
+              } else if (res == -1) {
+                SwalUtil.any("Erreur!", "Ajout échoué:équipement indisponible!");
               } else {
                 Swal.fire({
                   title: 'Erreur!',
-                  text: 'Modification de l\'équipement échouée:Erreur Inconnue  ',
+                  text: '  ',
                   type: 'error',
                 });
+                SwalUtil.any("Erreur!", "Modification de l'équipement échouée:Erreur Inconnue!");
               }
-
             },
           );
-
-
         }
-
       });
     }
   }
@@ -276,11 +206,12 @@ export class EquipementService {
     );
   }
 
-  initForm(){
-    this._equipementCreate=new EquipementVo();
+  initForm() {
+    this._equipementCreate = new EquipementVo();
   }
-  initList(){
-    this._equipementTobeAdded=new Array<EquipementVo>();
+
+  initList() {
+    this._equipementTobeAdded = new Array<EquipementVo>();
   }
 
   get url(): string {

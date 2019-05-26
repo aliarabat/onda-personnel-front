@@ -4,6 +4,7 @@ import {HolidayVo} from '../model/holiday.model';
 //import * as $ from 'jquery';
 import Swal from 'sweetalert2';
 import {isFatalDiagnosticError} from '@angular/compiler-cli/src/ngtsc/diagnostics';
+import {SwalUtil} from "../../util/swal-util";
 
 @Injectable({
   providedIn: 'root'
@@ -36,30 +37,14 @@ export class HolidayService {
 
   addHoliday() {
     if (this._holidayCreate.reference === '') {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Merci de saisir le reference'
-      });
+      SwalUtil.insert("le référence");
     } else if (this._holidayCreate.startingDate === '') {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Merci de saisir la date début'
-      });
+      SwalUtil.insert("la date début");
     } else if (this._holidayCreate.endingDate === '') {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Merci de saisir la date fin'
-      });
+      SwalUtil.insert("la date fin");
     } else {
       if (this._holidaysVo.findIndex(hVo => hVo.reference === this._holidayCreate.reference) !== -1 || this._holidaysList.findIndex(hVo => hVo.reference === this._holidayCreate.reference) !== -1) {
-        Swal.fire({
-          type: 'error',
-          title: 'Oops...!',
-          text: 'Ce référence existe déja'
-        });
+        SwalUtil.alreadyExist("Ce référence");
       } else {
         this._holidaysVo.push(this._holidayCreate);
         this._holidayCreate = new HolidayVo(0, '', '', '');
@@ -80,11 +65,7 @@ export class HolidayService {
 
   confirm() {
     if (this._holidaysVo.length === 0) {
-      Swal.fire({
-        type: 'warning',
-        title: 'Opss..!',
-        text: 'Merci de remplir le tableau'
-      });
+      SwalUtil.fillTheTable();
     } else {
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -146,25 +127,6 @@ export class HolidayService {
 
   updateHoliday(hol: HolidayVo) {
     this.checkHolidayVoAttrs(hol);
-    /*if (this._holidayVoToUpdate.reference === '' || this._holidayVoToUpdate.reference === undefined) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Merci de saisir le reference'
-      });
-    } else if (this._holidayVoToUpdate.startingDate === '' || this._holidayVoToUpdate.startingDate === undefined) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Merci de saisir la date début'
-      });
-    } else if (this._holidayVoToUpdate.endingDate === '' || this._holidayVoToUpdate.endingDate === undefined) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Merci de saisir la date fin'
-      });
-    } else {*/
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success ml-1',

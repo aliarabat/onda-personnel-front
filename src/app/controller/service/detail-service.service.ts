@@ -7,6 +7,7 @@ import {EmployeeVo} from '../model/employee.model';
 import Swal from 'sweetalert2';
 import {DayVo} from '../model/day.model';
 import {VacationVo} from '../model/vacation.model';
+import {SwalUtil} from "../../util/swal-util";
 
 @Injectable({
   providedIn: 'root'
@@ -19,59 +20,27 @@ export class DetailServiceService {
   private _allDetails: Array<DetailVo> = [];
   private _he: TimingVo = new TimingVo('00', '00');
   private _hn: TimingVo = new TimingVo('00', '00');
-  private _newDetail : DetailVo = new DetailVo();
+  private _newDetail: DetailVo = new DetailVo();
 
   constructor(private _http: HttpClient) {
   }
 
   public addDetail() {
 
-    if (this.detailCreate.wording === '' || this.detailCreate.wording === undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le libelle!'
-      });
-    } else if (this.detailCreate.mode === ''|| this.detailCreate.mode == undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de sélectionner le mode!'
-      });
+    if (this.detailCreate.wording === '' || this.detailCreate.wording === undefined) {
+      SwalUtil.insert("le libelle!")
+    } else if (this.detailCreate.mode === '' || this.detailCreate.mode == undefined) {
+      SwalUtil.select("le mode!");
     } else if (this.detailCreate.startingTimeVo.hour == '' || this.detailCreate.startingTimeVo.hour == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir l\'heure debut!'
-      });
-    }
-    else if (this.detailCreate.startingTimeVo.minute == ''|| this.detailCreate.startingTimeVo.minute == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir les minutes debut!'
-      });
-    }
-    else if (this.detailCreate.endingTimeVo.hour == '' ||  this.detailCreate.endingTimeVo.hour == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir l\'heure debut!'
-      });
-    }
-    else if (this.detailCreate.endingTimeVo.minute == '' || this.detailCreate.endingTimeVo.minute == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir les minutes fin!'
-      });
-    }
-    else if ( this.detailCreate.pan == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir le pan!'
-      });
+      SwalUtil.insert("l'heure debut!");
+    } else if (this.detailCreate.startingTimeVo.minute == '' || this.detailCreate.startingTimeVo.minute == undefined) {
+      SwalUtil.insert("les minutes début!");
+    } else if (this.detailCreate.endingTimeVo.hour == '' || this.detailCreate.endingTimeVo.hour == undefined) {
+      SwalUtil.insert("l'heure début!");
+    } else if (this.detailCreate.endingTimeVo.minute == '' || this.detailCreate.endingTimeVo.minute == undefined) {
+      SwalUtil.insert("les minutes fin!");
+    } else if (this.detailCreate.pan == undefined) {
+      SwalUtil.insert("le pan!");
     } else {
       this.getHe();
       this.getHn();
@@ -146,19 +115,13 @@ export class DetailServiceService {
         }
       });
     } else {
-      Swal.fire({
-        type: 'error',
-        title: 'Error...',
-        text: 'Merci de remplir le tableau'
-      });
+      SwalUtil.fillTheTable();
     }
   }
-
 
   public cleanList() {
     this.details = new Array<DetailVo>();
   }
-
 
   public findAllDetails() {
     this._http.get<Array<DetailVo>>(this._url).subscribe(
@@ -172,59 +135,28 @@ export class DetailServiceService {
 
   updateDetail(newDetail: DetailVo) {
 
-    if (this.newDetail.wording === '' || this.newDetail.wording === undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le libelle!'
-      });
-    } else if (this.newDetail.mode === ''|| this.newDetail.mode == undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de sélectionner le mode!'
-      });
+    if (this.newDetail.wording === '' || this.newDetail.wording === undefined) {
+      SwalUtil.insert("le libelle!");
+    } else if (this.newDetail.mode === '' || this.newDetail.mode == undefined) {
+      SwalUtil.select("le mode!");
     } else if (this.newDetail.startingTimeVo.hour == '' || this.newDetail.startingTimeVo.hour == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir l\'heure debut!'
+      SwalUtil.insert("l'heure debut!");
+    } else if (this.newDetail.startingTimeVo.minute == '' || this.newDetail.startingTimeVo.minute == undefined) {
+      SwalUtil.insert("les minutes debut!");
+    } else if (this.newDetail.endingTimeVo.hour == '' || this.newDetail.endingTimeVo.hour == undefined) {
+      SwalUtil.insert("l'heure fin!");
+    } else if (this.newDetail.endingTimeVo.minute == '' || this.newDetail.endingTimeVo.minute == undefined) {
+      SwalUtil.insert("les minutes fin!");
+    } else if (this.newDetail.pan == '' || this.newDetail.pan == undefined) {
+      SwalUtil.insert("le pan!");
+    } else {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success ml-1',
+          cancelButton: 'btn btn-danger mr-1'
+        },
+        buttonsStyling: false,
       });
-    }
-    else if (this.newDetail.startingTimeVo.minute == ''|| this.newDetail.startingTimeVo.minute == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir les minutes debut!'
-      });
-    }
-  else if (this.newDetail.endingTimeVo.hour == '' ||  this.newDetail.endingTimeVo.hour == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir l\'heure debut!'
-      });
-    }
-    else if (this.newDetail.endingTimeVo.minute == '' || this.newDetail.endingTimeVo.minute == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir les minutes fin!'
-      });
-    }
-    else if ( this.newDetail.pan == ''||this.newDetail.pan == undefined) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir le pan!'
-      });
-    } else{ const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success ml-1',
-        cancelButton: 'btn btn-danger mr-1'
-      },
-      buttonsStyling: false,
-    });
       swalWithBootstrapButtons.fire({
         type: 'info',
         title: 'voulez vous Modifier',
@@ -247,7 +179,8 @@ export class DetailServiceService {
             'success'
           );
         }
-      });}
+      });
+    }
 
   }
 
@@ -255,28 +188,29 @@ export class DetailServiceService {
     this.http.delete(this._url + 'wording/' + wording).subscribe(data => {
         console.log(wording);
         this.findAllDetails();
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-      });
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
+        });
 
-      Toast.fire({
-        type: 'success',
-        title: 'Supression avec succés'
-      })
+        Toast.fire({
+          type: 'success',
+          title: 'Supression avec succés'
+        })
       }, error1 => {
         console.log(error1);
       }
     );
 
   }
-  findDetailById(id:number){
-    this._http.get<DetailVo>(this._url+'id/'+id).subscribe(
-      data=>{
+
+  findDetailById(id: number) {
+    this._http.get<DetailVo>(this._url + 'id/' + id).subscribe(
+      data => {
         this._newDetail = data;
-      },error1 => {
+      }, error1 => {
         console.log(error1)
       }
     );

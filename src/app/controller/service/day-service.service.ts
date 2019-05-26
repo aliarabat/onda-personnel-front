@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import {WorkVo} from '../model/work.model';
 import {DateModel} from '../model/date.model';
 import {TimingVo} from '../model/timing.model';
+import {SwalUtil} from "../../util/swal-util";
 
 @Injectable({
   providedIn: 'root'
@@ -36,27 +37,15 @@ export class DayServiceService {
   //check date credentials
   private _listDate: Array<string> = [];
   //employee normal to fill the service week automaically
-  private _employeeCheckType:EmployeeVo=new EmployeeVo(0,'','','','','');
+  private _employeeCheckType: EmployeeVo = new EmployeeVo(0, '', '', '', '', '');
 
   public ajouter() {
     if (this._employee.matricule === undefined) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de sélectionner l\'employee!'
-      });
+      SwalUtil.insert("l'employé");
     } else if (this._detail.wording === '') {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de sélectionner l\'horaire!'
-      });
+      SwalUtil.select("l'horaire");
     } else if (this._days.length >= 7) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Vous avez ajouté 7 jours!'
-      });
+      SwalUtil.passed("7 jours!")
     } else {
       this._days.push(this._day);
       this._day = new DayVo();
@@ -67,15 +56,11 @@ export class DayServiceService {
   addDetailToBadges() {
     if (this._day.dayDetailsVo.findIndex(dd => dd.detailVo.wording === this._detail.wording) === -1) {
       let dayDetailClone: DayDetailVo = new DayDetailVo();
-      dayDetailClone.detailVo = this._details.find(d=>d.wording===this._detail.wording);
+      dayDetailClone.detailVo = this._details.find(d => d.wording === this._detail.wording);
       this._day.dayDetailsVo.push(dayDetailClone);
       this._detail = new DetailVo();
     } else {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Cet horaire déja ajouté'
-      });
+      SwalUtil.alreadyExist("Cette horaire");
     }
   }
 
@@ -93,7 +78,7 @@ export class DayServiceService {
 
 
   findAllTechEmployees() {
-    this.http.get<Array<EmployeeVo>>(this._url_employees + "type/Technique" ).subscribe(
+    this.http.get<Array<EmployeeVo>>(this._url_employees + "type/Technique").subscribe(
       data => {
         if (data != null) {
           this._employees = data;
@@ -108,8 +93,8 @@ export class DayServiceService {
     this.http.get<Array<DetailVo>>(this._url_detail).subscribe(
       data => {
         if (data != null) {
-          this._detailsHelper=data;
-          this._details = data.filter(dt=>dt.mode==='Normal');
+          this._detailsHelper = data;
+          this._details = data.filter(dt => dt.mode === 'Normal');
         }
       }, error => {
         console.log(error);
@@ -167,11 +152,7 @@ export class DayServiceService {
         }
       });
     } else {
-      Swal.fire({
-        type: 'error',
-        title: 'Error...',
-        text: 'Merci de remplir le tableau'
-      })
+      SwalUtil.fillTheTable();
     }
   }
 
@@ -180,23 +161,22 @@ export class DayServiceService {
       data => {
         if (data != null) {
           this._listDate = data.map(date => new Date(date).toLocaleDateString());
-          this._employeeCheckType=this._employees.find(emp=>parseInt(emp.matricule)===parseInt(this._employee.matricule));
-          if (this._employeeCheckType.type==='Administratif'){
-            for (let i=0; i<=6; i++){
-              let  _dayClone=new DayVo(new Array<DayDetailVo>());
-              let _dayDetailClone:DayDetailVo=new DayDetailVo(0,new  DetailVo('','',new TimingVo('0','0'),new TimingVo('0','0'),'',''));
+          this._employeeCheckType = this._employees.find(emp => parseInt(emp.matricule) === parseInt(this._employee.matricule));
+          if (this._employeeCheckType.type === 'Administratif') {
+            for (let i = 0; i <= 6; i++) {
+              let _dayClone = new DayVo(new Array<DayDetailVo>());
+              let _dayDetailClone: DayDetailVo = new DayDetailVo(0, new DetailVo('', '', new TimingVo('0', '0'), new TimingVo('0', '0'), '', ''));
 
-              if (i<=4){
-                _dayDetailClone.detailVo=this._details.find(dt=>dt.wording==='ADM' || dt.wording==='ADM1');
-              } else{
-                _dayDetailClone.detailVo=this._detailsHelper.find(dt=>dt.wording==='R');
+              if (i <= 4) {
+                _dayDetailClone.detailVo = this._details.find(dt => dt.wording === 'ADM' || dt.wording === 'ADM1');
+              } else {
+                _dayDetailClone.detailVo = this._detailsHelper.find(dt => dt.wording === 'R');
               }
               _dayClone.dayDetailsVo.push(_dayDetailClone);
               this._days.push(_dayClone);
-
             }
-          } else{
-            this._days=new Array<DayVo>();
+          } else {
+            this._days = new Array<DayVo>();
           }
         } else {
           this._listDate = [];
