@@ -5,6 +5,8 @@ import {DateModel} from '../model/date.model';
 import {InterventionDayVo} from '../model/intervention-day';
 import Swal from "sweetalert2";
 import {SwalUtil} from "../../util/swal-util";
+import {downloadfile} from "../../util/downloadfile-util";
+import {MonthUtil} from "../../util/month-util";
 
 @Injectable({
   providedIn: 'root'
@@ -182,15 +184,14 @@ export class InterventionMonthService {
     let headers = new HttpHeaders();
     headers = headers.set('Accept', 'application/pdf');
     const httpOptions = {
-      responseType: 'ArrayBuffer',
+      responseType: 'blob' as 'arrayBuffer',
       headers: headers
     };
 
     if (type === 'dashboard') {
-
       // @ts-ignore
-      return this.http.get(this._url + "printdoc/year/" + fullYear + "/month/" + (month + 1), httpOptions).subscribe((result) => {
-        this.downLoadFile(result, 'application/pdf');
+      return this.http.get<Blob>(this._url + "printdoc/year/" + fullYear + "/month/" + (month + 1), httpOptions).subscribe((result) => {
+        downloadfile(result, 'application/pdf', "TableauDeBord"+MonthUtil.getMonth(month)+fullYear+".pdf");
       });
     } else if (type=== 'graph') {
       const {value: object} = await Swal.fire({
@@ -206,23 +207,16 @@ export class InterventionMonthService {
           });
         }
       });
-      if (object.isPrototypeOf(Number)) {
+      if (object) {
         // @ts-ignore
         return this.http.get(this._url + "printgraph/year/" + fullYear + "/month/" + (month + 1) + "/object/" + object, httpOptions).subscribe((result) => {
-          this.downLoadFile(result, 'application/pdf');
+          downloadfile(result, 'application/pdf', "TBF"+MonthUtil.getMonth(month)+fullYear+".pdf");
         });
       }
     }
   }
 
-  downLoadFile(data: any, type: string) {
-    const blob = new Blob([data], { type: type});
-    const url = window.URL.createObjectURL(blob);
-    const pwa = window.open(url);
-    if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-      alert( 'Please disable your Pop-up blocker and try again.');
-    }
-  }
+
 
   get interventionMonthVoSearch(): InterventionMonthVo {
     return this._interventionMonthVoSearch;

@@ -6,6 +6,8 @@ import {WorkDatailVo} from '../model/work-datail.model';
 import {EmployeeVo} from '../model/employee.model';
 import Swal from 'sweetalert2';
 import {SwalUtil} from "../../util/swal-util";
+import {downloadfile} from "../../util/downloadfile-util";
+import {MonthUtil} from "../../util/month-util";
 
 @Injectable({
   providedIn: 'root'
@@ -260,9 +262,8 @@ export class WorkService {
       const httpOptions = {
         responseType: 'blob' as 'blob' //This also worked
       };
-      return this.http.get(this._url + "generatedoc/year/" + fullYear + "/month/" + (month + 1) + "/type/" + type, httpOptions).subscribe((resultBlob: Blob) => {
-        var downloadURL = URL.createObjectURL(resultBlob);
-        window.open(downloadURL);
+      return this.http.get(this._url + "generatedoc/year/" + fullYear + "/month/" + (month + 1) + "/type/" + type, httpOptions).subscribe((result: Blob) => {
+        downloadfile(result, 'application/pdf', "etat_elements"+MonthUtil.getMonth(month)+fullYear+"."+type);
       });
     }
   }
