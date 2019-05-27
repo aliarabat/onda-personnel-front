@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {InterventionMonthVo} from '../model/intervention-month';
 import {DateModel} from '../model/date.model';
 import {InterventionDayVo} from '../model/intervention-day';
@@ -179,22 +179,20 @@ export class InterventionMonthService {
       }
     });
 
-    if (type === 'dashboard') {
-      const httpOptions = {
-        responseType: 'blob' as 'blob',
-        Accept: 'application/pdf',
-        observe: 'response'//This also worked
-      };
-      // @ts-ignore
-      return this.http.get(this._url + "printdoc/year/" + fullYear + "/month/" + (month + 1), httpOptions).subscribe((resultBlob: Blob) => {
-        var downloadURL = URL.createObjectURL(resultBlob);
-        window.open(downloadURL);
-      });
-    } else {
-      const httpOptions = {
-        responseType: 'blob' as 'blob' //This also worked
-      };
+    let headers = new HttpHeaders();
+    headers = headers.set('Accept', 'application/pdf');
+    const httpOptions = {
+      responseType: 'ArrayBuffer',
+      headers: headers
+    };
 
+    if (type === 'dashboard') {
+
+      // @ts-ignore
+      return this.http.get(this._url + "printdoc/year/" + fullYear + "/month/" + (month + 1), httpOptions).subscribe((result) => {
+        this.downLoadFile(result, 'application/pdf');
+      });
+    } else if (type=== 'graph') {
       const {value: object} = await Swal.fire({
         input: 'number',
         inputPlaceholder: 'Entrer l\'objectif',
@@ -208,13 +206,21 @@ export class InterventionMonthService {
           });
         }
       });
-
-      if (object) {
-        return this.http.get(this._url + "printgraph/year/" + fullYear + "/month/" + (month + 1) + "/object/" + object, httpOptions).subscribe((resultBlob: Blob) => {
-          var downloadURL = URL.createObjectURL(resultBlob);
-          window.open(downloadURL);
+      if (object.isPrototypeOf(Number)) {
+        // @ts-ignore
+        return this.http.get(this._url + "printgraph/year/" + fullYear + "/month/" + (month + 1) + "/object/" + object, httpOptions).subscribe((result) => {
+          this.downLoadFile(result, 'application/pdf');
         });
       }
+    }
+  }
+
+  downLoadFile(data: any, type: string) {
+    const blob = new Blob([data], { type: type});
+    const url = window.URL.createObjectURL(blob);
+    const pwa = window.open(url);
+    if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+      alert( 'Please disable your Pop-up blocker and try again.');
     }
   }
 
