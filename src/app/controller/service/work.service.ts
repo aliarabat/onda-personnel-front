@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {WorkVo} from '../model/work.model';
 import {DateModel} from '../model/date.model';
 import {WorkDatailVo} from '../model/work-datail.model';
@@ -259,10 +259,18 @@ export class WorkService {
     });
 
     if (type) {
+      let headers = new HttpHeaders();
+      if (type==='pdf'){
+        headers = headers.set('Accept', 'application/pdf');
+      } else {
+        headers = headers.set('Accept', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      }
       const httpOptions = {
-        responseType: 'blob' as 'blob' //This also worked
+        responseType: 'blob' as 'arrayBuffer',
+        headers: headers
       };
-      return this.http.get(this._url + "generatedoc/year/" + fullYear + "/month/" + (month + 1) + "/type/" + type, httpOptions).subscribe((result: Blob) => {
+      // @ts-ignore
+      return this.http.get(this._url + "generatedoc/year/" + fullYear + "/month/" + (month + 1) + "/type/" + type, httpOptions).subscribe((result) => {
         downloadfile(result, 'application/pdf', "etat_elements"+MonthUtil.getMonth(month)+fullYear+"."+type);
       });
     }

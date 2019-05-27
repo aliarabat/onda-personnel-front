@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: 'remplacements', component: ReplacementComponent},
   {path: 'absences', component: SkipComponent},
   {path: 'missions', component: MissionComponent},
-  {path: 'holidays', component: GestionHolidaysComponent},
+  {path: 'joursferies', component: GestionHolidaysComponent},
   {path: 'login', component: LoginComponent},
   {path: 'equipements', component: GestionEquipmentComponent},
   {path: 'anomalies', component:  GestionAnomalyComponent},
