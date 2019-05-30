@@ -10,7 +10,8 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Référence</div>
             </div>
-            <input class="form-control" id="referenceMission"  [(ngModel)]="mission.reference" name="reference" placeholder="Entrer la référence de la mission ..." type="text" >
+            <input class="form-control" id="referenceMission" [(ngModel)]="mission.reference" name="reference"
+                   placeholder="Entrer la référence de la mission ..." type="text">
           </div>
         </div>
         <br>
@@ -21,9 +22,11 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Employé en Mission</div>
             </div>
-            <select  class="custom-select" id="employeMission" (change)="getEmployeeByMatricule()"  [(ngModel)]="employee.matricule" name="matricule"  >
+            <select class="custom-select" id="employeMission" (change)="getEmployeeByMatricule()"
+                    [(ngModel)]="employee.matricule" name="matricule">
               <option selected disabled>Selectionner l'employé ...</option>
-              <option *ngFor="let emp of employeeVo" [value]="emp.matricule">{{ emp.matricule+" "+emp.firstName+" "+emp.lastName }}</option>
+              <option *ngFor="let emp of employeeVo"
+                      [value]="emp.matricule">{{ emp.matricule + " " + emp.firstName + " " + emp.lastName }}</option>
             </select>
           </div>
         </div>
@@ -35,7 +38,8 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Type de la mission</div>
             </div>
-            <input class="form-control" id="typeMission"  [(ngModel)]="mission.type" name="type" placeholder="Entrer le type de la mission ..." type="text">
+            <input class="form-control" id="typeMission" [(ngModel)]="mission.type" name="type"
+                   placeholder="Entrer le type de la mission ..." type="text">
           </div>
         </div>
         <br>
@@ -46,7 +50,8 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Date debut</div>
             </div>
-            <input class="form-control" id="dateDebut" [(ngModel)]="mission.startingDate" name="startingDate" placeholder="Entrer le prenom de l'employe ..." type="date">
+            <input class="form-control" id="dateDebut" [(ngModel)]="mission.startingDate" name="startingDate"
+                   placeholder="Entrer le prenom de l'employe ..." type="date">
           </div>
         </div>
         <br>
@@ -55,11 +60,15 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Heure debut</span>
           </div>
-          <input type="text" class="form-control" id="missionCreateStartingTimeH" [(ngModel)]="mission.startingTimeVo.hour" name="missionstartingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
+          <input type="text" class="form-control" id="missionCreateStartingTimeH"
+                 [(ngModel)]="mission.startingTimeVo.hour" name="missionstartingTimeHours"
+                 placeholder="Entrer l'heure de debut ..." min="0" max="23">
           <div class="input-group-append">
             <span class="input-group-text">H</span>
           </div>
-          <input type="text" class="form-control" id="missionCreateStartingTimeM"  [(ngModel)]="mission.startingTimeVo.minute" name="missionstartingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <input type="text" class="form-control" id="missionCreateStartingTimeM"
+                 [(ngModel)]="mission.startingTimeVo.minute" name="missionstartingTimeMinute"
+                 placeholder="Entrer la minute de fin ..." min="0" max="59">
           <div class="input-group-append">
             <span class="input-group-text">M</span>
           </div>
@@ -70,25 +79,26 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Heure fin</span>
           </div>
-          <input type="text" class="form-control" id="missionCreateEndingTimeH"  [(ngModel)]="mission.endingTimeVo.hour" name="missionendingTimeHpurs"  placeholder="Entrer l'heure de fin ..." min="0" max="23">
+          <input type="text" class="form-control" id="missionCreateEndingTimeH" [(ngModel)]="mission.endingTimeVo.hour"
+                 name="missionendingTimeHpurs" placeholder="Entrer l'heure de fin ..." min="0" max="23">
           <div class="input-group-append">
             <span class="input-group-text">H</span>
           </div>
-          <input type="text" class="form-control" id="missionCreateEndingTimeM"  [(ngModel)]="mission.endingTimeVo.minute" name="missionendingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <input type="text" class="form-control" id="missionCreateEndingTimeM"
+                 [(ngModel)]="mission.endingTimeVo.minute" name="missionendingTimeMinute"
+                 placeholder="Entrer la minute de fin ..." min="0" max="59">
           <div class="input-group-append">
             <span class="input-group-text">M</span>
           </div>
         </div>
         <div class="d-flex justify-content-end">
-          <button class="btn btn-outline-secondary mr-1" (click)="initForm()" type="submit">Réinitialiser le formulaire</button>
+          <button class="btn btn-outline-secondary mr-1" (click)="initForm()" type="submit">Réinitialiser le
+            formulaire
+          </button>
           <button class="btn btn-outline-success" (click)="saveMission()" type="submit">Créer</button>
         </div>
       </form>
     </div>
   </div>
-
-
-
-
-  </div>
+</div>
 

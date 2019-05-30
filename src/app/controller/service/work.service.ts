@@ -13,7 +13,6 @@ import {MonthUtil} from "../../util/month-util";
   providedIn: 'root'
 })
 export class WorkService {
-
   constructor(private http: HttpClient) {
   }
 
@@ -30,10 +29,14 @@ export class WorkService {
   });
 
   private _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());
-  private _dateByMonth: DateModel = new DateModel();
   private _dateForPrinting: DateModel = new DateModel(new Date().getFullYear());
   private _yearOfTheMonth: number;
   private _monthOfTheYear: number;
+
+  //args for graph
+  private _dateByYear: DateModel = new DateModel(new Date().getFullYear());
+  private _employeeToGraph: EmployeeVo = new EmployeeVo(0,'');
+  private _workToGraph: WorkVo = new WorkVo({},{});
 
   private _employee: EmployeeVo = new EmployeeVo();
 
@@ -260,10 +263,13 @@ export class WorkService {
 
     if (type) {
       let headers = new HttpHeaders();
-      if (type==='pdf'){
-        headers = headers.set('Accept', 'application/pdf');
+      let applicationType = '';
+      if (type === 'pdf') {
+        applicationType = 'application/pdf';
+        headers = headers.set('Accept', applicationType);
       } else {
-        headers = headers.set('Accept', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        applicationType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        headers = headers.set('Accept', applicationType);
       }
       const httpOptions = {
         responseType: 'blob' as 'arrayBuffer',
@@ -271,9 +277,59 @@ export class WorkService {
       };
       // @ts-ignore
       return this.http.get(this._url + "generatedoc/year/" + fullYear + "/month/" + (month + 1) + "/type/" + type, httpOptions).subscribe((result) => {
-        downloadfile(result, 'application/pdf', "etat_elements"+MonthUtil.getMonth(month)+fullYear+"."+type);
+        downloadfile(result, applicationType, "etat_elements" + MonthUtil.getMonth(month) + fullYear + "." + type);
       });
     }
+  }
+
+  get dateByYear(): DateModel {
+    return this._dateByYear;
+  }
+
+  set dateByYear(value: DateModel) {
+    this._dateByYear = value;
+  }
+
+  get employeeToGraph(): EmployeeVo {
+    return this._employeeToGraph;
+  }
+
+  set employeeToGraph(value: EmployeeVo) {
+    this._employeeToGraph = value;
+  }
+
+  searchWorkToGraph() {
+    if (this._employeeToGraph.matricule==='') {
+      SwalUtil.select("l'employé");
+    }else if (this._dateByYear.year===undefined){
+      SwalUtil.insert("l'année");
+    } else{
+      this.http.get<WorkVo>(this._url+"emloyetograph/matricule/"+this._employeeToGraph.matricule+"/year/"+this._dateByYear.year).subscribe(data => !!data ? this._workToGraph = data : this._workToGraph = new WorkVo({},{}));
+      console.log(this._workToGraph);
+    }
+  }
+
+  get workToGraph(): WorkVo {
+    return this._workToGraph;
+  }
+
+  set workToGraph(value: WorkVo) {
+    this._workToGraph = value;
+  }
+
+  printGraph() {
+    let headers = new HttpHeaders();
+    const applicationType = 'application/pdf';
+    headers = headers.set('Accept', applicationType);
+
+    const httpOptions = {
+      responseType: 'blob' as 'arrayBuffer',
+      headers: headers
+    };
+    // @ts-ignore
+    return this.http.get(this._url + "printgraph/matricule/" + this._employeeToGraph.matricule + "/year/" + this._dateByYear.year , httpOptions).subscribe((result) => {
+      downloadfile(result, applicationType, "Graphe-" + this._employeeToGraph.matricule + "-" + this._dateByYear.year + "." + 'pdf');
+    });
   }
 }
 

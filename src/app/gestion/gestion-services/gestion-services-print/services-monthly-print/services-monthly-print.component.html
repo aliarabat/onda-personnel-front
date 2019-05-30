@@ -7,7 +7,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Année</div>
             </div>
-            <input type="number" [(ngModel)]="dateToPrint.year"  class="form-control" name="year" placeholder="Année">
+            <input type="number" [(ngModel)]="dateToPrint.year" class="form-control" name="year" placeholder="Année">
           </div>
         </div>
         <br>
@@ -16,7 +16,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Mois</div>
             </div>
-            <select class="custom-select" [(ngModel)]="dateToPrint.month" id="monthAnomaly" name="month">
+            <select class="custom-select" [(ngModel)]="dateToPrint.month" id="month" name="month">
               <option selected disabled>Selectionner le mois</option>
               <option *ngFor="let m of months(); index as i" [value]="i+1">{{ m }}</option>
             </select>
@@ -24,7 +24,7 @@
         </div>
         <br>
         <div class="form-group">
-          <button (click)="searchInterventionMonthToPrint()" class="btn btn-block btn-outline-primary">Chercher</button>
+          <button (click)="searchWorkToPrint()" class="btn btn-block btn-outline-primary">Chercher</button>
         </div>
       </form>
     </div>
@@ -38,14 +38,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngIf="interventionToPrint.id===undefined">
+        <tr *ngIf="worksToPrint.workDetailVo.daysVo===undefined">
           <td colspan="3" class="text-center font-italic">No item found</td>
         </tr>
-        <tr *ngIf="interventionToPrint.id">
-          <td>{{ formatDate(interventionToPrint.dateIntervention).getFullYear() }}</td>
-          <td>{{ getMonth(formatDate(interventionToPrint.dateIntervention).getMonth()) }}</td>
+        <tr *ngIf="worksToPrint.workDetailVo.daysVo">
+          <td>{{ formatDate(worksToPrint.workDetailVo.workDetailDate).getFullYear() }}</td>
+          <td>{{ getMonth(formatDate(worksToPrint.workDetailVo.workDetailDate).getMonth()) }}</td>
           <td>
-            <button (click)="print(formatDate(interventionToPrint.dateIntervention).getFullYear(), formatDate(interventionToPrint.dateIntervention).getMonth())" class="btn btn-outline-success"><i class="fa fa-print" aria-hidden="true"></i>
+            <button (click)="print(formatDate(worksToPrint.workDetailVo.workDetailDate).getFullYear(), formatDate(worksToPrint.workDetailVo.workDetailDate).getMonth())" class="btn btn-outline-success"><i class="fa fa-print" aria-hidden="true"></i>
             </button>
           </td>
         </tr>

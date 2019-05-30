@@ -8,10 +8,10 @@
         </div>
         <!-- EMPLOYE-->
         <div class="form-group">
-          <label class="sr-only" for="employe">Employe</label>
+          <label class="sr-only" for="employe">Employé</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <div class="input-group-text">Employe</div>
+              <div class="input-group-text">Employé</div>
             </div>
             <select [disabled]="!!days.length>0" class="custom-select" (change)="checkDates()"
                     [(ngModel)]="employee.matricule" id="employe" name="matricule">
@@ -52,6 +52,7 @@
            </div>
           </span>
         </h5>
+        <br/>
         <div class="d-flex justify-content-end">
           <button (click)="reinitializeForm()" class="btn btn-outline-secondary mr-1">Reinitialiser le formulaire
           </button>

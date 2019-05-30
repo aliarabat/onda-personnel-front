@@ -16,11 +16,13 @@ export class EmployeeServiceService {
   private _employeeCreate: EmployeeVo = new EmployeeVo();
   private _employees: Array<EmployeeVo> = [];
   private _allEmployees: Array<EmployeeVo> = [];
+  private _employeeSearch: Array<EmployeeVo> = [];
   private _newEmployee: EmployeeVo = new EmployeeVo();
+
+  private _employerSearch: EmployeeVo = new EmployeeVo();
 
   constructor(private _http: HttpClient) {
   }
-
 
   public addEmployee() {
     if (this.employeeCreate.matricule == '' || this.employeeCreate.matricule == undefined) {
@@ -89,7 +91,13 @@ export class EmployeeServiceService {
   public findAllEmployesExist() {
     this._http.get<Array<EmployeeVo>>(this._url + 'allExist/isExist/' + true).subscribe(
       data => {
-        this._allEmployees = data;
+        if (data!=null){
+          this._employeeSearch = data;
+          this._allEmployees = data;
+        } else{
+          this._employeeSearch = [];
+          this._allEmployees = [];
+        }
       }, error1 => {
         console.log(error1);
       }
@@ -99,8 +107,8 @@ export class EmployeeServiceService {
   public findAllEmployeNotExist() {
     this._http.get<Array<EmployeeVo>>(this._url + 'allExist/isExist/' + false).subscribe(
       data => {
+        this._employeeSearch = data;
         this._allEmployees = data;
-        console.log(this._allEmployees);
       }, error1 => {
         console.log(error1);
       }
@@ -241,5 +249,26 @@ export class EmployeeServiceService {
 
   set http(value: HttpClient) {
     this._http = value;
+  }
+
+  get employerSearch(): any {
+    return this._employerSearch;
+  }
+
+  set employerSearch(value: any) {
+    this._employerSearch = value;
+  }
+
+  get employeeSearch(): Array<EmployeeVo> {
+    return this._employeeSearch;
+  }
+
+  set employeeSearch(value: Array<EmployeeVo>) {
+    this._employeeSearch = value;
+  }
+
+  employeeSearchChange(value: string) {
+    console.log(value);
+    this._employeeSearch = !!value ? this._allEmployees.filter(e => e.firstName.toLowerCase().includes(value.toLowerCase()) || e.lastName.toLowerCase().includes(value.toLowerCase()) || e.fonction.toLowerCase().includes(value.toLowerCase())) : this._allEmployees;
   }
 }

@@ -1,9 +1,8 @@
 <div class="row">
   <div class="col-md-5">
     <div class="container">
-      <br>
       <small id="emailHelp4" class="form-text text-muted">*Interv : Intervention</small>
-<br>
+      <br>
       <form>
         <div class="form-group">
           <label class="sr-only" for="typeEquiinterv">Type d'équipement</label>
@@ -11,34 +10,29 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Type équipement</div>
             </div>
-            <select  class="custom-select" [(ngModel)]="selectedType.name"  (change)="findEquipmentByType()" id="typeEquiinterv" name="type">
+            <select class="custom-select" [(ngModel)]="selectedType.name" (change)="findEquipmentByType()"
+                    id="typeEquiinterv" name="type">
               <option selected disabled>Selectionner le type</option>
-              <option *ngFor="let t of types"  value="{{t.name}}" >{{t.name}} </option>
-
-
+              <option *ngFor="let t of types" value="{{t.name}}">{{t.name}} </option>
             </select>
           </div>
         </div>
-        <br>
-
         <!-- Equipement-->
         <div class="form-group">
-          <label class="sr-only"  for="equipement">Équipement</label>
+          <label class="sr-only" for="equipement">Équipement</label>
           <small id="emailHelp3" class="form-text text-muted">Veuillez saisir d'abord le type d'équipement</small>
-
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Équipement</div>
             </div>
-            <select  class="custom-select" [disabled]="!!interventions.length>0" [(ngModel)]="equipement.name" id="equipement" name="equi">
+            <select class="custom-select" [disabled]="!!interventions.length>0" [(ngModel)]="equipement.name"
+                    id="equipement" name="equi">
               <option selected disabled>Selectionner l'équipement</option>
-              <option *ngFor="let e of equipements"   value="{{e.name}}" >{{e.name}} </option>
+              <option *ngFor="let e of equipements" value="{{e.name}}">{{e.name}} </option>
 
             </select>
           </div>
         </div>
-        <br>
-
         <!-- Anomalie-->
         <div class="form-group">
           <label class="sr-only" for="anomalie">Anomalie</label>
@@ -46,54 +40,45 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Anomalie</div>
             </div>
-            <input class="form-control"  [(ngModel)]="interventionCreate.anomaly" name="anomalie" id="anomalie"  placeholder="Entrer l'anomalie" type="text" >
+            <input class="form-control" [(ngModel)]="interventionCreate.anomaly" name="anomalie" id="anomalie"
+                   placeholder="Entrer l'anomalie" type="text">
           </div>
         </div>
-        <br>
-
         <!-- Date d'appel-->
-
         <div class="form-group">
           <label class="sr-only" for="Date&heuredappel">Appel Interv</label>
-
-
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Appel Interv</div>
             </div>
-            <input class="form-control" id="Date&heuredappel"  [(ngModel)]="interventionCreate.callIntervention" name="appel" placeholder="Entrer la date et l'heure d'appel"  type="datetime-local" >
+            <input class="form-control" id="Date&heuredappel" [(ngModel)]="interventionCreate.callIntervention"
+                   name="appel" placeholder="Entrer la date et l'heure d'appel" type="datetime-local">
           </div>
         </div>
-        <br>
-
-
         <!-- Date & heure début d'intervention-->
         <div class="form-group">
           <label class="sr-only" for="Date&heuredebut">Début d'Interv</label>
-
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Début d'Interv</div>
             </div>
-            <input class="form-control" id="Date&heuredebut"  [(ngModel)]="interventionCreate.interventionStart" name="Date&heuredebut" placeholder="Entrer la date & heure début d'intervention"  type="datetime-local" >
+            <input class="form-control" id="Date&heuredebut" [(ngModel)]="interventionCreate.interventionStart"
+                   name="Date&heuredebut" placeholder="Entrer la date & heure début d'intervention"
+                   type="datetime-local">
           </div>
         </div>
-        <br>
-
         <!-- Date & heure fin d'intervention-->
         <div class="form-group">
           <label class="sr-only" for="Date & heure fin d'intervention">Fin d'Interv</label>
-
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Fin d'Interv</div>
             </div>
-            <input class="form-control" id="Date & heure fin d'intervention"  [(ngModel)]="interventionCreate.interventionEnd" name="heure fin d'intervention" placeholder="Entrer la date & heure fin d'intervention" type="datetime-local">
+            <input class="form-control" id="Date & heure fin d'intervention"
+                   [(ngModel)]="interventionCreate.interventionEnd" name="heure fin d'intervention"
+                   placeholder="Entrer la date & heure fin d'intervention" type="datetime-local">
           </div>
         </div>
-        <br>
-
-
         <!-- Nombre d'arrets-->
         <div class="form-group">
           <label class="sr-only" for="nombreDarrets">Nombre d'arrêts</label>
@@ -101,11 +86,10 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Nombre d'arrêts</div>
             </div>
-            <input class="form-control" id="nombreDarrets"   [(ngModel)]="interventionCreate.breakNumber" name="nombreDarrets" placeholder="Entrer le nombre d'arrets" type="number" >
+            <input class="form-control" id="nombreDarrets" [(ngModel)]="interventionCreate.breakNumber"
+                   name="nombreDarrets" placeholder="Entrer le nombre d'arrets" type="number">
           </div>
         </div>
-        <br>
-
         <!-- Action-->
         <div class="form-group">
           <label class="sr-only" for="action">Action</label>
@@ -113,29 +97,19 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Action</div>
             </div>
-            <input class="form-control" id="action"  [(ngModel)]="interventionCreate.actions" name="actions" placeholder="Entrer l'action" type="text" >
+            <input class="form-control" id="action" [(ngModel)]="interventionCreate.actions" name="actions"
+                   placeholder="Entrer l'action" type="text">
           </div>
         </div>
-        <br>
-
-
         <div class="d-flex justify-content-end">
-          <button  class="btn btn-outline-secondary mr-1">Réinitialiser le formulaire
+          <button class="btn btn-outline-secondary mr-1">Réinitialiser le formulaire
           </button>
-          <button  class="btn btn-outline-success" (click)="addIntervention()">Ajouter</button>
+          <button class="btn btn-outline-success" (click)="addIntervention()">Ajouter</button>
         </div>
       </form>
-
     </div>
   </div>
-
-
-
-
-
   <div class="col-md-7">
-
-
     <br>
     <table class="table table-striped table-sm">
       <thead>
@@ -147,26 +121,22 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let i of interventions" >
+      <tr *ngFor="let i of interventions">
         <td>{{equipement.name}}</td>
         <td>{{i.anomaly}} </td>
         <td>{{toDate(i.interventionStart) | date:'yyyy-MM-dd'}}</td>
-
-
-
         <td>
-          <button type="button" (click)="show(i)" class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example1-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
+          <button type="button" (click)="show(i)" class="btn btn-outline-info mr-sm-1" data-toggle="modal"
+                  data-target=".bd-example1-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
           </button>
-
-          <button  class="btn btn-outline-danger" (click)="deleteRow(i.id)"><i class="fa fa-trash" aria-hidden="true"></i>
+          <button class="btn btn-outline-danger" (click)="deleteRow(i.id)"><i class="fa fa-trash"
+                                                                              aria-hidden="true"></i>
           </button>
         </td>
-
       </tr>
       </tbody>
     </table>
     <br>
-
     <!-- somme temps d'arret-->
     <div class="form-group">
       <label class="sr-only" for="smA">Duree d'arrêt</label>
@@ -174,14 +144,10 @@
         <div class="input-group-prepend">
           <div class="input-group-text">Duree d'arrêt</div>
         </div>
-        <input type="text" class="form-control"  id="smA" [(ngModel)]="breakDuration"
+        <input type="text" class="form-control" id="smA" [(ngModel)]="breakDuration"
                name="smA" placeholder="0" disabled>
       </div>
     </div>
-
-
-
-
     <!-- somme temps réparation-->
     <div class="form-group">
       <label class="sr-only" for="smR">Duree de réparation</label>
@@ -189,37 +155,28 @@
         <div class="input-group-prepend">
           <div class="input-group-text">Duree de réparation</div>
         </div>
-        <input type="text" class="form-control"   id="smR" [(ngModel)]="reparationDuration"
-               name="smR"  placeholder="0" disabled>
+        <input type="text" class="form-control" id="smR" [(ngModel)]="reparationDuration"
+               name="smR" placeholder="0" disabled>
       </div>
     </div>
-
-
-
     <!-- somme nbre d'arrets-->
     <div class="form-group">
-       <label class="sr-only" for="nbrArr">Nbre d'arrêts</label>
-       <div class="input-group mb-2">
-         <div class="input-group-prepend">
-           <div class="input-group-text">Nbre d'arrêts</div>
-         </div>
-         <input type="text" class="form-control" [(ngModel)]="breakNumberTotal"  id="nbrArr"  name="nbrArr"  placeholder="0" disabled>
-       </div>
-     </div>
-     <div class="d-flex justify-content-end">
-       <button  class="btn btn-outline-secondary mr-1">Reinitialiser la liste</button>
-       <button (click)="saveIntervention(equipement.name)" class="btn btn-outline-primary">Confirmer</button>
-     </div>
-   </div>
- </div>
-
-
-
-
-
-
-
- <!--Large Modal-->
+      <label class="sr-only" for="nbrArr">Nbre d'arrêts</label>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Nbre d'arrêts</div>
+        </div>
+        <input type="text" class="form-control" [(ngModel)]="breakNumberTotal" id="nbrArr" name="nbrArr" placeholder="0"
+               disabled>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-outline-secondary mr-1">Reinitialiser la liste</button>
+      <button (click)="saveIntervention(equipement.name)" class="btn btn-outline-primary">Confirmer</button>
+    </div>
+  </div>
+</div>
+<!--Large Modal-->
 <!--
 <div class="modal fade bd-example1-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-full">

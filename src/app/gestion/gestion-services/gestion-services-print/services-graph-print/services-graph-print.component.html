@@ -1,0 +1,60 @@
+<div class="container mt-2">
+  <div class="row col-md-12">
+    <div class="col-md-5">
+      <form>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Employé</div>
+            </div>
+            <select class="custom-select" [(ngModel)]="employeeToGraph.matricule" id="month" name="month">
+              <option selected disabled>Selectionner l'employé...</option>
+              <option *ngFor="let e of employees"
+                      [value]="e.matricule">{{ e.matricule }}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Année</div>
+            </div>
+            <input type="number" [(ngModel)]="dateByYear.year" min="0" max="{{ date().getFullYear()}}"
+                   class="form-control" name="year" placeholder="Année">
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <button (click)="searchWorkToGraph()" class="btn btn-block btn-outline-primary">Chercher</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-7">
+      <table class="table table-sm table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Matricule</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="workToGraph.employeeVo.matricule===undefined">
+          <td colspan="3" class="text-center font-italic">No item found</td>
+        </tr>
+        <tr *ngIf="workToGraph.employeeVo.matricule!==undefined">
+          <td>{{ workToGraph.employeeVo.matricule}}</td>
+          <td>{{ formatDate(workToGraph.workDetailVo.workDetailDate).getFullYear() }}</td>
+          <td>
+            <button
+              (click)="printGraph()"
+              class="btn btn-outline-success"><i class="fa fa-print" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

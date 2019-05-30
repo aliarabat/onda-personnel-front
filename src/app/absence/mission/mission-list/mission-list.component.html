@@ -18,10 +18,6 @@
       <td >{{dayDetail.missionVo.type}}</td>
       <td >{{dayDetail.missionVo.startingDate}}</td>
       <td >[{{dayDetail.missionVo.startingTimeVo.hour}}:{{dayDetail.missionVo.startingTimeVo.minute}}-{{dayDetail.missionVo.endingTimeVo.hour}}:{{dayDetail.missionVo.endingTimeVo.minute}}]</td>
-
-
-
-
       <td class="float-right">
         <button type="button" id="btnMission" (click)="findDayDetailById(dayDetail.id)"  class="btn btn-outline-info ml-sm-1" data-toggle="modal" data-target="#missionModal" data-whatever="@fat"><i class="fa fa-pencil" aria-hidden="true"></i>
         </button>
@@ -32,10 +28,6 @@
     </tbody>
   </table>
 </div>
-
-
-
-
 
 <!--Modal-->
 <div class="modal fade" id="missionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -48,8 +40,6 @@
         </button>
       </div>
       <div class="modal-body">
-
-
         <div class="form-group">
           <label class="sr-only" for="referenceMissionList">Référence</label>
           <div class="input-group mb-2">
@@ -60,11 +50,6 @@
           </div>
         </div>
         <br>
-
-
-
-
-
         <div class="form-group">
           <label class="sr-only" for="typeMissionlist">Type de la mission</label>
           <div class="input-group mb-2">
@@ -75,9 +60,6 @@
           </div>
         </div>
         <br>
-
-
-
         <div class="form-group">
           <label class="sr-only" for="dateDebutMission">Date debut</label>
           <div class="input-group mb-2">
@@ -88,10 +70,6 @@
           </div>
         </div>
         <br>
-
-
-
-
         <!-- HEURE DEBUT -->
         <div class="input-group mb-3">
           <div class="input-group-prepend">
@@ -121,10 +99,6 @@
             <span class="input-group-text">M</span>
           </div>
         </div>
-
-
-
-
         <br>
       </div>
       <div class="modal-footer">
@@ -135,12 +109,7 @@
   </div>
 </div>
 
-
 <script>
-
-
-
-
   $('#btnMission').click(function () {
     $('#missionModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // Button that triggered the modal
@@ -153,13 +122,5 @@
       modal.find('.modal-body input').val(recipient);
     })
   });
-
-
-
-
-
-
-
-
 </script>
 

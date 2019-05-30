@@ -10,7 +10,8 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Matricule</div>
             </div>
-            <input type="number" class="form-control"  [(ngModel)]="employee.matricule" name="matriculee" id="matriculee" placeholder="Entrer la matricule de l'employe ...">
+            <input type="number" class="form-control" [(ngModel)]="employee.matricule" name="matriculee" id="matriculee"
+                   placeholder="Entrer la matricule de l'employe ...">
           </div>
         </div>
         <br>
@@ -21,7 +22,8 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Nom</div>
             </div>
-            <input type="text" class="form-control" id="lastNamee" [(ngModel)]="employee.lastName" name="lastNamee" placeholder="Entrer le nom de l'employe ...">
+            <input type="text" class="form-control" id="lastNamee" [(ngModel)]="employee.lastName" name="lastNamee"
+                   placeholder="Entrer le nom de l'employe ...">
           </div>
         </div>
         <br>
@@ -32,7 +34,8 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Prenom</div>
             </div>
-            <input type="text" class="form-control" id="firstNamee" [(ngModel)]="employee.firstName" name="firstNamee" placeholder="Entrer le prenom de l'employe ...">
+            <input type="text" class="form-control" id="firstNamee" [(ngModel)]="employee.firstName" name="firstNamee"
+                   placeholder="Entrer le prenom de l'employe ...">
           </div>
         </div>
         <br>
@@ -43,7 +46,8 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Fonction</div>
             </div>
-            <input type="text" class="form-control" [(ngModel)]="employee.fonction" name="fonctionn"  id="fonctionn" placeholder="Entrer la fonction de l'employe ...">
+            <input type="text" class="form-control" [(ngModel)]="employee.fonction" name="fonctionn" id="fonctionn"
+                   placeholder="Entrer la fonction de l'employe ...">
           </div>
         </div>
         <br>
@@ -54,12 +58,11 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Type</div>
             </div>
-            <select  class="custom-select"
-                     name="typee" id="typee" [(ngModel)]="employee.type" >
+            <select class="custom-select"
+                    name="typee" id="typee" [(ngModel)]="employee.type">
               <option selected disabled>Selectionner le type d'équipement ...</option>
-              <option >Administratif</option>
-              <option >Technique</option>
-
+              <option>Administratif</option>
+              <option>Technique</option>
 
 
             </select>
@@ -67,9 +70,12 @@
           </div>
         </div>
         <br>
-
-        <button type="submit"  (click)="addEmployee()" class="btn btn-outline-success">Creer</button>
-        <button type="submit" (click)="renitialiser()" class="btn btn-outline-secondary ml-2">Reinitialiser le formulaire</button>
+        <div class="d-flex justify-content-end">
+          <button type="submit" (click)="renitialiser()" class="btn btn-outline-secondary mr-sm-1">Reinitialiser le
+            formulaire
+          </button>
+          <button type="submit" (click)="addEmployee()" class="btn btn-outline-success">Creer</button>
+        </div>
       </form>
     </div>
   </div>
@@ -88,7 +94,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let e of employees">
-        <th >{{e.matricule}}</th>
+        <th>{{e.matricule}}</th>
         <td>{{e.lastName}}</td>
         <td>{{e.firstName}}</td>
         <td>{{e.fonction}}</td>
@@ -100,7 +106,9 @@
       </tbody>
     </table>
     <br>
-    <button type="submit" (click)="saveEmployee()" class="btn btn-outline-primary">Confirmer</button>
-    <button type="submit" class="btn btn-outline-secondary ml-2">Reinitialiser la liste</button>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-outline-secondary mr-sm-1">Reinitialiser la liste</button>
+      <button type="submit" (click)="saveEmployee()" class="btn btn-outline-primary">Confirmer</button>
+    </div>
   </div>
 </div>

@@ -12,7 +12,7 @@ import {MonthUtil} from "../../util/month-util";
   providedIn: 'root'
 })
 export class InterventionMonthService {
-  private _url = "http://localhost:8097/dashboard-api/dashboards/interventionMonth/";
+    private _url = "http://localhost:8097/dashboard-api/dashboards/interventionMonth/";
   private _listEquipementssByYear: Array<InterventionMonthVo> = new Array<InterventionMonthVo>();
   private _listEquipementsByYearUntouched: Array<InterventionMonthVo> = [];
   private _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());

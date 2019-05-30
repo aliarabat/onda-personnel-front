@@ -14,14 +14,15 @@ export class GestionEmployeesListComponent implements OnInit {
   constructor(private  employeeService : EmployeeServiceService, private router:Router) { }
 
   public employeeInfo : EmployeeVo = new EmployeeVo() ;
+
   ngOnInit() {
     MiddleWare.checkIfUserIsLogged(this.router);
     this.employeeService.findAllEmployesExist();
 
   }
 
-  public  get allEmployes(){
-    return this.employeeService.allEmployees;
+  public  get employeesSearch(){
+    return this.employeeService.employeeSearch;
   }
 
 
@@ -56,7 +57,15 @@ public Revert(matricule:string){
     return this.employeeService.newEmployee
   }
 
+  get employeeSearch(){
+    return this.employeeService.employerSearch;
+  }
+
   public findEmployeeById(id:number){
     this.employeeService.findEmployeeyId(id);
+  }
+
+  employeeSearchChange(value : string) {
+    this.employeeService.employeeSearchChange(value);
   }
 }
