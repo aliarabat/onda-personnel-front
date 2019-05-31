@@ -67,6 +67,8 @@
                 class="fas fa-user-cog mr-3"></i>Parametres</a>
               <div class="dropdown-divider" *ngIf="userData.rang === 'Administrateur'"></div>
               <a class="dropdown-item pointer" data-toggle="modal" data-target="#userCreate" *ngIf="userData.rang === 'Administrateur'"><i class="fas fa-user-plus mr-3" ></i>Ajouter un compte</a>
+              <div class="dropdown-divider" *ngIf="userData.rang === 'Administrateur'"></div>
+              <a class="dropdown-item pointer" routerLink="admin-dashboard" *ngIf="userData.rang === 'Administrateur'"><i class="fas fa-columns mr-3" ></i>Admin dashboard</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item text-danger pointer" href="#" (click)="logout()"><i
                 class="fas fa-sign-out-alt mr-3"></i>Deconnexion</a>
@@ -396,6 +398,7 @@
                   <option disabled selected>Selectionner le rang</option>
                   <option [selected]="user.rang">Administrateur</option>
                   <option [selected]="user.rang">Responsable</option>
+                  <option [selected]="user.rang">Technicien</option>
                 </select>
                 <div class="invalid-feedback">
                   Choix invalide

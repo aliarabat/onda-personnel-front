@@ -47,6 +47,11 @@ import { GestionAnomalyPrintComponent } from './dashboard/gestion-anomaly/gestio
 import { GestionEquipmentTypeComponent } from './dashboard/gestion-equipment/gestion-equipment-type/gestion-equipment-type.component';
 import { ServicesMonthlyPrintComponent } from './gestion/gestion-services/gestion-services-print/services-monthly-print/services-monthly-print.component';
 import { ServicesGraphPrintComponent } from './gestion/gestion-services/gestion-services-print/services-graph-print/services-graph-print.component';
+import { RecoveryComponent } from './access/recovery/recovery.component';
+import {PasswordChangeComponent} from "./access/recovery/password-change/password-change.component";
+import {PasswordRecoveryComponent} from './access/recovery/password-recovery/password-recovery.component';
+import { UsersListComponent } from './access/admin-panel/users-list/users-list.component';
+import { StatsComponent } from './access/admin-panel/stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +99,11 @@ import { ServicesGraphPrintComponent } from './gestion/gestion-services/gestion-
     GestionEquipmentTypeComponent,
     ServicesMonthlyPrintComponent,
     ServicesGraphPrintComponent,
-
+    RecoveryComponent,
+    PasswordRecoveryComponent,
+    PasswordChangeComponent,
+    UsersListComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,

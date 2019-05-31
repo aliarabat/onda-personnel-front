@@ -3,7 +3,7 @@ import {Validator} from '../../validator/validator';
 import {UserService} from '../../controller/service/user.service';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../util/middle-ware';
-import {Session} from '../../util/session';
+
 
 
 @Component({
@@ -13,17 +13,14 @@ import {Session} from '../../util/session';
 })
 export class LoginComponent implements OnInit {
 
-  private email: string;
-  private password: string;
+
 
   constructor(private userService: UserService, private router: Router) {
 
   }
 
   ngOnInit() {
-    if (Session.retrieve('loggedUser')) {
-      this.router.navigate(['employes']);
-    }
+    MiddleWare.checkIfUserIsNotLogged(this.router);
   }
 
   public get loginRequest() {

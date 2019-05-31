@@ -7,6 +7,10 @@ export class MiddleWare {
       if (!Session.retrieve('loggedUser')) {
         router.navigate(['login']);
       }
-
-}
+  }
+  public static checkIfUserIsNotLogged(router: Router) {
+      if (Session.retrieve('loggedUser')) {
+        router.navigate(['employes']);
+      }
+  }
 }

@@ -18,7 +18,8 @@ export class UserService {
   public pwdChangeRequest = {userId: 0, oldPassword: '', newPassword: ''};
   public userDataChangeRequest = {userId: 0, username: '', firstName: '', lastName: '',};
   public userUtil: UserUtil = new UserUtil(this.router);
-  public userModifiedData: User = new User(0, '', '', '', '', '', null, null, '');
+  public userModifiedData: User = new User(0, '', '', '', '', '', null, null, '', false);
+  public users: Array<User> = new Array<User>();
 
   constructor(private http: HttpClient, public router: Router) {
   }
@@ -26,7 +27,11 @@ export class UserService {
   login() {
     this.http.post<User>(this.url + 'login', this.loginRequest).subscribe(response => {
       if (response) {
-        this.userUtil.detectUserAndRedirect(response);
+        if (response.isBlocked) {
+          SwalUtil.blockedUser();
+        } else {
+          this.userUtil.detectUserAndRedirect(response);
+        }
       } else {
         SwalUtil.wrongEmailOrPassword();
       }
@@ -77,11 +82,41 @@ export class UserService {
   create() {
     this.user.joinDate = new Date();
     this.http.post(this.url, this.user).subscribe(response => {
-      if (response === 1){
+      if (response === 1) {
         SwalUtil.changesSavedSuccessfully();
-      }else if(response === -1 || response === -2){
+      } else if (response === -1 || response === -2) {
         SwalUtil.userAlreadyExists();
-      }else {
+      } else {
+        SwalUtil.unkownError();
+      }
+    });
+  }
+
+  public getAll() {
+    this.http.get<Array<User>>(this.url + 'get-all').subscribe((response) => {
+      this.users = response;
+    });
+  }
+
+  public block(user: User) {
+    user.isBlocked = true;
+    this.http.put(this.url, user).subscribe((response) => {
+      if(response === 1){
+        SwalUtil.changesSavedSuccessfully();
+        this.getAll();
+      }else{
+        SwalUtil.unkownError();
+      }
+    });
+  }
+
+  public unblock(user: User) {
+    user.isBlocked = false;
+    this.http.put(this.url, user).subscribe((response) => {
+      if(response === 1){
+        SwalUtil.changesSavedSuccessfully();
+        this.getAll();
+      }else{
         SwalUtil.unkownError();
       }
     });

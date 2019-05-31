@@ -4,7 +4,7 @@ export class SwalUtil {
 
 
 
-  public static wrongEmailOrPassword(){
+  public static wrongEmailOrPassword() {
     Swal.fire({
       type: 'error',
       title: 'Oops...',
@@ -12,7 +12,7 @@ export class SwalUtil {
     })
   }
 
-  public static changeWarning(){
+  public static changeWarning() {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-outline-success',
@@ -31,7 +31,7 @@ export class SwalUtil {
     })
   }
 
-  public static actionCanceled(){
+  public static actionCanceled() {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-outline-success',
@@ -43,7 +43,7 @@ export class SwalUtil {
     )
   }
 
-  public static changesSavedSuccessfully(){
+  public static changesSavedSuccessfully() {
     Swal.fire({
       type: 'success',
       title: 'Changements sauvegardes avec succes !',
@@ -52,7 +52,7 @@ export class SwalUtil {
     })
   }
 
-  public static  emailNotFound(){
+  public static emailNotFound() {
     Swal.fire({
       type: 'error',
       title: 'Oops...',
@@ -60,7 +60,7 @@ export class SwalUtil {
     })
   }
 
-  public static oldPasswordNotCorrect(){
+  public static oldPasswordNotCorrect() {
     Swal.fire({
       type: 'error',
       title: 'Oops...',
@@ -68,7 +68,7 @@ export class SwalUtil {
     })
   }
 
-  public static  unkownError(){
+  public static unkownError() {
     Swal.fire({
       type: 'error',
       title: 'Oops...',
@@ -76,11 +76,45 @@ export class SwalUtil {
     })
   }
 
-  public static userAlreadyExists(){
+  public static userAlreadyExists() {
     Swal.fire({
       type: 'error',
       title: 'Oops...',
       text: 'L\'utilisateur existe deja'
+    })
+  }
+
+  public static unableToConnect() {
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: 'Nous ne pouvons pas nous connecter à Internet pour le moment ...'
+    })
+  }
+
+  public static emailSent() {
+    Swal.fire({
+      type: 'success',
+      title: 'Okay',
+      text: 'Si l\'email que vous avez entré est valide, vous trouverez un email de notre part dans votre boîte de réception.'
+    })
+  }
+
+  public static invalidLink() {
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: 'Le lien que vous avez entré est invalide ...',
+      timer:1700
+    })
+  }
+
+  public static blockedUser() {
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: 'Votre compte est blocké pour le moment, veuillez contacter votre administrateur ...',
+      timer:1700
     })
   }
 
