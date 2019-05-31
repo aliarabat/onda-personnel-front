@@ -122,7 +122,9 @@ export class SwalUtil {
     Swal.fire({
       type: 'error',
       title: 'Oops...!',
-      text: 'Merci de saisir '+subject
+      text: 'Merci de saisir '+subject,
+      timer:1700,
+      showConfirmButton: false
     });
   }
 
@@ -130,7 +132,9 @@ export class SwalUtil {
     Swal.fire({
       type: 'error',
       title: 'Oops...!',
-      text: 'Merci de choisir '+subject
+      text: 'Merci de choisir '+subject,
+      timer:1700,
+      showConfirmButton: false
     });
   }
 

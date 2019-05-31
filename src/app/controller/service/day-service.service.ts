@@ -41,8 +41,8 @@ export class DayServiceService {
 
   public ajouter() {
     if (this._employee.matricule === undefined) {
-      SwalUtil.insert("l'employé");
-    } else if (this._detail.wording === '') {
+      SwalUtil.select("l'employé");
+    } else if (this._detail.wording === '' || this._detail.wording === null) {
       SwalUtil.select("l'horaire");
     } else if (this._days.length >= 7) {
       SwalUtil.passed("7 jours!")

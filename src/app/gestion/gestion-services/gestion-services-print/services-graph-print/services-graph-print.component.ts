@@ -46,7 +46,7 @@ export class ServicesGraphPrintComponent implements OnInit {
     return new Date(workDetailDate);
   }
 
-  printGraph() {
-    this.workService.printGraph();
+  printGraph(fullYear: number, matricule: string) {
+    this.workService.printGraph(fullYear, matricule);
   }
 }

@@ -94,7 +94,7 @@ export class WorkService {
     if (this._dateForPrinting.year === null || this._dateForPrinting.year === undefined) {
       SwalUtil.insert("l'année");
     } else if (this._dateForPrinting.month === null || this._dateForPrinting.month === undefined) {
-      SwalUtil.insert("'le mois");
+      SwalUtil.insert("le mois");
     } else {
       this.http.get<WorkVo>(this._url + 'worktoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
         data => {
@@ -299,9 +299,9 @@ export class WorkService {
   }
 
   searchWorkToGraph() {
-    if (this._employeeToGraph.matricule==='') {
+    if (this._employeeToGraph.matricule===''||this._employeeToGraph.matricule===undefined) {
       SwalUtil.select("l'employé");
-    }else if (this._dateByYear.year===undefined){
+    }else if (this._dateByYear.year===undefined || this._dateByYear.year===null){
       SwalUtil.insert("l'année");
     } else{
       this.http.get<WorkVo>(this._url+"emloyetograph/matricule/"+this._employeeToGraph.matricule+"/year/"+this._dateByYear.year).subscribe(data => !!data ? this._workToGraph = data : this._workToGraph = new WorkVo({},{}));
@@ -317,7 +317,7 @@ export class WorkService {
     this._workToGraph = value;
   }
 
-  printGraph() {
+  printGraph(fullyear:number, matricule:string) {
     let headers = new HttpHeaders();
     const applicationType = 'application/pdf';
     headers = headers.set('Accept', applicationType);
@@ -327,8 +327,8 @@ export class WorkService {
       headers: headers
     };
     // @ts-ignore
-    return this.http.get(this._url + "printgraph/matricule/" + this._employeeToGraph.matricule + "/year/" + this._dateByYear.year , httpOptions).subscribe((result) => {
-      downloadfile(result, applicationType, "Graphe-" + this._employeeToGraph.matricule + "-" + this._dateByYear.year + "." + 'pdf');
+    return this.http.get(this._url + "printgraph/matricule/" + matricule + "/year/" + fullyear , httpOptions).subscribe((result) => {
+      downloadfile(result, applicationType, "Graphe-" + matricule + "-" + fullyear + "." + 'pdf');
     });
   }
 }

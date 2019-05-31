@@ -5,6 +5,16 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-prepend">
+              <div class="input-group-text">Année</div>
+            </div>
+            <input type="number" [(ngModel)]="dateByYear.year" min="0" max="{{ date().getFullYear()}}"
+                   class="form-control" name="year" placeholder="Année">
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
               <div class="input-group-text">Employé</div>
             </div>
             <select class="custom-select" [(ngModel)]="employeeToGraph.matricule" id="month" name="month">
@@ -12,16 +22,6 @@
               <option *ngFor="let e of employees"
                       [value]="e.matricule">{{ e.matricule }}</option>
             </select>
-          </div>
-        </div>
-        <br>
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">Année</div>
-            </div>
-            <input type="number" [(ngModel)]="dateByYear.year" min="0" max="{{ date().getFullYear()}}"
-                   class="form-control" name="year" placeholder="Année">
           </div>
         </div>
         <br>
@@ -48,7 +48,7 @@
           <td>{{ formatDate(workToGraph.workDetailVo.workDetailDate).getFullYear() }}</td>
           <td>
             <button
-              (click)="printGraph()"
+              (click)="printGraph(formatDate(workToGraph.workDetailVo.workDetailDate).getFullYear(), workToGraph.employeeVo.matricule)"
               class="btn btn-outline-success"><i class="fa fa-print" aria-hidden="true"></i>
             </button>
           </td>
