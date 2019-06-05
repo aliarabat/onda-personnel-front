@@ -11,17 +11,18 @@ import {EmployeeServiceService} from "../../../../controller/service/employee-se
 })
 export class ServicesGraphPrintComponent implements OnInit {
 
-  constructor(private workService: WorkService, private employeeService:EmployeeServiceService, private router: Router) {
+  constructor(private workService: WorkService, private employeeService: EmployeeServiceService, private router: Router) {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.employeeService.findAllEmployesExist();
+    if (MiddleWare.checkIfUserIsLogged(this.router))
+      this.employeeService.findAllEmployesExist();
   }
 
-  get employees(){
-    return this.employeeService.allEmployees.filter(emp=>emp.type.toLowerCase()==='technique');
+  get employees() {
+    return this.employeeService.allEmployees.filter(emp => emp.type.toLowerCase() === 'technique');
   }
+
   get dateByYear() {
     return this.workService.dateByYear;
   }
@@ -38,7 +39,7 @@ export class ServicesGraphPrintComponent implements OnInit {
     this.workService.searchWorkToGraph();
   }
 
-  get workToGraph(){
+  get workToGraph() {
     return this.workService.workToGraph;
   }
 

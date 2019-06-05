@@ -2,163 +2,107 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {VacationVo} from '../model/vacation.model';
 import {EmployeeVo} from '../model/employee.model';
-import Swal from "sweetalert2";
-import {DetailVo} from '../model/detail.model';
+import {SwalUtil} from "../../util/swal-util";
+import {UrlsUtil} from "../../util/urls-util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class VacationService {
 
+  private _main_url = UrlsUtil.main_personnel_url;
+  private _url = this._main_url + UrlsUtil.url_day + UrlsUtil.url_vacation;
+  private _urlVac = this._main_url + UrlsUtil.url_vacation;
+  private _url_employees = this._main_url+UrlsUtil.url_employee;
+
   private _vacationCreate: VacationVo = new VacationVo();
-  private _url = 'http://localhost:8099/personnel-api/personnels/day/vacation/';
-  private _urlVac = 'http://localhost:8099/personnel-api/personnels/vacation/';
-  private _url_employees = 'http://localhost:8099/personnel-api/personnels/employee/';
-  private _employee: EmployeeVo = new EmployeeVo(0,'','','','','',true);
+
+  private _employee: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', true);
   private _employees: Array<EmployeeVo> = new Array<EmployeeVo>();
-  private _vacations : Array<VacationVo> = new Array<VacationVo>();
-  private _newVacation : VacationVo = new VacationVo(0,new EmployeeVo(),'','','','')
+  private _vacations: Array<VacationVo> = new Array<VacationVo>();
+  private _newVacation: VacationVo = new VacationVo(0, new EmployeeVo(), '', '', '', '');
 
   constructor(private _http: HttpClient) {
   }
 
   public saveVacation() {
-    if (this.employee.matricule === '' ||this.employee.matricule === undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de selctionee l\'employee!'
-      });
-    } else if (this.vacationCreate.startingDate === '' ||this.vacationCreate.startingDate === undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir la date debut!'
-      });
-    } else if (this.vacationCreate.endingDate == '' || this.vacationCreate.endingDate == undefined ) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir la date fin'
+    if (this.employee.matricule === '' || this.employee.matricule === undefined) {
+      SwalUtil.select('l\'employee!');
+    } else if (this.vacationCreate.startingDate === '' || this.vacationCreate.startingDate === undefined) {
+      SwalUtil.insert('la date debut!');
+    } else if (this.vacationCreate.endingDate == '' || this.vacationCreate.endingDate == undefined) {
+      SwalUtil.insert('la date fin!');
+    } else if (this.vacationCreate.type == '' || this.vacationCreate.type == undefined) {
+      SwalUtil.select('le type de congé!');
+    } else {
+      SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
+        if (result.value) {
+          this._http.post(this._url + 'matricule/' + parseInt(this._employee.matricule), this._vacationCreate).subscribe(
+            data => {
+              this._vacationCreate = new VacationVo();
+              this.findAllEmployees();
+              this.findAllVacations();
+            }, error => {
+              console.log(error);
+            }
+          );
+          SwalUtil.savedSuccessfully('Sauvegarde');
+        }
       });
     }
-    else if (this.vacationCreate.type == '' || this.vacationCreate.type == undefined ) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de selectioner le type de conge!'
-      });
-    }else{
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success ml-1',
-        cancelButton: 'btn btn-danger mr-1'
-      },
-      buttonsStyling: false,
-    });
-    swalWithBootstrapButtons.fire({
-      type: 'info',
-      title: 'voulez vous souvgarger',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, confirm',
-      cancelButtonText: 'No, cancel!',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-
-        this._http.post(this._url + 'matricule/' + parseInt(this._employee.matricule), this._vacationCreate).subscribe(
-          data => {
-            console.log(data);
-            this._vacationCreate = new VacationVo();
-            this.findAllEmployees();
-            this.findAllVacations();
-          }, error=> {
-            console.log(error);
-          }
-        );
-        swalWithBootstrapButtons.fire(
-          'Sauvegardé!',
-          'Vos infos sont sauvegardées',
-          'success'
-        );
-      }
-    });
-
-  }}
+  }
 
   findAllEmployees() {
     this.http.get<Array<EmployeeVo>>(this._url_employees + 'allExist/isExist/' + true).subscribe(
       data => {
-        if (data != null) {
-          this._employees = data;
-        }
+        data ? this._employees = data : this._employees = [];
       }, error => {
         console.log(error);
       }
     );
   }
 
-  findAllVacations(){
+  findAllVacations() {
     this.http.get<Array<VacationVo>>(this._urlVac).subscribe(
-      data=>{
-        this._vacations = data;
-      },error=>{
+      data => {
+        data ? this._vacations = data : this._vacations = [];
+      }, error => {
         console.log(error)
       }
     );
   }
 
-  deleteVaction(id:number){
-    this.http.delete(this.urlVac+"/id/"+id).subscribe(
-      data=>{
-        this.findAllVacations()
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000
-        });
-
-        Toast.fire({
-          type: 'success',
-          title: 'Supression avec succés'
-        })
-
-      },error1 => {
+  deleteVaction(id: number) {
+    this.http.delete(this.urlVac + "/id/" + id).subscribe(
+      data => {
+        this.findAllVacations();
+        SwalUtil.topEndSavedSuccessfully();
+      }, error1 => {
         console.log(error1)
       }
     )
   }
 
-  updateEmployee(newVacation: VacationVo , matricule:string) {
+  updateEmployee(newVacation: VacationVo, matricule: string) {
     this._http.put(this._url + 'matricule/' + matricule, newVacation).subscribe(data => {
         this.findAllVacations();
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000
-        });
-
-        Toast.fire({
-          type: 'success',
-          title: 'Sauvegardé avec succés'
-        })
+        SwalUtil.topEndSavedSuccessfully();
       }, error1 => {
         console.log(error1);
       }
     );
   }
 
-  findVacationById(id:number){
-    this._http.get<VacationVo>(this._url+'id/'+id).subscribe(
-      data=>{
-        this._newVacation = data;
-      },error1 => {
+  findVacationById(id: number) {
+    this._http.get<VacationVo>(this._url + 'id/' + id).subscribe(
+      data => {
+        data ? this._newVacation = data : this._newVacation = new VacationVo(0, new EmployeeVo(), '', '', '', '');
+      }, error1 => {
         console.log(error1)
       }
     );
   }
+
   get vacations(): Array<VacationVo> {
     return this._vacations;
   }

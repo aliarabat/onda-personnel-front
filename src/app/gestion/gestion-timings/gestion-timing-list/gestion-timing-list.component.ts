@@ -13,12 +13,12 @@ import {MiddleWare} from '../../../util/middle-ware';
 export class GestionTimingListComponent implements OnInit {
   public detailInfo: DetailVo = new DetailVo();
 
-  constructor(public detailService: DetailServiceService, private router:Router) {
+  constructor(public detailService: DetailServiceService, private router: Router) {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.detailService.findAllDetails()
+    if (MiddleWare.checkIfUserIsLogged(this.router))
+      this.detailService.findAllDetails()
   }
 
   public get allDetails() {

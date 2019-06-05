@@ -2,20 +2,21 @@ import {Injectable} from '@angular/core';
 import {InterventionDayVo} from '../model/intervention-day';
 import {TimingVo} from '../model/timing.model';
 import {HttpClient} from '@angular/common/http';
-import {DetailVo} from '../model/detail.model';
 import {EquipementVo} from '../model/equipement';
 import {TypeVo} from '../model/type';
-import {EmployeeVo} from '../model/employee.model';
-import Swal from "sweetalert2";
 import {SwalUtil} from "../../util/swal-util";
+import {UrlsUtil} from "../../util/urls-util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterventionDayService {
-  private _url: string = 'http://localhost:8097/dashboard-api/dashboards/interventionDay/';
-  private _urlType: string = 'http://localhost:8097/dashboard-api/dashboards/type/';
-  private _urlEquipement: string = 'http://localhost:8097/dashboard-api/dashboards/equipement/';
+
+  private _main_url = UrlsUtil.main_dashboard_url;
+  private _url: string = this._main_url + UrlsUtil.url_interventionDay;
+  private _urlType: string = this._main_url + UrlsUtil.url_type;
+  private _urlEquipement: string = this._main_url + UrlsUtil.url_equipement;
+
   private _interventionCreate: InterventionDayVo = new InterventionDayVo();
   private _breakNumberTotal: number = 0;
   private _breakDuration: TimingVo = new TimingVo('0', '0');
@@ -24,10 +25,10 @@ export class InterventionDayService {
   private _reparationDurationTotal: TimingVo = new TimingVo();
   private _breakDurationTotalHour: number = 0;
   private _breakDurationTotalMinute: number = 0;
-  private _allTypes: Array<TypeVo> = []
-  private _equipments: Array<EquipementVo> = []
+  private _allTypes: Array<TypeVo> = [];
+  private _equipments: Array<EquipementVo> = [];
   private _interventions: Array<InterventionDayVo> = [];
-  private _equipement: EquipementVo = new EquipementVo(0, '')
+  private _equipement: EquipementVo = new EquipementVo(0, '');
   private _selectedType: TypeVo = new TypeVo();
 
   constructor(private _http: HttpClient) {
@@ -105,17 +106,7 @@ export class InterventionDayService {
 
   public saveIntervention(nameEquipement: string) {
     if (this.interventions.length != 0) {
-      Swal.fire({
-        title: 'Ajout',
-        text: 'Vous êtes sûr de l\'ajout',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d6d20b',
-        cancelButtonText: 'Annuler',
-
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirmer'
-      }).then((result) => {
+      SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
         if (result.value) {
           this._http.post(this._url + "equipement/" + nameEquipement, this.interventions).subscribe(
             data => {
@@ -131,16 +122,10 @@ export class InterventionDayService {
             }
           );
         }
-
       });
     } else {
-      Swal.fire({
-        type: 'error',
-        title: 'Error...',
-        text: 'Merci de remplir le tableau'
-      });
+      SwalUtil.fillTheTable();
     }
-
   }
 
   get interventionCreate(): InterventionDayVo {

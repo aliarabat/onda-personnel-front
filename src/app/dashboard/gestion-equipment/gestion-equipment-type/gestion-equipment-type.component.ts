@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TypeService} from '../../../controller/service/type.service';
+import {Router} from "@angular/router";
+import {MiddleWare} from "../../../util/middle-ware";
 
 @Component({
   selector: 'app-gestion-equipment-type',
@@ -8,35 +10,43 @@ import {TypeService} from '../../../controller/service/type.service';
 })
 export class GestionEquipmentTypeComponent implements OnInit {
 
-  constructor(private typeService:TypeService) { }
+  constructor(private typeService: TypeService, private router: Router) {
+  }
 
   ngOnInit() {
-    this.typeService.findAllTypes();
+    if (MiddleWare.checkIfUserIsLogged(this.router))
+      this.typeService.findAllTypes();
   }
-  public get allTypes(){
+
+  public get allTypes() {
     return this.typeService.allTypes;
   }
-  public get typeCreate(){
+
+  public get typeCreate() {
     return this.typeService.typeCreate;
   }
-  public get typeEdit(){
+
+  public get typeEdit() {
     return this.typeService.typeEdit;
   }
-  createType(){
+
+  createType() {
     this.typeService.createType(this.typeService.typeCreate);
   }
-  editType(){
+
+  editType() {
     this.typeService.editType(this.typeService.typeEdit);
   }
-  deleteType(id:number){
+
+  deleteType(id: number) {
     this.typeService.deleteTypeById(id);
   }
 
-  findById(id:number){
+  findById(id: number) {
     this.typeService.findTypeById(id);
   }
 
-  initForm(){
+  initForm() {
     this.typeService.initForm();
   }
 

@@ -13,7 +13,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Employé</div>
             </div>
-            <select [disabled]="!!days.length>0" class="custom-select" (change)="checkDates()"
+            <select [disabled]="days.length>0" class="custom-select" (change)="checkDates()"
                     [(ngModel)]="employee.matricule" id="employe" name="matricule">
               <option selected disabled>Selectionner l'employe ...</option>
               <option *ngFor="let emp of employeeVo"
@@ -32,7 +32,7 @@
             <select class="custom-select" [(ngModel)]="detail.wording" (ngModelChange)="addDetailToBadges()"
                     name="horaire" id="horaire">
               <option selected disabled>Selectionner l(es) horaire(s) ...</option>
-              <option *ngFor="let d of detailVo" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top"
+              <option *ngFor="let d of detailVo" value="{{ d.wording }}" data-toggle="tooltip" data-placement="top"
                       title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
             </select>
           </div>
@@ -54,7 +54,7 @@
         </h5>
         <br/>
         <div class="d-flex justify-content-end">
-          <button (click)="reinitializeForm()" class="btn btn-outline-secondary mr-1">Reinitialiser le formulaire
+          <button (click)="initForm()" class="btn btn-outline-secondary mr-1">Reinitialiser le formulaire
           </button>
           <button (click)="ajouter()" class="btn btn-outline-success">Ajouter</button>
         </div>

@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import Swal from "sweetalert2";
 import {MissionVo} from '../model/mission.model';
 import {DayServiceService} from './day-service.service';
 import {EmployeeVo} from '../model/employee.model';
@@ -9,6 +8,7 @@ import {DayVo} from '../model/day.model';
 import {DayDetailVo} from '../model/day-detail.model';
 import {WorkVo} from '../model/work.model';
 import {SwalUtil} from "../../util/swal-util";
+import {UrlsUtil} from "../../util/urls-util";
 
 
 @Injectable({
@@ -19,13 +19,13 @@ export class MissionService {
   constructor(private http: HttpClient) {
   }
 
-  private _url = 'http://localhost:8099/personnel-api/personnels/dayDetail/';
-  private _urlDay = 'http://localhost:8099/personnel-api/personnels/day/';
-  private _urlEmployee = 'http://localhost:8099/personnel-api/personnels/employee/';
-  private _urlWork = 'http://localhost:8099/personnel-api/personnels/work/';
-  private _urlMission = 'http://localhost:8099/personnel-api/personnels/mission/';
-  private _urlDetail = 'http://localhost:8099/personnel-api/personnels/Detail/';
-
+  private main_url=UrlsUtil.main_personnel_url;
+  private _url = this.main_url+UrlsUtil.url_dayDetail;
+  private _urlDay = UrlsUtil.main_personnel_url+UrlsUtil.url_day;
+  private _urlEmployee = this.main_url+UrlsUtil.url_employee;
+  private _urlWork = this.main_url+UrlsUtil.url_work;
+  private _urlMission = this.main_url+UrlsUtil.url_mission;
+  private _urlDetail = this.main_url+UrlsUtil.url_Detail;
 
   private _dayService: DayServiceService;
   private _theDay: DayVo = new DayVo();
@@ -74,26 +74,12 @@ export class MissionService {
     } else if (dayDetail.missionVo.endingTimeVo.minute === '' || dayDetail.missionVo.endingTimeVo.minute === undefined) {
       SwalUtil.insert("en minutes l'horaire")
     } else {
-      Swal.fire({
-        title: 'Modification',
-        text: "Vous êtes sûr de la modification",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d6d20b',
-        cancelButtonText: 'Annuler',
-
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Modifier'
-      }).then((result) => {
+      SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
           this.http.get<DayVo>(this._urlDay + "matricule/" + dayDetail.missionVo.employee.matricule + "/dayDate/" + dayDetail.missionVo.startingDate).subscribe(
             data => {
               if (data == null) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: "Erreur: Cet employé n'as pas encore de service à cette date ",
-                  type: 'error',
-                });
+                SwalUtil.anySuccess('Erreur!', "Erreur: Cet employé n'as pas encore de service à cette date ");
               } else {
                 this.http.put(this._urlMission, dayDetail).subscribe(
                   (res) => {
@@ -104,11 +90,6 @@ export class MissionService {
                       // @ts-ignore
                       $('#missionModal').modal('hide')
                     } else if (res == -2) {
-                      Swal.fire({
-                        title: '',
-                        text: "  ",
-                        type: 'error',
-                      });
                       SwalUtil.any("Erreur!", "Modification du service échouée:Ce fonctionnaire n'a pas de service à cette date");
                     } else if (res == -6 || res == -7) {
                       SwalUtil.any("Erreur!", "Modification du service échouée:Ce fonctionnaire est absent à cette date");
@@ -133,7 +114,6 @@ export class MissionService {
         if (data != null) {
           this.theDayDetail = data;
           this.theDayDetail1 = data;
-          console.log(this._theDayDetail);
         }
       }, error => {
         console.log(error);
@@ -143,7 +123,6 @@ export class MissionService {
 
 
   SaveMission(mission: MissionVo, matricule: string) {
-
     if (mission.reference === '' || mission.reference === undefined) {
       SwalUtil.insert("la référence de la mission!");
     } else if (matricule === '' || matricule === undefined) {
@@ -169,30 +148,14 @@ export class MissionService {
     } else if (mission.endingTimeVo.minute === '' || mission.endingTimeVo.minute === undefined) {
       SwalUtil.insert("en minutes l'horaire!");
     } else {
-      Swal.fire({
-        title: 'Modification',
-        text: "Vous êtes sûr de la modification",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d6d20b',
-        cancelButtonText: 'Annuler',
-
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Modifier'
-      }).then((result) => {
+      SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
-
-
           this.http.put(this._url + 'mission/matricule/' + matricule, mission).subscribe(
             (res) => {
               if (res == 1) {
                 this.mission = new MissionVo();
                 this.findAlldayDetails();
-                Swal.fire({
-                  title: 'Ajout de Mission',
-                  text: 'Modification du service réussite',
-                  type: 'success',
-                });
+                SwalUtil.anySuccess('Ajout de Mission', 'Modification du service réussite');
               } else if (res == -4) {
                 SwalUtil.any("Erreur!", "Modification du service échouée:Cet employé n'as pas encore de service à cette date!");
               } else if (res == -6) {
@@ -215,35 +178,23 @@ export class MissionService {
     this.mission = new MissionVo();
     //this._dayService.employee=new EmployeeVo();
     //this._dayService.detail=new DetailVo();
-
   }
 
   findDayDetailsOfDay(matricule: string, dateDay: string) {
-
     this.http.get<DayVo>(this._urlDay + "matricule/" + matricule + "/dayDate/" + dateDay).subscribe(
       data => {
         if (data != null) {
           //this.findEmployesByMatricule(matricule);
           this.theDay = data;
-          // console.log(this._theDay);
           this.checkDayDetails = new Array<DayDetailVo>();
           for (let dayDetail of data.dayDetailsVo) {
             if (dayDetail.detailVo != null) {
               this._checkDayDetails.push(dayDetail);
-
             }
           }
-          console.log(this._checkDayDetails);
           this.dayDetails = this._checkDayDetails;
-
-          //console.log(this._dayDetails);
         } else {
-          Swal.fire({
-            title: '',
-            text: " ",
-            type: 'error',
-          });
-          SwalUtil.any("Erreur!","Aucun service trouvé : Cet employé n'as pas encore de service à cette date!");
+          SwalUtil.any("Erreur!", "Aucun service trouvé : Cet employé n'as pas encore de service à cette date!");
         }
       }, error => {
         console.log(error);
@@ -264,9 +215,7 @@ export class MissionService {
   findAlldayDetails() {
     this.http.get<Array<DayDetailVo>>(this._url + "Mission/").subscribe(
       data => {
-        console.log(data);
-        this.dayDetails1 = data;
-        console.log(this._dayDetails1);
+        data ? this.dayDetails1 = data : this.dayDetails1 = [];
       }, error => {
         console.log(error);
       }
@@ -295,30 +244,15 @@ export class MissionService {
   }
 
   deleteMission(dayDetail: DayDetailVo) {
-    Swal.fire({
-      title: 'Suppression',
-      text: "Vous êtes sûr de vouloir Supprimer ce service",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#377bd6',
-      cancelButtonText: 'Annuler',
-
-      cancelButtonColor: '#dd0009',
-      confirmButtonText: 'Supprimer'
-    }).then((result) => {
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
       if (result.value) {
-
-
         this.http.put(this._url + 'mission/id/' + dayDetail.id, dayDetail).subscribe(
           (res) => {
             if (res == 1) {
-              console.log(dayDetail.id);
               this.findAlldayDetails();
               this.deleteAllDayDetailsWhereIsNull();
-              SwalUtil.deleted("la Mission","Suppression du service réussite");
+              SwalUtil.deleted("la Mission", "Suppression du service réussite");
             } else {
-              console.log(dayDetail.id);
-              console.log(this._url);
               SwalUtil.any("Erreur!", "Suppression du service échouée:Erreur Inconnue!");
             }
           },
@@ -330,6 +264,16 @@ export class MissionService {
   getTheDayDetail(dayDetail: DayDetailVo) {
     this._theDayDetail = dayDetail;
     console.log(this._theDayDetail);
+  }
+
+  deleteAllDayDetailsWhereIsNull() {
+    this.http.delete(this._url + 'null').subscribe(
+      data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      }
+    );
   }
 
   get url(): string {
@@ -487,17 +431,6 @@ export class MissionService {
   set urlDetail(value: string) {
     this._urlDetail = value;
   }
-
-  deleteAllDayDetailsWhereIsNull() {
-    this.http.delete(this._url + 'null').subscribe(
-      data => {
-        console.log(data);
-      }, error => {
-        console.log(error);
-      }
-    );
-  }
-
 
   get checkDayDetails(): Array<DayDetailVo> {
     return this._checkDayDetails;

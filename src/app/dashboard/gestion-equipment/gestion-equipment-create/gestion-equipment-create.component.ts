@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EquipementService} from '../../../controller/service/equipement.service';
 import {TypeService} from '../../../controller/service/type.service';
 import {EquipementVo} from '../../../controller/model/equipement';
+import {MiddleWare} from "../../../util/middle-ware";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-gestion-equipment-create',
@@ -10,35 +12,43 @@ import {EquipementVo} from '../../../controller/model/equipement';
 })
 export class GestionEquipmentCreateComponent implements OnInit {
 
-  constructor(private equipementService:EquipementService,private typeService:TypeService) { }
+  constructor(private equipementService: EquipementService, private typeService: TypeService, private router: Router) {
+  }
 
   ngOnInit() {
-    this.typeService.findAllTypes();
+    if (MiddleWare.checkIfUserIsLogged(this.router))
+      this.typeService.findAllTypes();
   }
-  public get allTypes(){
+
+  public get allTypes() {
     return this.typeService.allTypes;
   }
-  public get equipementCreate(){
+
+  public get equipementCreate() {
     return this.equipementService.equipementCreate;
   }
 
-  saveEquipement(){
+  saveEquipement() {
     this.equipementService.createEquipement();
   }
-  addEquipement(){
+
+  addEquipement() {
     this.equipementService.addEquipement();
   }
-removeEquipement(equipement:EquipementVo){
-    this.equipementService.deleteFromList(equipement);
-}
 
-public get equipementsToBeAdded(){
+  removeEquipement(equipement: EquipementVo) {
+    this.equipementService.deleteFromList(equipement);
+  }
+
+  public get equipementsToBeAdded() {
     return this.equipementService.equipementTobeAdded;
-}
-initForm(){
+  }
+
+  initForm() {
     this.equipementService.initForm();
-}
-  initList(){
+  }
+
+  initList() {
     this.equipementService.initList();
   }
 

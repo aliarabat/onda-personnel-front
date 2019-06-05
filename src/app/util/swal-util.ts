@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
+import {Observable} from "rxjs";
 
 export class SwalUtil {
-
 
 
   public static wrongEmailOrPassword() {
@@ -105,7 +105,7 @@ export class SwalUtil {
       type: 'error',
       title: 'Oops...',
       text: 'Le lien que vous avez entré est invalide ...',
-      timer:1700
+      timer: 1700
     })
   }
 
@@ -114,83 +114,149 @@ export class SwalUtil {
       type: 'error',
       title: 'Oops...',
       text: 'Votre compte est blocké pour le moment, veuillez contacter votre administrateur ...',
-      timer:1700
+      timer: 1700
     })
   }
 
-  public static insert(subject:string){
+  public static insert(subject: string) {
     Swal.fire({
       type: 'error',
       title: 'Oops...!',
-      text: 'Merci de saisir '+subject,
-      timer:1700,
+      text: 'Merci de saisir ' + subject,
+      timer: 1500,
       showConfirmButton: false
     });
   }
 
-  public static select(subject:string){
+  public static select(subject: string) {
     Swal.fire({
       type: 'error',
       title: 'Oops...!',
-      text: 'Merci de choisir '+subject,
-      timer:1700,
+      text: 'Merci de choisir ' + subject,
+      timer: 1500,
       showConfirmButton: false
     });
   }
 
-  public static alreadyExist(subject:string){
+  public static alreadyExist(subject: string) {
     Swal.fire({
       type: 'error',
       title: 'Oops...!',
-      text: subject+' existe déja'
+      text: subject + ' existe déja',
+      timer: 1500,
+      showConfirmButton: false
     });
   }
 
-  public static passed(subject:string){
+  public static passed(subject: string) {
     Swal.fire({
       type: 'error',
       title: 'Oops...!',
-      text: 'Vous avez dépassé '+subject
+      text: 'Vous avez dépassé ' + subject,
+      timer: 1500,
+      showConfirmButton: false
     });
   }
 
-  public static deleted(subject:string, text:string){
+  public static deleted(subject: string, text: string) {
     Swal.fire({
       type: 'success',
-      title: 'Suppression de '+subject,
-      text: text
+      title: 'Suppression de ' + subject,
+      text: text,
+      timer: 1500,
+      showConfirmButton: false
     });
   }
 
-  public static updateOf(subject:string, othermessage?:string){
+  public static updateOf(subject: string, othermessage?: string) {
     Swal.fire({
       type: 'success',
-      title: 'Modification de '+subject,
-      text: 'Modification de '+!!othermessage?othermessage:subject+' réussite'
+      title: 'Modification de ' + subject,
+      text: 'Modification de ' + !!othermessage ? othermessage : subject + ' réussite',
+      timer: 1500,
+      showConfirmButton: false
     });
   }
 
-  public static fillTheTable(){
+  public static fillTheTable() {
     Swal.fire({
       type: 'warning',
-      title: 'Opss..!',
-      text: 'Merci de remplir le tableau'
+      title: 'Oops..!',
+      text: 'Merci de remplir le tableau',
+      timer: 1500,
+      showConfirmButton: false
     });
   }
 
-  public static veridyData(subject:string){
+  public static veridyData(subject: string) {
     Swal.fire({
       type: 'warning',
       title: 'Oops...',
-      text: 'Merci de verifier '+subject
+      text: 'Merci de verifier ' + subject,
+      timer: 1500,
+      showConfirmButton: false
     });
   }
 
-  public static any(title:string, text:string){
+  public static any(title: string, text: string) {
     Swal.fire({
       type: 'error',
       title: title,
-      text: text
+      text: text,
+      timer: 1500,
+      showConfirmButton: false
     });
+  }
+
+  public static anySuccess(title: string, text: string) {
+    Swal.fire({
+      type: 'success',
+      title: title,
+      text: text,
+      timer: 1700,
+      showConfirmButton: false
+    });
+  }
+
+  public static saveConfirmation(actionName: string, action: string,) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ml-1',
+        cancelButton: 'btn btn-danger mr-1'
+      },
+      buttonsStyling: false,
+    });
+    return swalWithBootstrapButtons.fire({
+      title: actionName,
+      text: "Etes-vous sure de " + action + " vos infos?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, ' + action + '!',
+      cancelButtonText: 'Non, annuler!',
+      reverseButtons: true
+    })
+  }
+
+  public static savedSuccessfully(actionName: string) {
+    Swal.fire({
+      title: actionName + '!',
+      text: actionName + ' avec succés',
+      type: 'success',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  public static topEndSavedSuccessfully() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+    Toast.fire({
+      type: 'success',
+      title: 'Supression avec succés'
+    })
   }
 }

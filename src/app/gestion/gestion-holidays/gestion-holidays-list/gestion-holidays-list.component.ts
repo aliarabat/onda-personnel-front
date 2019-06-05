@@ -14,12 +14,12 @@ export class GestionHolidaysListComponent implements OnInit {
   private selectedHoliday: HolidayVo = new HolidayVo(0, '', '', '');
 
 
-  constructor(private holidayService: HolidayService, private router:Router) {
+  constructor(private holidayService: HolidayService, private router: Router) {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.holidayService.findAll();
+    if (MiddleWare.checkIfUserIsLogged(this.router))
+      this.holidayService.findAll();
   }
 
   get holidayList() {

@@ -3,14 +3,16 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {SwalUtil} from '../../util/swal-util';
 import {User} from '../model/user.model';
+import {UrlsUtil} from "../../util/urls-util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecoveryService {
 
-  private userUrl: string = 'http://localhost:8098/user-api/user/';
-  private recoveryUrl: string = 'http://localhost:8098/user-api/recovery/';
+  private userUrl: string = UrlsUtil.main_user_url + UrlsUtil.url_user;
+  private recoveryUrl: string = UrlsUtil.main_user_url + UrlsUtil.url_recovery;
+
   public recoveryRequest = {email: ''};
   public passwordRecoveryRequest = {userId: 0, newPwd: '', newPwdConfirmation: ''};
 
@@ -49,7 +51,7 @@ export class RecoveryService {
       if (response === 1) {
         SwalUtil.changesSavedSuccessfully();
         setTimeout(() => this.router.navigate(['login']), 1600)
-      }else{
+      } else {
         SwalUtil.unkownError();
       }
     })

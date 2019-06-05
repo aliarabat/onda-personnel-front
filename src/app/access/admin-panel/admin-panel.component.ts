@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
+import {MiddleWare} from "../../util/middle-ware";
+import {GrantedAccess} from "../../util/granted-access";
 
 @Component({
   selector: 'app-admin-panel',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminPanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) {
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
+    await GrantedAccess.checkIfUserIsAdmin(this.router);
   }
 
 }

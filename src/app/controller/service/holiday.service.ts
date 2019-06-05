@@ -5,6 +5,7 @@ import {HolidayVo} from '../model/holiday.model';
 import Swal from 'sweetalert2';
 import {isFatalDiagnosticError} from '@angular/compiler-cli/src/ngtsc/diagnostics';
 import {SwalUtil} from "../../util/swal-util";
+import {UrlsUtil} from "../../util/urls-util";
 
 @Injectable({
   providedIn: 'root'
@@ -13,27 +14,13 @@ export class HolidayService {
   constructor(private http: HttpClient) {
   }
 
-  private _url = 'http://localhost:8099/personnel-api/personnels/holiday/';
+  private _url = UrlsUtil.main_personnel_url+UrlsUtil.url_holiday;
   private _holidayCreate: HolidayVo = new HolidayVo(0, '', '', '');
   private _holidaysVo: Array<HolidayVo> = new Array<HolidayVo>();
   private _holidaysList: Array<HolidayVo> = new Array<HolidayVo>();
   private _holidayVoToUpdate: HolidayVo = new HolidayVo(0, '', '', '');
 
-  get holidayCreate(): HolidayVo {
-    return this._holidayCreate;
-  }
-
-  set holidayCreate(value: HolidayVo) {
-    this._holidayCreate = value;
-  }
-
-  get holidaysVo(): Array<HolidayVo> {
-    return this._holidaysVo;
-  }
-
-  set holidaysVo(value: Array<HolidayVo>) {
-    this._holidaysVo = value;
-  }
+  private _holidaysNumber: Array<number> = [];
 
   addHoliday() {
     if (this._holidayCreate.reference === '') {
@@ -67,33 +54,14 @@ export class HolidayService {
     if (this._holidaysVo.length === 0) {
       SwalUtil.fillTheTable();
     } else {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success ml-1',
-          cancelButton: 'btn btn-secondary mr-1'
-        },
-        buttonsStyling: false,
-      });
-      swalWithBootstrapButtons.fire({
-        title: 'Etes-vous sure?',
-        text: 'Vous ne pourrez pas revenir en arrière!',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Oui, sauvegarder!',
-        cancelButtonText: 'Non, annuler!',
-        reverseButtons: true
-      }).then((result) => {
+      SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
         if (result.value) {
-          swalWithBootstrapButtons.fire(
-            'Sauvegarder!',
-            'Sauvegardés avec succés.',
-            'success'
-          );
           this.http.post(this._url, this._holidaysVo).subscribe(
             data => {
               if (data === 1) {
                 this.findAll();
                 this._holidaysVo = new Array<HolidayVo>();
+                SwalUtil.savedSuccessfully('Sauvegarde');
               }
             }, error => {
               console.log(error);
@@ -107,6 +75,74 @@ export class HolidayService {
 
   findAll() {
     this.http.get<Array<HolidayVo>>(this._url).subscribe(data => data ? this._holidaysList = data : this._holidaysList = []);
+  }
+
+  updateHoliday(hol: HolidayVo) {
+    this.checkHolidayVoAttrs(hol);
+    SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
+      if (result.value) {
+        this.http.put<HolidayVo>(this._url, this._holidayVoToUpdate).subscribe(
+          data => {
+            if (data == 1) {
+              // @ts-ignore
+              $("#updateHolidayModal").modal("hide");
+              this.findAll();
+              this._holidayVoToUpdate = new HolidayVo(0, '', '', '');
+              SwalUtil.topEndSavedSuccessfully();
+            }
+          }, error => {
+            console.log(error);
+          }
+        );
+      }
+    });
+  }
+
+  private checkHolidayVoAttrs(hol: HolidayVo) {
+    this._holidayVoToUpdate.id = hol.id;
+    if (this._holidayVoToUpdate.reference === '') {
+      this._holidayVoToUpdate.reference = hol.reference;
+    }
+    if (this._holidayVoToUpdate.startingDate === '') {
+      this._holidayVoToUpdate.startingDate = hol.startingDate;
+    }
+    if (this._holidayVoToUpdate.endingDate === '') {
+      this._holidayVoToUpdate.endingDate = hol.endingDate;
+    }
+  }
+
+  deleteHoliday(id: number) {
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
+      if (result.value) {
+        this.http.delete(this._url + 'id/' + id).subscribe();
+        this._holidaysList = this._holidaysList.filter(h => h.id !== id);
+        SwalUtil.savedSuccessfully('Suppression');
+      }
+    });
+  }
+
+  reinitializeList() {
+    this._holidaysVo = new Array<HolidayVo>();
+  }
+
+  countAllHolidays() {
+    return this.http.get<number>(this._url + "countholidays");
+  }
+
+  get holidayCreate(): HolidayVo {
+    return this._holidayCreate;
+  }
+
+  set holidayCreate(value: HolidayVo) {
+    this._holidayCreate = value;
+  }
+
+  get holidaysVo(): Array<HolidayVo> {
+    return this._holidaysVo;
+  }
+
+  set holidaysVo(value: Array<HolidayVo>) {
+    this._holidaysVo = value;
   }
 
   get holidaysList(): Array<HolidayVo> {
@@ -125,99 +161,11 @@ export class HolidayService {
     this._holidayVoToUpdate = value;
   }
 
-  updateHoliday(hol: HolidayVo) {
-    this.checkHolidayVoAttrs(hol);
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success ml-1',
-          cancelButton: 'btn btn-secondary mr-1'
-        },
-        buttonsStyling: false,
-      });
-      swalWithBootstrapButtons.fire({
-        title: 'Etes-vous sure?',
-        text: 'Vous ne pourrez pas revenir en arrière!',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Oui, sauvegarder!',
-        cancelButtonText: 'Non, annuler!',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.value) {
-
-          this.http.put<HolidayVo>(this._url, this._holidayVoToUpdate).subscribe(
-            data => {
-              if (data == 1) {
-                // @ts-ignore
-                $( "#updateHolidayModal").modal("hide");
-                this.findAll();
-                this._holidayVoToUpdate = new HolidayVo(0, '', '', '');
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000
-                });
-                Toast.fire({
-                  type: 'success',
-                  title: 'Sauvegardé avec succés'
-                });
-              }
-            }, error => {
-              console.log(error);
-            }
-          );
-        }
-      });
-
-
-
+  get holidaysNumber(): Array<number> {
+    return this._holidaysNumber;
   }
 
-  private checkHolidayVoAttrs(hol: HolidayVo) {
-    this._holidayVoToUpdate.id = hol.id;
-    if (this._holidayVoToUpdate.reference === '') {
-      this._holidayVoToUpdate.reference = hol.reference;
-    }
-    if (this._holidayVoToUpdate.startingDate === '') {
-      this._holidayVoToUpdate.startingDate = hol.startingDate;
-    }
-    if (this._holidayVoToUpdate.endingDate === '') {
-      this._holidayVoToUpdate.endingDate = hol.endingDate;
-    }
-  }
-
-  deleteHoliday(id: number) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success ml-1',
-        cancelButton: 'btn btn-danger mr-1'
-      },
-      buttonsStyling: false,
-    });
-
-    swalWithBootstrapButtons.fire({
-      title: 'Etes-vous sure?',
-      text: 'Vous ne pourrez pas revenir en arrière!',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Oui, supprimer!',
-      cancelButtonText: 'Non, annuler!',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        this.http.delete(this._url + 'id/' + id).subscribe();
-        this._holidaysList = this._holidaysList.filter(h => h.id !== id);
-        swalWithBootstrapButtons.fire(
-          'Supprimé!',
-          'Vos infos ont été supprimés.',
-          'success'
-        );
-      }
-    });
-  }
-
-  reinitializeList() {
-    this._holidaysVo = new Array<HolidayVo>();
+  set holidaysNumber(value: Array<number>) {
+    this._holidaysNumber = value;
   }
 }

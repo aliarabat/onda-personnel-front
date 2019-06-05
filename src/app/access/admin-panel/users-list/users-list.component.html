@@ -17,9 +17,9 @@
     <td>{{user.firstName}}</td>
     <td>{{user.email}}</td>
     <td>{{user.birthDate}}</td>
-    <td *ngIf="user.rang == 'Responsable'"><a href="#" class="badge badge-info">{{user.rang}}</a></td>
-    <td *ngIf="user.rang == 'Administrateur'"><a href="#" class="badge badge-success">{{user.rang}}</a></td>
-    <td *ngIf="user.rang == 'Technicien'"><a href="#" class="badge badge-warning">{{user.rang}}</a></td>
+    <td *ngIf="user.rang == 'Responsable'"><span class="badge badge-info">{{user.rang}}</span></td>
+    <td *ngIf="user.rang == 'Administrateur'"><span class="badge badge-success">{{user.rang}}</span></td>
+    <td *ngIf="user.rang == 'Technicien'"><span class="badge badge-warning">{{user.rang}}</span></td>
     <td *ngIf="!user.blocked && user.rang !== 'Administrateur'"><button type="button" class="btn btn-outline-danger" (click)="block(user)">Bloquer</button></td>
     <td *ngIf="!user.blocked && user.rang == 'Administrateur'"><button type="button"  disabled class="btn btn-outline-danger">Bloquer</button></td>
     <td *ngIf="user.blocked"><button type="button" class="btn btn-outline-primary" (click)="unblock(user)">Debloquer</button></td>

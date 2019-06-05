@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {EquipementVo} from '../model/equipement';
 import Swal from 'sweetalert2';
-import {TypeVo} from '../model/type';
 import {SwalUtil} from "../../util/swal-util";
+import {UrlsUtil} from "../../util/urls-util";
 
 
 @Injectable({
@@ -11,7 +11,7 @@ import {SwalUtil} from "../../util/swal-util";
 })
 export class EquipementService {
 
-  private _url = 'http://localhost:8097/dashboard-api/dashboards/equipement/';
+  private _url = UrlsUtil.main_dashboard_url + UrlsUtil.url_equipement;
 
   private _equipementCreate: EquipementVo = new EquipementVo();
   private _equipementTobeAdded: Array<EquipementVo> = [];
@@ -25,30 +25,15 @@ export class EquipementService {
     if (this._equipementCreate.name === '' || this._equipementCreate.name === undefined) {
       SwalUtil.insert("le nom!");
     } else if (this._equipementCreate.typeVo.name == '' || this._equipementCreate.typeVo.name == undefined) {
-      SwalUtil.insert("le type!");
+      SwalUtil.select("le type!");
     } else if (this._equipementCreate.expectedBreakPeriodMaintenance.hour == '' || this._equipementCreate.expectedBreakPeriodMaintenance.hour == undefined) {
       SwalUtil.insert("l'heure de la maintenance prévue!");
     } else if (this._equipementCreate.expectedBreakPeriodMaintenance.minute == undefined || this._equipementCreate.expectedBreakPeriodMaintenance.minute == '') {
       SwalUtil.insert("la minute de la maintenance prévue!");
     } else {
-      Swal.fire({
-        title: 'Ajout',
-        text: 'Vous êtes sûr de l\'ajout',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d6d20b',
-        cancelButtonText: 'Annuler',
-
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirmer'
-      }).then((result) => {
-        if (result.value) {
-          let equipementClone = new EquipementVo(0, this._equipementCreate.name, this._equipementCreate.expectedBreakPeriodMaintenance, this._equipementCreate.typeVo);
-          this._equipementTobeAdded.push(equipementClone);
-          this._equipementCreate = new EquipementVo();
-          console.log(equipementClone);
-        }
-      });
+      let equipementClone = new EquipementVo(0, this._equipementCreate.name, this._equipementCreate.expectedBreakPeriodMaintenance, this._equipementCreate.typeVo);
+      this._equipementTobeAdded.push(equipementClone);
+      this._equipementCreate = new EquipementVo();
     }
   }
 
@@ -56,29 +41,14 @@ export class EquipementService {
     if (this._equipementTobeAdded.length === 0) {
       SwalUtil.fillTheTable();
     } else {
-      Swal.fire({
-        title: 'Ajout',
-        text: 'Vous êtes sûr de l\'ajout',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d6d20b',
-        cancelButtonText: 'Annuler',
-
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirmer'
-      }).then((result) => {
+      SwalUtil.saveConfirmation('Sauvegrade', 'sauvegarder').then((result) => {
         if (result.value) {
           this.http.post(this._url, this._equipementTobeAdded).subscribe(
             (res) => {
               if (res == 1) {
                 this._equipementTobeAdded = new Array<EquipementVo>();
                 this.findAllEquipements();
-                Swal.fire({
-                  title: 'Ajout équipement(s)',
-                  text: ' Ajout réussit',
-                  type: 'success',
-                });
-
+                SwalUtil.anySuccess('Ajout d\'équipement', 'Ajout réussite');
               } else if (res == -2) {
                 SwalUtil.any("Erreur!", "Ajout échoué: l'un des équipements existe déjà");
               } else {
@@ -95,12 +65,7 @@ export class EquipementService {
   findAllEquipements() {
     this.http.get<Array<EquipementVo>>(this._url).subscribe(
       data => {
-        if (data != null) {
-          this.allEquipements = data;
-        } else {
-          this.allEquipements = new Array<EquipementVo>();
-
-        }
+        data ? this.allEquipements = data : this.allEquipements = new Array<EquipementVo>();
       }, error => {
         console.log(error);
       }
@@ -115,17 +80,7 @@ export class EquipementService {
   }
 
   deleteEquipById(id: number) {
-    Swal.fire({
-      title: 'Suppression',
-      text: 'Vous êtes sûr de la Suppression',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d6d20b',
-      cancelButtonText: 'Annuler',
-
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Supprimer'
-    }).then((result) => {
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
       if (result.value) {
         this.http.delete(this._url + 'id/' + id).subscribe(
           (res) => {
@@ -151,20 +106,8 @@ export class EquipementService {
     } else if (this._editEquipement.expectedBreakPeriodMaintenance.minute === '' || this._editEquipement.expectedBreakPeriodMaintenance.minute === undefined) {
       SwalUtil.insert("la minute de la maintenance prévue!");
     } else {
-      Swal.fire({
-        title: 'Modification',
-        text: 'Vous êtes sûr de la modification',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d6d20b',
-        cancelButtonText: 'Annuler',
-
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Modifier'
-      }).then((result) => {
+      SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
-
-
           this.http.put(this._url, this._editEquipement).subscribe(
             (res) => {
               if (res == 1) {
@@ -177,11 +120,6 @@ export class EquipementService {
               } else if (res == -1) {
                 SwalUtil.any("Erreur!", "Ajout échoué:équipement indisponible!");
               } else {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: '  ',
-                  type: 'error',
-                });
                 SwalUtil.any("Erreur!", "Modification de l'équipement échouée:Erreur Inconnue!");
               }
             },
@@ -191,15 +129,10 @@ export class EquipementService {
     }
   }
 
-
   findById(id: number) {
     this.http.get<EquipementVo>(this._url + 'id/' + id).subscribe(
       data => {
-        if (data) {
-          this.editEquipement = data;
-        } else {
-          this.editEquipement = new EquipementVo();
-        }
+        data ? this.editEquipement = data : this.editEquipement = new EquipementVo();
       }, error => {
         console.log(error);
       }

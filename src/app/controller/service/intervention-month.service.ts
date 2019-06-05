@@ -7,14 +7,14 @@ import Swal from "sweetalert2";
 import {SwalUtil} from "../../util/swal-util";
 import {downloadfile} from "../../util/downloadfile-util";
 import {MonthUtil} from "../../util/month-util";
+import {UrlsUtil} from "../../util/urls-util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterventionMonthService {
-    private _url = "http://localhost:8097/dashboard-api/dashboards/interventionMonth/";
+  private _url = UrlsUtil.main_dashboard_url+UrlsUtil.url_interventionMonth;
   private _listEquipementssByYear: Array<InterventionMonthVo> = new Array<InterventionMonthVo>();
-  private _listEquipementsByYearUntouched: Array<InterventionMonthVo> = [];
   private _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());
   private _listInterventionsByDay: Array<InterventionDayVo> = new Array<InterventionDayVo>();
   private _dateForPrinting: DateModel = new DateModel(new Date().getFullYear());
@@ -27,14 +27,12 @@ export class InterventionMonthService {
     this.http.get<Array<InterventionMonthVo>>(this._url + 'year/' + this._dateByAnnee.year).subscribe(
       data => {
         if (data != null) {
-          this._listEquipementsByYearUntouched = data;
           if (name === undefined || name === '') {
             this._listEquipementssByYear = data;
           } else {
             this._listEquipementssByYear = data.filter(w => w.equipementVo.name === name);
           }
         } else {
-          this._listEquipementsByYearUntouched = [];
           this._listEquipementssByYear = [];
         }
       }, error => {
@@ -88,55 +86,6 @@ export class InterventionMonthService {
     );
   }
 
-
-  get url(): string {
-    return this._url;
-  }
-
-  set url(value: string) {
-    this._url = value;
-  }
-
-  get listEquipementssByYear(): Array<InterventionMonthVo> {
-    return this._listEquipementssByYear;
-  }
-
-  set listEquipementssByYear(value: Array<InterventionMonthVo>) {
-    this._listEquipementssByYear = value;
-  }
-
-  get listEquipementsByYearUntouched(): Array<InterventionMonthVo> {
-    return this._listEquipementsByYearUntouched;
-  }
-
-  set listEquipementsByYearUntouched(value: Array<InterventionMonthVo>) {
-    this._listEquipementsByYearUntouched = value;
-  }
-
-  get dateByAnnee(): DateModel {
-    return this._dateByAnnee;
-  }
-
-  set dateByAnnee(value: DateModel) {
-    this._dateByAnnee = value;
-  }
-
-  get listInterventionsByDay(): Array<InterventionDayVo> {
-    return this._listInterventionsByDay;
-  }
-
-  set listInterventionsByDay(value: Array<InterventionDayVo>) {
-    this._listInterventionsByDay = value;
-  }
-
-  get dateForPrinting(): DateModel {
-    return this._dateForPrinting;
-  }
-
-  set dateForPrinting(value: DateModel) {
-    this._dateForPrinting = value;
-  }
-
   searchInterventionMonthToPrint() {
     if (this._dateForPrinting.year === null || this._dateForPrinting.year === undefined) {
       SwalUtil.insert("l'année");
@@ -145,11 +94,7 @@ export class InterventionMonthService {
     } else {
       this.http.get<InterventionMonthVo>(this._url + 'interventiontoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
         data => {
-          if (data != null) {
-            this._interventionMonthVoSearch = data;
-          } else {
-            this._interventionMonthVoSearch = new InterventionMonthVo();
-          }
+          data ? this._interventionMonthVoSearch = data : this._interventionMonthVoSearch = new InterventionMonthVo();
         }, error => {
           console.log(error);
         }
@@ -160,7 +105,7 @@ export class InterventionMonthService {
   async print(fullYear: number, month: number) {
     // inputOptions can be an object or Promise
     const {value: type} = await Swal.fire({
-      title: 'Select field validation',
+      title: 'Selection du format désiré',
       input: 'select',
       inputOptions: {
         'dashboard': 'Tableau de bord',
@@ -191,9 +136,9 @@ export class InterventionMonthService {
     if (type === 'dashboard') {
       // @ts-ignore
       return this.http.get<Blob>(this._url + "printdoc/year/" + fullYear + "/month/" + (month + 1), httpOptions).subscribe((result) => {
-        downloadfile(result, 'application/pdf', "TableauDeBord"+MonthUtil.getMonth(month)+fullYear+".pdf");
+        downloadfile(result, 'application/pdf', "TableauDeBord" + MonthUtil.getMonth(month) + fullYear + ".pdf");
       });
-    } else if (type=== 'graph') {
+    } else if (type === 'graph') {
       const {value: object} = await Swal.fire({
         input: 'number',
         inputPlaceholder: 'Entrer l\'objectif',
@@ -210,14 +155,51 @@ export class InterventionMonthService {
       if (object) {
         // @ts-ignore
         return this.http.get(this._url + "printgraph/year/" + fullYear + "/month/" + (month + 1) + "/object/" + object, httpOptions).subscribe((result) => {
-          downloadfile(result, 'application/pdf', "TBF"+MonthUtil.getMonth(month)+fullYear+".pdf");
+          downloadfile(result, 'application/pdf', "TBF" + MonthUtil.getMonth(month) + fullYear + ".pdf");
         });
       }
     }
   }
 
+  get url(): string {
+    return this._url;
+  }
 
+  set url(value: string) {
+    this._url = value;
+  }
 
+  get listEquipementssByYear(): Array<InterventionMonthVo> {
+    return this._listEquipementssByYear;
+  }
+
+  set listEquipementssByYear(value: Array<InterventionMonthVo>) {
+    this._listEquipementssByYear = value;
+  }
+
+  get dateByAnnee(): DateModel {
+    return this._dateByAnnee;
+  }
+
+  set dateByAnnee(value: DateModel) {
+    this._dateByAnnee = value;
+  }
+
+  get listInterventionsByDay(): Array<InterventionDayVo> {
+    return this._listInterventionsByDay;
+  }
+
+  set listInterventionsByDay(value: Array<InterventionDayVo>) {
+    this._listInterventionsByDay = value;
+  }
+
+  get dateForPrinting(): DateModel {
+    return this._dateForPrinting;
+  }
+
+  set dateForPrinting(value: DateModel) {
+    this._dateForPrinting = value;
+  }
   get interventionMonthVoSearch(): InterventionMonthVo {
     return this._interventionMonthVoSearch;
   }

@@ -9,6 +9,7 @@ import {WorkVo} from '../model/work.model';
 import {DateModel} from '../model/date.model';
 import {TimingVo} from '../model/timing.model';
 import {SwalUtil} from "../../util/swal-util";
+import {UrlsUtil} from "../../util/urls-util";
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +20,11 @@ export class DayServiceService {
   }
 
   //Urls
-  private _url = "http://localhost:8099/personnel-api/personnels/";
-  private _url_employees = this._url + "employee/";
-  private _url_detail = this._url + "Detail/";
-  private _url_day = this._url + "day/";
-  private _url_work = this._url + "work/";
+  private _url = UrlsUtil.main_personnel_url;
+  private _url_employees = this._url + UrlsUtil.url_employee;
+  private _url_detail = this._url + UrlsUtil.url_Detail;
+  private _url_day = this._url + UrlsUtil.url_day;
+  private _url_work = this._url + UrlsUtil.url_work;
   //variables declatarions
   private _employee: EmployeeVo = new EmployeeVo();
   private _employee1: EmployeeVo = new EmployeeVo();
@@ -33,7 +34,7 @@ export class DayServiceService {
   private _employees: Array<EmployeeVo> = new Array<EmployeeVo>();
   private _details: Array<DetailVo> = new Array<DetailVo>();
   private _detailsHelper: Array<DetailVo> = new Array<DetailVo>();
-  private _detail: DetailVo = new DetailVo('', '', {}, {}, '', '');
+  private _detail: DetailVo = new DetailVo();
   //check date credentials
   private _listDate: Array<string> = [];
   //employee normal to fill the service week automaically
@@ -42,14 +43,14 @@ export class DayServiceService {
   public ajouter() {
     if (this._employee.matricule === undefined) {
       SwalUtil.select("l'employé");
-    } else if (this._detail.wording === '' || this._detail.wording === null) {
+    } else if (this._day.dayDetailsVo.length <= 0) {
       SwalUtil.select("l'horaire");
     } else if (this._days.length >= 7) {
       SwalUtil.passed("7 jours!")
     } else {
       this._days.push(this._day);
       this._day = new DayVo();
-      this._detail = new DetailVo('', '');
+      this.detail = new DetailVo();
     }
   }
 
@@ -58,7 +59,6 @@ export class DayServiceService {
       let dayDetailClone: DayDetailVo = new DayDetailVo();
       dayDetailClone.detailVo = this._details.find(d => d.wording === this._detail.wording);
       this._day.dayDetailsVo.push(dayDetailClone);
-      this._detail = new DetailVo();
     } else {
       SwalUtil.alreadyExist("Cette horaire");
     }
@@ -67,22 +67,17 @@ export class DayServiceService {
   findAllEmployees() {
     this.http.get<Array<EmployeeVo>>(this._url_employees + "allExist/isExist/" + true).subscribe(
       data => {
-        if (data != null) {
-          this._employees = data;
-        }
+        data ? this._employees = data : this._employees = [];
       }, error => {
         console.log(error);
       }
     );
   }
 
-
   findAllTechEmployees() {
     this.http.get<Array<EmployeeVo>>(this._url_employees + "type/Technique").subscribe(
       data => {
-        if (data != null) {
-          this._employees = data;
-        }
+        data ? this._employees = data : this._employees = [];
       }, error => {
         console.log(error);
       }
@@ -115,22 +110,7 @@ export class DayServiceService {
 
   confirm() {
     if (this._days.length === 7) {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success ml-1',
-          cancelButton: 'btn btn-danger mr-1'
-        },
-        buttonsStyling: false,
-      });
-      swalWithBootstrapButtons.fire({
-        title: 'Sauvegarde',
-        text: "Etes-vous sure de sauvegarder vos infos?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Oui, sauvegarder!',
-        cancelButtonText: 'Non, annuler!',
-        reverseButtons: true
-      }).then((result) => {
+      SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
         if (result.value) {
           this.http.post(this._url_day + "matricule/" + this._employee.matricule, this._days).subscribe(
             data => {
@@ -144,11 +124,7 @@ export class DayServiceService {
               console.log(error);
             }
           );
-          swalWithBootstrapButtons.fire(
-            'Sauvegardé!',
-            'Vos infos ont été sauvegardées',
-            'success'
-          )
+          SwalUtil.savedSuccessfully('Sauvegarde');
         }
       });
     } else {
@@ -192,7 +168,7 @@ export class DayServiceService {
     if (index !== -1) {
       this._day.dayDetailsVo.splice(index, 1);
       if (this._day.dayDetailsVo.length === 0) {
-        this._detail = new DetailVo('', '');
+        this._detail = new DetailVo();
       }
     }
   }

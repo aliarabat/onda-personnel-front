@@ -16,9 +16,8 @@ export class GestionEmployeesListComponent implements OnInit {
   public employeeInfo : EmployeeVo = new EmployeeVo() ;
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.employeeService.findAllEmployesExist();
-
+    if(MiddleWare.checkIfUserIsLogged(this.router))
+      this.employeeService.findAllEmployesExist();
   }
 
   public  get employeesSearch(){

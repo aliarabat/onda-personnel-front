@@ -6,7 +6,6 @@ import {DayServiceService} from '../../../controller/service/day-service.service
 import Swal from 'sweetalert2';
 import {DayVo} from '../../../controller/model/day.model';
 import {MonthUtil} from '../../../util/month-util';
-import {DetailVo} from '../../../controller/model/detail.model';
 import {DateUtil} from '../../../util/date-util';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
@@ -29,10 +28,9 @@ export class GestionServiceListComponent implements OnInit {
   private employee: EmployeeVo = new EmployeeVo(0, '');
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.dayService.detail = new DetailVo();
-    this.dayService.employee = new EmployeeVo();
+    MiddleWare.checkIfUserIsLogged(this.router)
   }
+
 
   get employeeVo() {
     return this.dayService.employeeVo;
@@ -82,10 +80,6 @@ export class GestionServiceListComponent implements OnInit {
 
   get listEmployeesByYear() {
     return this.workService.listEmployeesByYear;
-  }
-
-  get listEmployeesByYearUntouched() {
-    return this.workService.listEmployeesByYearUntouched;
   }
 
   date() {

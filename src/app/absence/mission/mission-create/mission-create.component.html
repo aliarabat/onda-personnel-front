@@ -14,7 +14,6 @@
                    placeholder="Entrer la référence de la mission ..." type="text">
           </div>
         </div>
-        <br>
         <!-- Employe -->
         <div class="form-group">
           <label class="sr-only" for="employeMission">Employé en Mission</label>
@@ -30,7 +29,6 @@
             </select>
           </div>
         </div>
-        <br>
         <!-- type-->
         <div class="form-group">
           <label class="sr-only" for="typeMission">Type de la mission</label>
@@ -42,7 +40,6 @@
                    placeholder="Entrer le type de la mission ..." type="text">
           </div>
         </div>
-        <br>
         <!-- Date debut-->
         <div class="form-group">
           <label class="sr-only" for="dateDebut">Date debut</label>
@@ -54,39 +51,37 @@
                    placeholder="Entrer le prenom de l'employe ..." type="date">
           </div>
         </div>
-        <br>
         <!-- HEURE DEBUT -->
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Heure debut</span>
           </div>
-          <input type="text" class="form-control" id="missionCreateStartingTimeH"
+          <input type="number" min="0" max="23" class="form-control" id="missionCreateStartingTimeH"
                  [(ngModel)]="mission.startingTimeVo.hour" name="missionstartingTimeHours"
-                 placeholder="Entrer l'heure de debut ..." min="0" max="23">
+                 placeholder="Entrer l'heure de debut ..."/>
           <div class="input-group-append">
             <span class="input-group-text">H</span>
           </div>
-          <input type="text" class="form-control" id="missionCreateStartingTimeM"
+          <input type="number" min="0" max="59"class="form-control" id="missionCreateStartingTimeM"
                  [(ngModel)]="mission.startingTimeVo.minute" name="missionstartingTimeMinute"
-                 placeholder="Entrer la minute de fin ..." min="0" max="59">
+                 placeholder="Entrer la minute de fin ...">
           <div class="input-group-append">
             <span class="input-group-text">M</span>
           </div>
         </div>
-        <br>
         <!-- HEURE FIN-->
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Heure fin</span>
           </div>
-          <input type="text" class="form-control" id="missionCreateEndingTimeH" [(ngModel)]="mission.endingTimeVo.hour"
-                 name="missionendingTimeHpurs" placeholder="Entrer l'heure de fin ..." min="0" max="23">
+          <input type="number" min="0" max="23" class="form-control" id="missionCreateEndingTimeH" [(ngModel)]="mission.endingTimeVo.hour"
+                 name="missionendingTimeHpurs" placeholder="Entrer l'heure de fin ..."/>
           <div class="input-group-append">
             <span class="input-group-text">H</span>
           </div>
-          <input type="text" class="form-control" id="missionCreateEndingTimeM"
+          <input type="number" min="0" max="59" class="form-control" id="missionCreateEndingTimeM"
                  [(ngModel)]="mission.endingTimeVo.minute" name="missionendingTimeMinute"
-                 placeholder="Entrer la minute de fin ..." min="0" max="59">
+                 placeholder="Entrer la minute de fin ..."/>
           <div class="input-group-append">
             <span class="input-group-text">M</span>
           </div>

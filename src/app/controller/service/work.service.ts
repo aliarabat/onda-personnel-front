@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import {SwalUtil} from "../../util/swal-util";
 import {downloadfile} from "../../util/downloadfile-util";
 import {MonthUtil} from "../../util/month-util";
+import {UrlsUtil} from "../../util/urls-util";
 
 @Injectable({
   providedIn: 'root'
@@ -16,42 +17,32 @@ export class WorkService {
   constructor(private http: HttpClient) {
   }
 
-  private _url = 'http://localhost:8099/personnel-api/personnels/work/';
-  private _url_workdetail = 'http://localhost:8099/personnel-api/personnels/workDetail/';
-  private _listEmployeesByYear: Array<WorkVo> = new Array<WorkVo>();
-  private _listEmployeesByYearUntouched: Array<WorkVo> = [];
-  private _listEmployeesByMonth: Array<WorkVo> = new Array<WorkVo>();
-  private _workVoSearch: WorkVo = new WorkVo({}, {});
+  private _main_url = UrlsUtil.main_personnel_url;
+  private _url = this._main_url + UrlsUtil.url_work;
+  private _url_workdetail = this._main_url + UrlsUtil.url_workDetail;
 
-  private _workDetailVoToUpdate: WorkDatailVo = new WorkDatailVo(0, '', '', {hour: '', minute: ''}, {
-    hour: '',
-    minute: ''
-  });
+  private _listEmployeesByYear: Array<WorkVo> = new Array<WorkVo>();
+  private _workVoSearch: WorkVo = new WorkVo({}, {});
 
   private _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());
   private _dateForPrinting: DateModel = new DateModel(new Date().getFullYear());
-  private _yearOfTheMonth: number;
-  private _monthOfTheYear: number;
 
   //args for graph
   private _dateByYear: DateModel = new DateModel(new Date().getFullYear());
-  private _employeeToGraph: EmployeeVo = new EmployeeVo(0,'');
-  private _workToGraph: WorkVo = new WorkVo({},{});
+  private _employeeToGraph: EmployeeVo = new EmployeeVo(0, '');
+  private _workToGraph: WorkVo = new WorkVo({}, {});
 
   private _employee: EmployeeVo = new EmployeeVo();
+
+  private _employeeSearchToStats: EmployeeVo = new EmployeeVo(0, '');
+  private _yearStats: DateModel = new DateModel(new Date().getFullYear());
 
   findWorkByYear(matricule?: string) {
     this.http.get<Array<WorkVo>>(this._url + 'annee/' + this._dateByAnnee.year).subscribe(
       data => {
         if (data != null) {
-          this._listEmployeesByYearUntouched = data;
-          if (matricule === undefined || matricule === '') {
-            this._listEmployeesByYear = data;
-          } else {
-            this._listEmployeesByYear = data.filter(w => w.employeeVo.matricule === matricule);
-          }
+          matricule === undefined || matricule === '' ? this._listEmployeesByYear = data : this._listEmployeesByYear = data.filter(w => w.employeeVo.matricule === matricule);
         } else {
-          this._listEmployeesByYearUntouched = [];
           this._listEmployeesByYear = [];
         }
       }, error => {
@@ -60,15 +51,10 @@ export class WorkService {
     );
   }
 
-
   findWorksByMonth() {
     this.http.get<Array<WorkVo>>(this._url + 'year/' + this._dateByAnnee.year + '/month/' + this._dateByAnnee.month).subscribe(
       data => {
-        if (data != null) {
-          this._listEmployeesByYear = data;
-        } else {
-          this._listEmployeesByYear = [];
-        }
+        data ? this._listEmployeesByYear = data : this._listEmployeesByYear = [];
       }, error => {
         console.log(error);
       }
@@ -98,11 +84,7 @@ export class WorkService {
     } else {
       this.http.get<WorkVo>(this._url + 'worktoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
         data => {
-          if (data != null) {
-            this._workVoSearch = data;
-          } else {
-            this._workVoSearch = new WorkVo({}, {});
-          }
+          data ? this._workVoSearch = data : this._workVoSearch = new WorkVo({}, {});
         }, error => {
           console.log(error);
         }
@@ -110,131 +92,9 @@ export class WorkService {
     }
   }
 
-  get listEmployeesByYear(): Array<WorkVo> {
-    return this._listEmployeesByYear;
-  }
-
-  set listEmployeesByYear(value: Array<WorkVo>) {
-    this._listEmployeesByYear = value;
-  }
-
-  get listEmployeesByMonth(): Array<WorkVo> {
-    return this._listEmployeesByMonth;
-  }
-
-  set listEmployeesByMonth(value: Array<WorkVo>) {
-    this._listEmployeesByMonth = value;
-  }
-
-
-  get dateByAnnee(): DateModel {
-    return this._dateByAnnee;
-  }
-
-  set dateByAnnee(value: DateModel) {
-    this._dateByAnnee = value;
-  }
-
-  get listEmployeesByYearUntouched(): Array<WorkVo> {
-    return this._listEmployeesByYearUntouched;
-  }
-
-  set listEmployeesByYearUntouched(value: Array<WorkVo>) {
-    this._listEmployeesByYearUntouched = value;
-  }
-
-  checkWorkDetailVoAttrs(w: WorkDatailVo) {
-    this._workDetailVoToUpdate.id = w.id;
-    if (this._workDetailVoToUpdate.pan === '') {
-      this._workDetailVoToUpdate.pan = w.pan;
-    }
-    if (this._workDetailVoToUpdate.hn.hour === '') {
-      this._workDetailVoToUpdate.hn.hour = w.hn.hour;
-    }
-    if (this._workDetailVoToUpdate.hn.minute === '') {
-      this._workDetailVoToUpdate.hn.minute = w.hn.minute;
-    }
-    if (this._workDetailVoToUpdate.hjf.hour === '') {
-      this._workDetailVoToUpdate.hjf.hour = w.hjf.hour;
-    }
-    if (this._workDetailVoToUpdate.hjf.minute === '') {
-      this._workDetailVoToUpdate.hjf.minute = w.hjf.minute;
-    }
-  }
-
-  lisSortByEmployee(matricule: string) {
-    if (this._listEmployeesByYearUntouched.length === 0) {
-      this.findWorkByYear(matricule);
-    } else {
-      console.log('awwdi rah data aslan kayna');
-      this._listEmployeesByYear = this._listEmployeesByYearUntouched.filter(w => w.employeeVo.matricule === matricule);
-    }
-  }
-
-  get url(): string {
-    return this._url;
-  }
-
-  set url(value: string) {
-    this._url = value;
-  }
-
-  get url_workdetail(): string {
-    return this._url_workdetail;
-  }
-
-  set url_workdetail(value: string) {
-    this._url_workdetail = value;
-  }
-
-
-  get employee(): EmployeeVo {
-    return this._employee;
-  }
-
-  set employee(value: EmployeeVo) {
-    this._employee = value;
-  }
-
-
-  get yearOfTheMonth(): number {
-    return this._yearOfTheMonth;
-  }
-
-  set yearOfTheMonth(value: number) {
-    this._yearOfTheMonth = value;
-  }
-
-  get monthOfTheYear(): number {
-    return this._monthOfTheYear;
-  }
-
-  set monthOfTheYear(value: number) {
-    this._monthOfTheYear = value;
-  }
 
   reinitializeSearchByYearForm() {
     this._dateByAnnee = new DateModel(new Date().getFullYear());
-  }
-
-  setlistEmployeesByYearUntouchedToNormal() {
-    this._listEmployeesByYear = this._listEmployeesByYearUntouched;
-  }
-
-  get workVoSearch(): WorkVo {
-    return this._workVoSearch;
-  }
-
-  set workVoSearch(value: WorkVo) {
-    this._workVoSearch = value;
-  }
-
-  get dateForPrinting(): DateModel {
-    return this._dateForPrinting;
-  }
-
-  set dateForPrinting(value: DateModel) {
-    this._dateForPrinting = value;
   }
 
   async print(fullYear: number, month: number) {
@@ -282,6 +142,83 @@ export class WorkService {
     }
   }
 
+  searchWorkToGraph() {
+    if (this._employeeToGraph.matricule === '' || this._employeeToGraph.matricule === undefined) {
+      SwalUtil.select("l'employé");
+    } else if (this._dateByYear.year === undefined || this._dateByYear.year === null) {
+      SwalUtil.insert("l'année");
+    } else {
+      this.http.get<WorkVo>(this._url + "emloyetograph/matricule/" + this._employeeToGraph.matricule + "/year/" + this._dateByYear.year).subscribe(data => !!data ? this._workToGraph = data : this._workToGraph = new WorkVo({}, {}));
+    }
+  }
+
+  printGraph(fullyear: number, matricule: string) {
+    let headers = new HttpHeaders();
+    const applicationType = 'application/pdf';
+    headers = headers.set('Accept', applicationType);
+
+    const httpOptions = {
+      responseType: 'blob' as 'arrayBuffer',
+      headers: headers
+    };
+    // @ts-ignore
+    return this.http.get(this._url + "printgraph/matricule/" + matricule + "/year/" + fullyear, httpOptions).subscribe((result) => {
+      downloadfile(result, applicationType, "Graphe-" + matricule + "-" + fullyear + "." + 'pdf');
+    });
+  }
+
+  searchEmployeeSats() {
+    return this.http.get<Array<WorkVo>>(this._url + "countall/year/" + new Date().getFullYear());
+  }
+
+  get listEmployeesByYear(): Array<WorkVo> {
+    return this._listEmployeesByYear;
+  }
+
+  set listEmployeesByYear(value: Array<WorkVo>) {
+    this._listEmployeesByYear = value;
+  }
+
+  get dateByAnnee(): DateModel {
+    return this._dateByAnnee;
+  }
+
+  set dateByAnnee(value: DateModel) {
+    this._dateByAnnee = value;
+  }
+
+  get url(): string {
+    return this._url;
+  }
+
+  set url(value: string) {
+    this._url = value;
+  }
+
+  get employee(): EmployeeVo {
+    return this._employee;
+  }
+
+  set employee(value: EmployeeVo) {
+    this._employee = value;
+  }
+
+  get workVoSearch(): WorkVo {
+    return this._workVoSearch;
+  }
+
+  set workVoSearch(value: WorkVo) {
+    this._workVoSearch = value;
+  }
+
+  get dateForPrinting(): DateModel {
+    return this._dateForPrinting;
+  }
+
+  set dateForPrinting(value: DateModel) {
+    this._dateForPrinting = value;
+  }
+
   get dateByYear(): DateModel {
     return this._dateByYear;
   }
@@ -298,17 +235,6 @@ export class WorkService {
     this._employeeToGraph = value;
   }
 
-  searchWorkToGraph() {
-    if (this._employeeToGraph.matricule===''||this._employeeToGraph.matricule===undefined) {
-      SwalUtil.select("l'employé");
-    }else if (this._dateByYear.year===undefined || this._dateByYear.year===null){
-      SwalUtil.insert("l'année");
-    } else{
-      this.http.get<WorkVo>(this._url+"emloyetograph/matricule/"+this._employeeToGraph.matricule+"/year/"+this._dateByYear.year).subscribe(data => !!data ? this._workToGraph = data : this._workToGraph = new WorkVo({},{}));
-      console.log(this._workToGraph);
-    }
-  }
-
   get workToGraph(): WorkVo {
     return this._workToGraph;
   }
@@ -317,19 +243,23 @@ export class WorkService {
     this._workToGraph = value;
   }
 
-  printGraph(fullyear:number, matricule:string) {
-    let headers = new HttpHeaders();
-    const applicationType = 'application/pdf';
-    headers = headers.set('Accept', applicationType);
-
-    const httpOptions = {
-      responseType: 'blob' as 'arrayBuffer',
-      headers: headers
-    };
-    // @ts-ignore
-    return this.http.get(this._url + "printgraph/matricule/" + matricule + "/year/" + fullyear , httpOptions).subscribe((result) => {
-      downloadfile(result, applicationType, "Graphe-" + matricule + "-" + fullyear + "." + 'pdf');
-    });
+  get employeeSearchToStats(): EmployeeVo {
+    return this._employeeSearchToStats;
   }
+
+  set employeeSearchToStats(value: EmployeeVo) {
+    this._employeeSearchToStats = value;
+  }
+
+
+  get yearStats(): DateModel {
+    return this._yearStats;
+  }
+
+  set yearStats(value: DateModel) {
+    this._yearStats = value;
+  }
+
+
 }
 

@@ -3,13 +3,14 @@ import {EmployeeVo} from '../model/employee.model';
 import {HttpClient} from '@angular/common/http';
 import Swal from 'sweetalert2';
 import {SwalUtil} from "../../util/swal-util";
+import {UrlsUtil} from "../../util/urls-util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeServiceService {
 
-  private _url: string = 'http://localhost:8099/personnel-api/personnels/employee/';
+  private _url: string = UrlsUtil.main_personnel_url + UrlsUtil.url_employee;
 
   private _employeeCreate: EmployeeVo = new EmployeeVo();
   private _employees: Array<EmployeeVo> = [];
@@ -47,25 +48,10 @@ export class EmployeeServiceService {
 
   public saveEmployee() {
     if (this.employees.length != 0) {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success ml-1',
-          cancelButton: 'btn btn-danger mr-1'
-        },
-        buttonsStyling: false,
-      });
-      swalWithBootstrapButtons.fire({
-        type: 'info',
-        title: 'voulez vous souvgarger',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, confirm',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then((result) => {
+      SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
         if (result.value) {
           this._http.post(this._url, this._employees).subscribe(
             data => {
-              console.log(this._employees);
               this._employees = new Array<EmployeeVo>();
               this._employeeCreate = new EmployeeVo();
               this.employees = new Array<EmployeeVo>();
@@ -74,11 +60,7 @@ export class EmployeeServiceService {
               console.log(error1);
             }
           );
-          swalWithBootstrapButtons.fire(
-            'Sauvegardé!',
-            'Vos infos sont sauvegardées',
-            'success'
-          );
+          SwalUtil.savedSuccessfully('Sauvegarde');
         }
       });
     } else {
@@ -89,10 +71,10 @@ export class EmployeeServiceService {
   public findAllEmployesExist() {
     this._http.get<Array<EmployeeVo>>(this._url + 'allExist/isExist/' + true).subscribe(
       data => {
-        if (data!=null){
+        if (data != null) {
           this._employeeSearch = data;
           this._allEmployees = data;
-        } else{
+        } else {
           this._employeeSearch = [];
           this._allEmployees = [];
         }
@@ -115,19 +97,8 @@ export class EmployeeServiceService {
 
   deleteEmployee(matricule: string) {
     this._http.delete(this._url + 'matricule/' + parseInt(matricule)).subscribe(data => {
-        console.log(matricule);
         this.findAllEmployesExist();
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000
-        });
-
-        Toast.fire({
-          type: 'success',
-          title: 'Supression avec succés'
-        })
+        SwalUtil.topEndSavedSuccessfully();
       }, error1 => {
         console.log(error1);
       }
@@ -138,7 +109,6 @@ export class EmployeeServiceService {
   revert(matricule: string) {
     this._http.delete(this._url + 'revert/matricule/' + parseInt(matricule)).subscribe(data => {
         this.findAllEmployeNotExist()
-
       }
     )
   }
@@ -155,39 +125,18 @@ export class EmployeeServiceService {
     } else if (this.newEmployee.type == '' || this.newEmployee.type == undefined) {
       SwalUtil.insert("le type!");
     } else {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success ml-1',
-          cancelButton: 'btn btn-danger mr-1'
-        },
-        buttonsStyling: false,
-      });
-      swalWithBootstrapButtons.fire({
-        type: 'info',
-        title: 'voulez vous Modifier',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, confirm',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then((result) => {
+      SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
           this._http.put(this._url, newEmployee).subscribe(data => {
-              console.log(EmployeeVo);
               this.findAllEmployesExist();
             }, error1 => {
               console.log(error1);
             }
           );
-          swalWithBootstrapButtons.fire(
-            'Modification!',
-            'Modification avec success ',
-            'success'
-          );
+          SwalUtil.savedSuccessfully('Sauvegarde');
         }
       });
-
     }
-
   }
 
   findEmployeeyId(id: number) {
@@ -200,6 +149,13 @@ export class EmployeeServiceService {
     );
   }
 
+  employeeSearchChange(value: string) {
+    this._employeeSearch = value ? this._allEmployees.filter(e => e.firstName.toLowerCase().includes(value.toLowerCase()) || e.lastName.toLowerCase().includes(value.toLowerCase()) || e.fonction.toLowerCase().includes(value.toLowerCase())) : this._allEmployees;
+  }
+
+  countAllEmployees() {
+    return this.http.get<number>(this._url + "numberofemployees");
+  }
 
   get newEmployee(): EmployeeVo {
     return this._newEmployee;
@@ -263,10 +219,5 @@ export class EmployeeServiceService {
 
   set employeeSearch(value: Array<EmployeeVo>) {
     this._employeeSearch = value;
-  }
-
-  employeeSearchChange(value: string) {
-    console.log(value);
-    this._employeeSearch = !!value ? this._allEmployees.filter(e => e.firstName.toLowerCase().includes(value.toLowerCase()) || e.lastName.toLowerCase().includes(value.toLowerCase()) || e.fonction.toLowerCase().includes(value.toLowerCase())) : this._allEmployees;
   }
 }
