@@ -1,77 +1,74 @@
 <body>
-<div class="wrapper">
-  <nav id="sidebar">
-    <div class="sidebar-header center-img">
-      <a class="navbar-brand" href="#"><img src="../assets/Images/logo-ONDA.png" width="110" height="62" alt=""></a>
-    </div>
+<div class="wrapper ">
+  <nav id="sidebar" class="over" [hidden]="isAllowed()">
+    <br>
+      <a class="navbar-brand center-img" href="#"><img id="logo" src="../../../assets/Images/logo-ONDA.png" width="172" height="102" alt="" (mouseenter)="changeImg()" (mouseleave)="restoreImg()"></a>
     <br><br>
-    <ul class="list-unstyled components" id="accordion">
-      <li [hidden]="gestionState">
-        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-tasks mr-3"></i>Gestion</a>
+    <ul class="list-unstyled components ule" id="accordion">
+      <li [hidden]="gestionState" class="lii">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-tasks ml-3"></i>&nbsp;&nbsp;&nbsp;Gestion</a>
         <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">
           <li [hidden]="employeeState">
-            <a routerLink="employes" class="pointer"><i class="fas fa-user mr-3"></i>Gestion des employes</a>
+            <a routerLink="employes" class="pointer "><i class="fas fa-user ml-2 "></i>&nbsp;&nbsp;&nbsp;Gestion des employes</a>
           </li>
           <li [hidden]="detailsState">
-            <a routerLink="horaires" class="pointer"><i class="fas fa-clock-o mr-3"></i>Gestion des horaires</a>
+            <a routerLink="horaires" class="pointer"><i class="fas fa-clock-o ml-2 "></i>&nbsp;&nbsp;&nbsp;Gestion des horaires</a>
           </li>
           <li [hidden]="holidaysState">
-            <a routerLink="joursferies" class="pointer"><i class="fas fa-calendar-alt mr-3"></i>Gestion des jours feries</a>
+            <a routerLink="joursferies" class="pointer"><i class="fas fa-calendar-alt ml-2 "></i>&nbsp;&nbsp;&nbsp;Gestion des jours feries</a>
           </li>
           <li>
-            <a routerLink="services" class="pointer"><i class="fas fa-hammer mr-3"></i>Gestion des services</a>
+            <a routerLink="services" class="pointer"><i class="fas fa-hammer ml-2"></i>&nbsp;&nbsp;&nbsp;Gestion des services</a>
           </li>
         </ul>
       </li>
-      <li [hidden]="absencesState">
-        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-receipt mr-3"></i>Absences</a>
+      <li [hidden]="absencesState" class="lii">
+        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-receipt ml-3"></i>&nbsp;&nbsp;&nbsp;Absences</a>
         <ul class="collapse list-unstyled" id="pageSubmenu" data-parent="#accordion">
           <li>
-            <a routerLink="missions" class="pointer"><i class="fas fa-briefcase mr-3"></i>Missions</a>
+            <a routerLink="missions" class="pointer"><i class="fas fa-briefcase ml-2"></i>&nbsp;&nbsp;&nbsp;Missions</a>
           </li>
           <li>
-            <a routerLink="conges" class="pointer"><i class="fas fa-plane mr-3"></i>Conges</a>
+            <a routerLink="conges" class="pointer"><i class="fas fa-plane ml-2"></i>&nbsp;&nbsp;&nbsp;Conges</a>
           </li>
           <li>
-            <a routerLink="remplacements" class="pointer"><i class="fas fa-random mr-3"></i>Remplacements</a>
+            <a routerLink="remplacements" class="pointer"><i class="fas fa-random ml-2"></i>&nbsp;&nbsp;&nbsp;Remplacements</a>
           </li>
           <li>
-            <a routerLink="absences" class="pointer"><i class="fas fa-user-times mr-3"></i>Absences</a>
+            <a routerLink="absences" class="pointer"><i class="fas fa-user-times ml-2"></i>&nbsp;&nbsp;&nbsp;Absences</a>
           </li>
         </ul>
       </li>
-      <li [hidden]="indicateursState">
-        <a href="#anomalySubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-bar-chart-o mr-3"></i>Indicateurs</a>
+      <li [hidden]="indicateursState" class="lii">
+        <a href="#anomalySubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-bar-chart-o ml-3"></i>&nbsp;&nbsp;&nbsp;Indicateurs</a>
         <ul class="collapse list-unstyled" id="anomalySubmenu" data-parent="#accordion">
           <li [hidden]="equipementsState">
-            <a routerLink="equipements" class="pointer"><i class="fas fa-server mr-3"></i>Gestion des équipements</a>
+            <a routerLink="equipements" class="pointer"><i class="fas fa-server ml-2"></i>&nbsp;&nbsp;&nbsp;Gestion des équipements</a>
           </li>
           <li>
-            <a routerLink="anomalies" class="pointer"><i class="fas fa-bell mr-3"></i>Gestion des anomalies</a>
+            <a routerLink="anomalies" class="pointer"><i class="fas fa-bell ml-2"></i>&nbsp;&nbsp;&nbsp;Gestion des anomalies</a>
           </li>
         </ul>
       </li>
     </ul>
   </nav>
-  <div class="container w-100">
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;" *ngIf="userData">
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item dropdown mr-4">
-            <a class="nav-link dropdown-toggle" href="#" id="profile" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-              {{userData.lastName + " " + userData.firstName + " ( @" + userData.username + " )"}}
-            </a>
+  <div class="container w-100 ">
+    <nav id="childDiv" class="navbar navbar-expand-lg navbar-me"  *ngIf="userData">
+      <div class="collapse navbar-collapse navbar-me" id="navbarNav">
+        <ul class="navbar-nav ml-auto uncolored">
+          <li class="nav-item dropdown margin-max">
+            <p class="nav-link dropdown-toggle user pointer text-capitalize" role="button" data-toggle="dropdown"
+               aria-haspopup="true">
+              <br>
+              <i class="fas fa-user-circle mr-1" ></i>
+              {{userData.lastName + " " + userData.firstName}}
+            </p>
             <div class="dropdown-menu" aria-labelledby="profile">
-              <a class="dropdown-item pointer" (click)="triggerUserDataChangeModal()"><i
+              <a class="dropdown-item pointer mt-1" (click)="triggerUserDataChangeModal()"><i
                 class="fas fa-user-cog mr-3"></i>Parametres</a>
-              <div class="dropdown-divider" *ngIf="userData.rang === 'Administrateur'"></div>
-              <a class="dropdown-item pointer" data-toggle="modal" data-target="#userCreate" *ngIf="userData.rang === 'Administrateur'"><i class="fas fa-user-plus mr-3" ></i>Ajouter un compte</a>
-              <div class="dropdown-divider" *ngIf="userData.rang === 'Administrateur'"></div>
-              <a class="dropdown-item pointer" routerLink="admin-dashboard" *ngIf="userData.rang === 'Administrateur'"><i class="fas fa-columns mr-3" ></i>Admin dashboard</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item text-danger pointer" href="#" (click)="logout()"><i
-                class="fas fa-sign-out-alt mr-3"></i>Deconnexion</a>
+              <a class="dropdown-item pointer mt-1" data-toggle="modal" data-target="#userCreate" *ngIf="userData.rang === 'Administrateur'"><i class="fas fa-user-plus mr-3" ></i>Ajouter un compte</a>
+              <a class="dropdown-item pointer mt-1" routerLink="admin-dashboard" *ngIf="userData.rang === 'Administrateur'"><i class="fas fa-columns mr-3" ></i>Admin dashboard</a>
+              <a class="dropdown-item text-danger pointer mt-1" href="#" (click)="logout()"><i class="fas fa-sign-out-alt mr-3"></i>Deconnexion</a>
             </div>
           </li>
         </ul>

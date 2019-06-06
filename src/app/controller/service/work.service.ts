@@ -2,40 +2,39 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {WorkVo} from '../model/work.model';
 import {DateModel} from '../model/date.model';
-import {WorkDatailVo} from '../model/work-datail.model';
 import {EmployeeVo} from '../model/employee.model';
 import Swal from 'sweetalert2';
-import {SwalUtil} from "../../util/swal-util";
-import {downloadfile} from "../../util/downloadfile-util";
-import {MonthUtil} from "../../util/month-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {downloadfile} from '../../util/downloadfile-util';
+import {MonthUtil} from '../../util/month-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkService {
-  constructor(private http: HttpClient) {
+  constructor(public http: HttpClient) {
   }
 
-  private _main_url = UrlsUtil.main_personnel_url;
-  private _url = this._main_url + UrlsUtil.url_work;
-  private _url_workdetail = this._main_url + UrlsUtil.url_workDetail;
+  public _main_url = UrlsUtil.main_personnel_url;
+  public _url = this._main_url + UrlsUtil.url_work;
+  public _url_workdetail = this._main_url + UrlsUtil.url_workDetail;
 
-  private _listEmployeesByYear: Array<WorkVo> = new Array<WorkVo>();
-  private _workVoSearch: WorkVo = new WorkVo({}, {});
+  public _listEmployeesByYear: Array<WorkVo> = new Array<WorkVo>();
+  public _workVoSearch: WorkVo = new WorkVo({}, {});
 
-  private _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());
-  private _dateForPrinting: DateModel = new DateModel(new Date().getFullYear());
+  public _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());
+  public _dateForPrinting: DateModel = new DateModel(new Date().getFullYear());
 
   //args for graph
-  private _dateByYear: DateModel = new DateModel(new Date().getFullYear());
-  private _employeeToGraph: EmployeeVo = new EmployeeVo(0, '');
-  private _workToGraph: WorkVo = new WorkVo({}, {});
+  public _dateByYear: DateModel = new DateModel(new Date().getFullYear());
+  public _employeeToGraph: EmployeeVo = new EmployeeVo(0, '');
+  public _workToGraph: WorkVo = new WorkVo({}, {});
 
-  private _employee: EmployeeVo = new EmployeeVo();
+  public _employee: EmployeeVo = new EmployeeVo();
 
-  private _employeeSearchToStats: EmployeeVo = new EmployeeVo(0, '');
-  private _yearStats: DateModel = new DateModel(new Date().getFullYear());
+  public _employeeSearchToStats: EmployeeVo = new EmployeeVo(0, '');
+  public _yearStats: DateModel = new DateModel(new Date().getFullYear());
 
   findWorkByYear(matricule?: string) {
     this.http.get<Array<WorkVo>>(this._url + 'annee/' + this._dateByAnnee.year).subscribe(
@@ -78,9 +77,9 @@ export class WorkService {
 
   public searchWorkToPrint() {
     if (this._dateForPrinting.year === null || this._dateForPrinting.year === undefined) {
-      SwalUtil.insert("l'année");
+      SwalUtil.insert('l\'année');
     } else if (this._dateForPrinting.month === null || this._dateForPrinting.month === undefined) {
-      SwalUtil.insert("le mois");
+      SwalUtil.insert('le mois');
     } else {
       this.http.get<WorkVo>(this._url + 'worktoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
         data => {
@@ -113,7 +112,7 @@ export class WorkService {
           if (value === 'pdf') {
             resolve();
           } else if (value === 'xlsx') {
-            resolve()
+            resolve();
           } else {
             resolve('Merci de selectionner une format');
           }
@@ -136,19 +135,19 @@ export class WorkService {
         headers: headers
       };
       // @ts-ignore
-      return this.http.get(this._url + "generatedoc/year/" + fullYear + "/month/" + (month + 1) + "/type/" + type, httpOptions).subscribe((result) => {
-        downloadfile(result, applicationType, "etat_elements" + MonthUtil.getMonth(month) + fullYear + "." + type);
+      return this.http.get(this._url + 'generatedoc/year/' + fullYear + '/month/' + (month + 1) + '/type/' + type, httpOptions).subscribe((result) => {
+        downloadfile(result, applicationType, 'etat_elements' + MonthUtil.getMonth(month) + fullYear + '.' + type);
       });
     }
   }
 
   searchWorkToGraph() {
     if (this._employeeToGraph.matricule === '' || this._employeeToGraph.matricule === undefined) {
-      SwalUtil.select("l'employé");
+      SwalUtil.select('l\'employé');
     } else if (this._dateByYear.year === undefined || this._dateByYear.year === null) {
-      SwalUtil.insert("l'année");
+      SwalUtil.insert('l\'année');
     } else {
-      this.http.get<WorkVo>(this._url + "emloyetograph/matricule/" + this._employeeToGraph.matricule + "/year/" + this._dateByYear.year).subscribe(data => !!data ? this._workToGraph = data : this._workToGraph = new WorkVo({}, {}));
+      this.http.get<WorkVo>(this._url + 'emloyetograph/matricule/' + this._employeeToGraph.matricule + '/year/' + this._dateByYear.year).subscribe(data => !!data ? this._workToGraph = data : this._workToGraph = new WorkVo({}, {}));
     }
   }
 
@@ -162,13 +161,13 @@ export class WorkService {
       headers: headers
     };
     // @ts-ignore
-    return this.http.get(this._url + "printgraph/matricule/" + matricule + "/year/" + fullyear, httpOptions).subscribe((result) => {
-      downloadfile(result, applicationType, "Graphe-" + matricule + "-" + fullyear + "." + 'pdf');
+    return this.http.get(this._url + 'printgraph/matricule/' + matricule + '/year/' + fullyear, httpOptions).subscribe((result) => {
+      downloadfile(result, applicationType, 'Graphe-' + matricule + '-' + fullyear + '.' + 'pdf');
     });
   }
 
   searchEmployeeSats() {
-    return this.http.get<Array<WorkVo>>(this._url + "countall/year/" + new Date().getFullYear());
+    return this.http.get<Array<WorkVo>>(this._url + 'countall/year/' + new Date().getFullYear());
   }
 
   get listEmployeesByYear(): Array<WorkVo> {

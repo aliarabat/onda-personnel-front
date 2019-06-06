@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HolidayService} from '../../../controller/service/holiday.service';
 import {HolidayVo} from '../../../controller/model/holiday.model';
-import {DateUtil} from "../../../util/date-util";
+import {DateUtil} from '../../../util/date-util';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
 
@@ -11,15 +11,16 @@ import {MiddleWare} from '../../../util/middle-ware';
   styleUrls: ['./gestion-holidays-list.component.css']
 })
 export class GestionHolidaysListComponent implements OnInit {
-  private selectedHoliday: HolidayVo = new HolidayVo(0, '', '', '');
+  public selectedHoliday: HolidayVo = new HolidayVo(0, '', '', '');
 
 
-  constructor(private holidayService: HolidayService, private router: Router) {
+  constructor(public holidayService: HolidayService, public router: Router) {
   }
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router))
+    if (MiddleWare.checkIfUserIsLogged(this.router)) {
       this.holidayService.findAll();
+    }
   }
 
   get holidayList() {

@@ -7,8 +7,8 @@ import {DetailVo} from '../model/detail.model';
 import {DayVo} from '../model/day.model';
 import {DayDetailVo} from '../model/day-detail.model';
 import {WorkVo} from '../model/work.model';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 
 @Injectable({
@@ -16,35 +16,35 @@ import {UrlsUtil} from "../../util/urls-util";
 })
 export class MissionService {
 
-  constructor(private http: HttpClient) {
+  constructor(public http: HttpClient) {
   }
 
-  private main_url=UrlsUtil.main_personnel_url;
-  private _url = this.main_url+UrlsUtil.url_dayDetail;
-  private _urlDay = UrlsUtil.main_personnel_url+UrlsUtil.url_day;
-  private _urlEmployee = this.main_url+UrlsUtil.url_employee;
-  private _urlWork = this.main_url+UrlsUtil.url_work;
-  private _urlMission = this.main_url+UrlsUtil.url_mission;
-  private _urlDetail = this.main_url+UrlsUtil.url_Detail;
+  public main_url = UrlsUtil.main_personnel_url;
+  public _url = this.main_url + UrlsUtil.url_dayDetail;
+  public _urlDay = UrlsUtil.main_personnel_url + UrlsUtil.url_day;
+  public _urlEmployee = this.main_url + UrlsUtil.url_employee;
+  public _urlWork = this.main_url + UrlsUtil.url_work;
+  public _urlMission = this.main_url + UrlsUtil.url_mission;
+  public _urlDetail = this.main_url + UrlsUtil.url_Detail;
 
-  private _dayService: DayServiceService;
-  private _theDay: DayVo = new DayVo();
-  private _dayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
-  private _checkDayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
-  private _dayDetails1: Array<DayDetailVo> = new Array<DayDetailVo>();
-  private _details: Array<DetailVo> = new Array<DetailVo>();
-  private _theEmployee: EmployeeVo = new EmployeeVo();
-  private _works: Array<WorkVo> = new Array<WorkVo>();
-  private _theDayDetail1: DayDetailVo = new DayDetailVo();
-  private _employee1: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', false);
-  private _detail1: DetailVo = new DetailVo('', '', {}, {}, '', '');
-  private _missionInit: MissionVo = new MissionVo();
-  private _theDayDetail: DayDetailVo = new DayDetailVo(0, this._detail1, null, null, this._missionInit);
-  private _mission: MissionVo = new MissionVo();
+  public _dayService: DayServiceService;
+  public _theDay: DayVo = new DayVo();
+  public _dayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
+  public _checkDayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
+  public _dayDetails1: Array<DayDetailVo> = new Array<DayDetailVo>();
+  public _details: Array<DetailVo> = new Array<DetailVo>();
+  public _theEmployee: EmployeeVo = new EmployeeVo();
+  public _works: Array<WorkVo> = new Array<WorkVo>();
+  public _theDayDetail1: DayDetailVo = new DayDetailVo();
+  public _employee1: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', false);
+  public _detail1: DetailVo = new DetailVo('', '', {}, {}, '', '');
+  public _missionInit: MissionVo = new MissionVo();
+  public _theDayDetail: DayDetailVo = new DayDetailVo(0, this._detail1, null, null, this._missionInit);
+  public _mission: MissionVo = new MissionVo();
 
   updateMission(dayDetail: DayDetailVo) {
     if (dayDetail.missionVo.reference === '' || dayDetail.missionVo.reference === undefined) {
-      SwalUtil.insert("la référence de mission!");
+      SwalUtil.insert('la référence de mission!');
     }
     /*else if (dayDetail.missionVo.employee.matricule === '' || dayDetail.missionVo.employee.matricule === undefined) {
       Swal.fire({
@@ -53,9 +53,9 @@ export class MissionService {
         type: 'warning',
       });
     } */ else if (dayDetail.missionVo.type === '' || dayDetail.missionVo.type === undefined) {
-      SwalUtil.insert("le type de mission!");
+      SwalUtil.insert('le type de mission!');
     } else if (dayDetail.missionVo.startingDate === '' || dayDetail.missionVo.startingDate === undefined) {
-      SwalUtil.insert("la date!");
+      SwalUtil.insert('la date!');
     } /*else if ( dayDetail.detailVo.wording=== '' || dayDetail.detailVo.wording === undefined) {
       Swal.fire({
         title: 'Erreur!',
@@ -66,35 +66,35 @@ export class MissionService {
 
 
     else if (dayDetail.missionVo.startingTimeVo.hour === '' || dayDetail.missionVo.startingTimeVo.hour === undefined) {
-      SwalUtil.insert("l'heure début!");
+      SwalUtil.insert('l\'heure début!');
     } else if (dayDetail.missionVo.startingTimeVo.minute === '' || dayDetail.missionVo.startingTimeVo.minute === undefined) {
-      SwalUtil.insert("en minutes l'horaire")
+      SwalUtil.insert('en minutes l\'horaire');
     } else if (dayDetail.missionVo.endingTimeVo.hour === '' || dayDetail.missionVo.endingTimeVo.hour === undefined) {
-      SwalUtil.insert("l'heure fin!");
+      SwalUtil.insert('l\'heure fin!');
     } else if (dayDetail.missionVo.endingTimeVo.minute === '' || dayDetail.missionVo.endingTimeVo.minute === undefined) {
-      SwalUtil.insert("en minutes l'horaire")
+      SwalUtil.insert('en minutes l\'horaire');
     } else {
       SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
-          this.http.get<DayVo>(this._urlDay + "matricule/" + dayDetail.missionVo.employee.matricule + "/dayDate/" + dayDetail.missionVo.startingDate).subscribe(
+          this.http.get<DayVo>(this._urlDay + 'matricule/' + dayDetail.missionVo.employee.matricule + '/dayDate/' + dayDetail.missionVo.startingDate).subscribe(
             data => {
               if (data == null) {
-                SwalUtil.anySuccess('Erreur!', "Erreur: Cet employé n'as pas encore de service à cette date ");
+                SwalUtil.anySuccess('Erreur!', 'Erreur: Cet employé n\'as pas encore de service à cette date ');
               } else {
                 this.http.put(this._urlMission, dayDetail).subscribe(
                   (res) => {
                     if (res == 1 || res == 2 || res == 3 || res == 7) {
                       this.findAlldayDetails();
                       this.deleteAllDayDetailsWhereIsNull();
-                      SwalUtil.updateOf("Mission", "service");
+                      SwalUtil.updateOf('Mission', 'service');
                       // @ts-ignore
-                      $('#missionModal').modal('hide')
+                      $('#missionModal').modal('hide');
                     } else if (res == -2) {
-                      SwalUtil.any("Erreur!", "Modification du service échouée:Ce fonctionnaire n'a pas de service à cette date");
+                      SwalUtil.any('Erreur!', 'Modification du service échouée:Ce fonctionnaire n\'a pas de service à cette date');
                     } else if (res == -6 || res == -7) {
-                      SwalUtil.any("Erreur!", "Modification du service échouée:Ce fonctionnaire est absent à cette date");
+                      SwalUtil.any('Erreur!', 'Modification du service échouée:Ce fonctionnaire est absent à cette date');
                     } else {
-                      SwalUtil.any("Erreur!", "Modification du service échouée:Erreur Inconnue");
+                      SwalUtil.any('Erreur!', 'Modification du service échouée:Erreur Inconnue');
                     }
                   },
                 );
@@ -109,7 +109,7 @@ export class MissionService {
   }
 
   findDayDetailById(id: number) {
-    this.http.get<DayDetailVo>(this._url + "id/" + id).subscribe(
+    this.http.get<DayDetailVo>(this._url + 'id/' + id).subscribe(
       data => {
         if (data != null) {
           this.theDayDetail = data;
@@ -124,13 +124,13 @@ export class MissionService {
 
   SaveMission(mission: MissionVo, matricule: string) {
     if (mission.reference === '' || mission.reference === undefined) {
-      SwalUtil.insert("la référence de la mission!");
+      SwalUtil.insert('la référence de la mission!');
     } else if (matricule === '' || matricule === undefined) {
-      SwalUtil.select("l'employé considéré!");
+      SwalUtil.select('l\'employé considéré!');
     } else if (mission.type === '' || mission.type === undefined) {
-      SwalUtil.insert("le type de mission!");
+      SwalUtil.insert('le type de mission!');
     } else if (mission.startingDate === '' || mission.startingDate === undefined) {
-      SwalUtil.select("la date");
+      SwalUtil.select('la date');
     } /*else if (mission.detailVo.wording === '' || mission.detailVo.wording === undefined) {
       Swal.fire({
         title: 'Erreur!',
@@ -140,13 +140,13 @@ export class MissionService {
     }*/
 
     else if (mission.startingTimeVo.hour === '' || mission.startingTimeVo.hour === undefined) {
-      SwalUtil.insert("l'heure début!");
+      SwalUtil.insert('l\'heure début!');
     } else if (mission.startingTimeVo.minute === '' || mission.startingTimeVo.minute === undefined) {
-      SwalUtil.insert("en minutes l'horaire!");
+      SwalUtil.insert('en minutes l\'horaire!');
     } else if (mission.endingTimeVo.hour === '' || mission.endingTimeVo.hour === undefined) {
-      SwalUtil.insert("l'heure fin!");
+      SwalUtil.insert('l\'heure fin!');
     } else if (mission.endingTimeVo.minute === '' || mission.endingTimeVo.minute === undefined) {
-      SwalUtil.insert("en minutes l'horaire!");
+      SwalUtil.insert('en minutes l\'horaire!');
     } else {
       SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
@@ -157,15 +157,15 @@ export class MissionService {
                 this.findAlldayDetails();
                 SwalUtil.anySuccess('Ajout de Mission', 'Modification du service réussite');
               } else if (res == -4) {
-                SwalUtil.any("Erreur!", "Modification du service échouée:Cet employé n'as pas encore de service à cette date!");
+                SwalUtil.any('Erreur!', 'Modification du service échouée:Cet employé n\'as pas encore de service à cette date!');
               } else if (res == -6) {
-                SwalUtil.any("Erreur!", "Modification du service échouée:Cet employé n'as pas encore de service à ce jour là!");
+                SwalUtil.any('Erreur!', 'Modification du service échouée:Cet employé n\'as pas encore de service à ce jour là!');
               } else if (res == -3) {
-                SwalUtil.any("Erreur!", "Modification du service échouée:Cet employé est en vacances!");
+                SwalUtil.any('Erreur!', 'Modification du service échouée:Cet employé est en vacances!');
               } else if (res == -2) {
-                SwalUtil.any("Erreur!", "Modification du service échouée:Cet employé est déjà absent pour une raison!");
+                SwalUtil.any('Erreur!', 'Modification du service échouée:Cet employé est déjà absent pour une raison!');
               } else {
-                SwalUtil.any("Erreur!", "Modification du service échouée:Erreur Inconnue!");
+                SwalUtil.any('Erreur!', 'Modification du service échouée:Erreur Inconnue!');
               }
             },
           );
@@ -181,7 +181,7 @@ export class MissionService {
   }
 
   findDayDetailsOfDay(matricule: string, dateDay: string) {
-    this.http.get<DayVo>(this._urlDay + "matricule/" + matricule + "/dayDate/" + dateDay).subscribe(
+    this.http.get<DayVo>(this._urlDay + 'matricule/' + matricule + '/dayDate/' + dateDay).subscribe(
       data => {
         if (data != null) {
           //this.findEmployesByMatricule(matricule);
@@ -194,7 +194,7 @@ export class MissionService {
           }
           this.dayDetails = this._checkDayDetails;
         } else {
-          SwalUtil.any("Erreur!", "Aucun service trouvé : Cet employé n'as pas encore de service à cette date!");
+          SwalUtil.any('Erreur!', 'Aucun service trouvé : Cet employé n\'as pas encore de service à cette date!');
         }
       }, error => {
         console.log(error);
@@ -213,7 +213,7 @@ export class MissionService {
   }
 
   findAlldayDetails() {
-    this.http.get<Array<DayDetailVo>>(this._url + "Mission/").subscribe(
+    this.http.get<Array<DayDetailVo>>(this._url + 'Mission/').subscribe(
       data => {
         data ? this.dayDetails1 = data : this.dayDetails1 = [];
       }, error => {
@@ -251,9 +251,9 @@ export class MissionService {
             if (res == 1) {
               this.findAlldayDetails();
               this.deleteAllDayDetailsWhereIsNull();
-              SwalUtil.deleted("la Mission", "Suppression du service réussite");
+              SwalUtil.deleted('la Mission', 'Suppression du service réussite');
             } else {
-              SwalUtil.any("Erreur!", "Suppression du service échouée:Erreur Inconnue!");
+              SwalUtil.any('Erreur!', 'Suppression du service échouée:Erreur Inconnue!');
             }
           },
         );

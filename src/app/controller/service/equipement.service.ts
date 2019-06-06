@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {EquipementVo} from '../model/equipement';
-import Swal from 'sweetalert2';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 
 @Injectable({
@@ -11,25 +10,25 @@ import {UrlsUtil} from "../../util/urls-util";
 })
 export class EquipementService {
 
-  private _url = UrlsUtil.main_dashboard_url + UrlsUtil.url_equipement;
+  public _url = UrlsUtil.main_dashboard_url + UrlsUtil.url_equipement;
 
-  private _equipementCreate: EquipementVo = new EquipementVo();
-  private _equipementTobeAdded: Array<EquipementVo> = [];
-  private _allEquipements: Array<EquipementVo> = [];
-  private _editEquipement: EquipementVo = new EquipementVo();
+  public _equipementCreate: EquipementVo = new EquipementVo();
+  public _equipementTobeAdded: Array<EquipementVo> = [];
+  public _allEquipements: Array<EquipementVo> = [];
+  public _editEquipement: EquipementVo = new EquipementVo();
 
   constructor(private http: HttpClient) {
   }
 
   addEquipement() {
     if (this._equipementCreate.name === '' || this._equipementCreate.name === undefined) {
-      SwalUtil.insert("le nom!");
+      SwalUtil.insert('le nom!');
     } else if (this._equipementCreate.typeVo.name == '' || this._equipementCreate.typeVo.name == undefined) {
-      SwalUtil.select("le type!");
+      SwalUtil.select('le type!');
     } else if (this._equipementCreate.expectedBreakPeriodMaintenance.hour == '' || this._equipementCreate.expectedBreakPeriodMaintenance.hour == undefined) {
-      SwalUtil.insert("l'heure de la maintenance prévue!");
+      SwalUtil.insert('l\'heure de la maintenance prévue!');
     } else if (this._equipementCreate.expectedBreakPeriodMaintenance.minute == undefined || this._equipementCreate.expectedBreakPeriodMaintenance.minute == '') {
-      SwalUtil.insert("la minute de la maintenance prévue!");
+      SwalUtil.insert('la minute de la maintenance prévue!');
     } else {
       let equipementClone = new EquipementVo(0, this._equipementCreate.name, this._equipementCreate.expectedBreakPeriodMaintenance, this._equipementCreate.typeVo);
       this._equipementTobeAdded.push(equipementClone);
@@ -50,9 +49,9 @@ export class EquipementService {
                 this.findAllEquipements();
                 SwalUtil.anySuccess('Ajout d\'équipement', 'Ajout réussite');
               } else if (res == -2) {
-                SwalUtil.any("Erreur!", "Ajout échoué: l'un des équipements existe déjà");
+                SwalUtil.any('Erreur!', 'Ajout échoué: l\'un des équipements existe déjà');
               } else {
-                SwalUtil.any("Erreur!", "Ajout échoué: l'un des équipements existe déjà");
+                SwalUtil.any('Erreur!', 'Ajout échoué: l\'un des équipements existe déjà');
               }
             }
           );
@@ -86,9 +85,9 @@ export class EquipementService {
           (res) => {
             if (res == 1) {
               this.findAllEquipements();
-              SwalUtil.deleted("l'équipement", "Type Supprimé");
+              SwalUtil.deleted('l\'équipement', 'Type Supprimé');
             } else {
-              SwalUtil.any("Erreur!", "Suppression échouée:Erreur inconnue");
+              SwalUtil.any('Erreur!', 'Suppression échouée:Erreur inconnue');
             }
           }
         );
@@ -98,13 +97,13 @@ export class EquipementService {
 
   editEquip() {
     if (this._editEquipement.name === '' || this._editEquipement.name === undefined) {
-      SwalUtil.insert("l'équipement");
+      SwalUtil.insert('l\'équipement');
     } else if (this._editEquipement.typeVo.name === '' || this._editEquipement.typeVo.name === undefined) {
-      SwalUtil.insert("le type");
+      SwalUtil.insert('le type');
     } else if (this._editEquipement.expectedBreakPeriodMaintenance.hour === '' || this._editEquipement.expectedBreakPeriodMaintenance.hour === undefined) {
-      SwalUtil.insert("l'heure de la maintenance prévue!");
+      SwalUtil.insert('l\'heure de la maintenance prévue!');
     } else if (this._editEquipement.expectedBreakPeriodMaintenance.minute === '' || this._editEquipement.expectedBreakPeriodMaintenance.minute === undefined) {
-      SwalUtil.insert("la minute de la maintenance prévue!");
+      SwalUtil.insert('la minute de la maintenance prévue!');
     } else {
       SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
@@ -112,15 +111,15 @@ export class EquipementService {
             (res) => {
               if (res == 1) {
                 this.findAllEquipements();
-                SwalUtil.updateOf("l'équipement");
+                SwalUtil.updateOf('l\'équipement');
                 // @ts-ignore
                 $('#equipmentModal').modal('hide');
               } else if (res == -3) {
-                SwalUtil.alreadyExist("Ce nom");
+                SwalUtil.alreadyExist('Ce nom');
               } else if (res == -1) {
-                SwalUtil.any("Erreur!", "Ajout échoué:équipement indisponible!");
+                SwalUtil.any('Erreur!', 'Ajout échoué:équipement indisponible!');
               } else {
-                SwalUtil.any("Erreur!", "Modification de l'équipement échouée:Erreur Inconnue!");
+                SwalUtil.any('Erreur!', 'Modification de l\'équipement échouée:Erreur Inconnue!');
               }
             },
           );

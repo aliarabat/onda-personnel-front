@@ -2,44 +2,41 @@ import {Injectable} from '@angular/core';
 import {EmployeeVo} from '../model/employee.model';
 import {DetailVo} from '../model/detail.model';
 import {HttpClient} from '@angular/common/http';
-import Swal from "sweetalert2";
-import {VacationVo} from '../model/vacation.model';
 import {SkipVo} from '../model/skip.model';
 import {DayDetailVo} from '../model/day-detail.model';
 import {DayVo} from '../model/day.model';
-import {ReplacementVo} from '../model/replacement.model';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkipService {
-  private _url = UrlsUtil.main_personnel_url;
-  private _urlDay = this._url+UrlsUtil.url_day;
-  private _urlSkip = this._url+UrlsUtil.url_skip;
+  public _url = UrlsUtil.main_personnel_url;
+  public _urlDay = this._url + UrlsUtil.url_day;
+  public _urlSkip = this._url + UrlsUtil.url_skip;
 
-  private _url_employees = this._url + "employee/";
-  private _url_detail = this._url + "Detail/";
-  private _url_skip = this._url + "dayDetail/skip/";
-  private _url_dayDetail = this._url + "dayDetail/"
-  private _employee: EmployeeVo = new EmployeeVo();
-  private _detail: DetailVo = new DetailVo('', '', {}, {}, '', '');
-  private _employees: Array<EmployeeVo> = new Array<EmployeeVo>();
-  private _details: Array<DetailVo> = new Array<DetailVo>();
-  private _skipCreate: SkipVo = new SkipVo();
-  private _dayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
-  private _employee1: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', false);
-  private _detail1: DetailVo = new DetailVo('', '', {}, {}, '', '');
-  private _skipInit: SkipVo = new SkipVo(0, '', this._employee1, '', '', new DetailVo());
-  private _selectedDayDetail: DayDetailVo = new DayDetailVo(0, this._detail1, null, this._skipInit, null);
-  private _skip: SkipVo = new SkipVo();
+  public _url_employees = this._url + 'employee/';
+  public _url_detail = this._url + 'Detail/';
+  public _url_skip = this._url + 'dayDetail/skip/';
+  public _url_dayDetail = this._url + 'dayDetail/';
+  public _employee: EmployeeVo = new EmployeeVo();
+  public _detail: DetailVo = new DetailVo('', '', {}, {}, '', '');
+  public _employees: Array<EmployeeVo> = new Array<EmployeeVo>();
+  public _details: Array<DetailVo> = new Array<DetailVo>();
+  public _skipCreate: SkipVo = new SkipVo();
+  public _dayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
+  public _employee1: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', false);
+  public _detail1: DetailVo = new DetailVo('', '', {}, {}, '', '');
+  public _skipInit: SkipVo = new SkipVo(0, '', this._employee1, '', '', new DetailVo());
+  public _selectedDayDetail: DayDetailVo = new DayDetailVo(0, this._detail1, null, this._skipInit, null);
+  public _skip: SkipVo = new SkipVo();
 
-  constructor(private _http: HttpClient) {
+  constructor(public _http: HttpClient) {
   }
 
   findAllEmployees() {
-    this._http.get<Array<EmployeeVo>>(this._url_employees + "allExist/isExist/" + true).subscribe(
+    this._http.get<Array<EmployeeVo>>(this._url_employees + 'allExist/isExist/' + true).subscribe(
       data => {
         data ?
           this._employees = data : this._employees = [];
@@ -93,9 +90,9 @@ export class SkipService {
       data => {
         data ? this._dayDetails = data : this._dayDetails = [];
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
-    )
+    );
   }
 
   findSkipedEmployesByMatricule(matricule: string) {
@@ -123,18 +120,18 @@ export class SkipService {
   }
 
   deleteSkip(id: number) {
-    this.http.delete(this._url_dayDetail + "id/" + id).subscribe(
+    this.http.delete(this._url_dayDetail + 'id/' + id).subscribe(
       data => {
         this.findAllSkips();
         SwalUtil.topEndSavedSuccessfully();
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
-    )
+    );
   }
 
   findDayDetailById(id: number) {
-    this.http.get<DayDetailVo>(this._url_dayDetail + "id/" + id).subscribe(
+    this.http.get<DayDetailVo>(this._url_dayDetail + 'id/' + id).subscribe(
       data => {
         if (data != null) {
           this.selectedDayDetail = data;
@@ -156,25 +153,25 @@ export class SkipService {
     } else {
       SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
-          this.http.get<DayVo>(this._urlDay + "matricule/" + dayDetail.skipVo.employeeVo.matricule + "/dayDate/" + dayDetail.skipVo.skipDate).subscribe(
+          this.http.get<DayVo>(this._urlDay + 'matricule/' + dayDetail.skipVo.employeeVo.matricule + '/dayDate/' + dayDetail.skipVo.skipDate).subscribe(
             data => {
               if (data == null) {
-                SwalUtil.any('Erreur!', "Erreur: Cet employé n'as pas encore de service à cette date");
+                SwalUtil.any('Erreur!', 'Erreur: Cet employé n\'as pas encore de service à cette date');
               } else {
                 this.http.put(this._urlSkip, dayDetail).subscribe(
                   (res) => {
                     if (res == 1 || res == 2 || res == 3 || res == 7) {
                       this.findAllSkips();
                       this.deleteAllDayDetailsWhereIsNull();
-                      SwalUtil.anySuccess("Modification d'absence", 'Modification du service réussite');
+                      SwalUtil.anySuccess('Modification d\'absence', 'Modification du service réussite');
                       // @ts-ignore
-                      $('#skipModal').modal('hide')
+                      $('#skipModal').modal('hide');
                     } else if (res == -2) {
-                      SwalUtil.any('Erreur!', "Modification du service échouée:Ce fonctionnaire n'a pas de service à cette date");
+                      SwalUtil.any('Erreur!', 'Modification du service échouée:Ce fonctionnaire n\'a pas de service à cette date');
                     } else if (res == -6 || res == -7) {
-                      SwalUtil.any('Erreur!', "Modification du service échouée:Ce fonctionnaire est absent à cette date");
+                      SwalUtil.any('Erreur!', 'Modification du service échouée:Ce fonctionnaire est absent à cette date');
                     } else {
-                      SwalUtil.any('Erreur!', "Modification du service échouée:Erreur Inconnue");
+                      SwalUtil.any('Erreur!', 'Modification du service échouée:Erreur Inconnue');
                     }
                   },
                 );

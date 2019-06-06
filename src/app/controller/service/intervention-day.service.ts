@@ -4,84 +4,84 @@ import {TimingVo} from '../model/timing.model';
 import {HttpClient} from '@angular/common/http';
 import {EquipementVo} from '../model/equipement';
 import {TypeVo} from '../model/type';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterventionDayService {
 
-  private _main_url = UrlsUtil.main_dashboard_url;
-  private _url: string = this._main_url + UrlsUtil.url_interventionDay;
-  private _urlType: string = this._main_url + UrlsUtil.url_type;
-  private _urlEquipement: string = this._main_url + UrlsUtil.url_equipement;
+  public _main_url = UrlsUtil.main_dashboard_url;
+  public _url: string = this._main_url + UrlsUtil.url_interventionDay;
+  public _urlType: string = this._main_url + UrlsUtil.url_type;
+  public _urlEquipement: string = this._main_url + UrlsUtil.url_equipement;
 
-  private _interventionCreate: InterventionDayVo = new InterventionDayVo();
-  private _breakNumberTotal: number = 0;
-  private _breakDuration: TimingVo = new TimingVo('0', '0');
-  private _reparationDuration: TimingVo = new TimingVo('0', '0');
-  private _breakDurationTotal: TimingVo = new TimingVo('0', '0');
-  private _reparationDurationTotal: TimingVo = new TimingVo();
-  private _breakDurationTotalHour: number = 0;
-  private _breakDurationTotalMinute: number = 0;
-  private _allTypes: Array<TypeVo> = [];
-  private _equipments: Array<EquipementVo> = [];
-  private _interventions: Array<InterventionDayVo> = [];
-  private _equipement: EquipementVo = new EquipementVo(0, '');
-  private _selectedType: TypeVo = new TypeVo();
+  public _interventionCreate: InterventionDayVo = new InterventionDayVo();
+  public _breakNumberTotal: number = 0;
+  public _breakDuration: TimingVo = new TimingVo('0', '0');
+  public _reparationDuration: TimingVo = new TimingVo('0', '0');
+  public _breakDurationTotal: TimingVo = new TimingVo('0', '0');
+  public _reparationDurationTotal: TimingVo = new TimingVo();
+  public _breakDurationTotalHour: number = 0;
+  public _breakDurationTotalMinute: number = 0;
+  public _allTypes: Array<TypeVo> = [];
+  public _equipments: Array<EquipementVo> = [];
+  public _interventions: Array<InterventionDayVo> = [];
+  public _equipement: EquipementVo = new EquipementVo(0, '');
+  public _selectedType: TypeVo = new TypeVo();
 
-  constructor(private _http: HttpClient) {
+  constructor(public _http: HttpClient) {
   }
 
   public addIntervention() {
     if (this.selectedType.name === '' || this.selectedType.name === undefined) {
-      SwalUtil.insert(" le type d'équipement");
+      SwalUtil.insert(' le type d\'équipement');
     } else if (this.equipement.name == '' || this.equipement.name == undefined) {
-      SwalUtil.insert(" l'équipement");
+      SwalUtil.insert(' l\'équipement');
     } else if (this.interventionCreate.anomaly == '' || this.interventionCreate.anomaly == undefined) {
-      SwalUtil.insert(" l'anomalie");
+      SwalUtil.insert(' l\'anomalie');
     } else if (this.interventionCreate.callIntervention == undefined || this.interventionCreate.callIntervention == '') {
-      SwalUtil.insert("la date d'appel d'intervention")
+      SwalUtil.insert('la date d\'appel d\'intervention');
     } else if (this.interventionCreate.interventionStart == undefined || this.interventionCreate.interventionStart == '') {
-      SwalUtil.insert("la date début d'intervention")
+      SwalUtil.insert('la date début d\'intervention');
     } else if (this.interventionCreate.interventionEnd == undefined || this.interventionCreate.interventionEnd == '') {
-      SwalUtil.insert("la date fin d'intervention")
+      SwalUtil.insert('la date fin d\'intervention');
     } else if (this.interventionCreate.breakNumber == undefined || this.interventionCreate.breakNumber == '') {
-      SwalUtil.insert("le nombre d'arrêts")
+      SwalUtil.insert('le nombre d\'arrêts');
     } else if (this.interventionCreate.actions == undefined || this.interventionCreate.actions == '') {
-      SwalUtil.insert("l'action d'anomalie")
+      SwalUtil.insert('l\'action d\'anomalie');
     } else if (this.interventionCreate.interventionStart < this.interventionCreate.callIntervention || this.interventionCreate.interventionEnd < this.interventionCreate.interventionStart || this.interventionCreate.interventionEnd < this.interventionCreate.callIntervention) {
-      SwalUtil.insert("les dates");
+      SwalUtil.insert('les dates');
     } else {
       this.getBreakDuration();
       this.getReparationDuration();
       this.breakNumberTotal += parseInt(this.interventionCreate.breakNumber);
-      let interventionClone = new InterventionDayVo(0, this.interventionCreate.anomaly, this.interventionCreate.interventionStart, this.interventionCreate.interventionEnd, this.interventionCreate.callIntervention, this.breakDuration, this.reparationDuration, this.interventionCreate.breakNumber, this.interventionCreate.actions)
+      let interventionClone = new InterventionDayVo(0, this.interventionCreate.anomaly, this.interventionCreate.interventionStart, this.interventionCreate.interventionEnd, this.interventionCreate.callIntervention, this.breakDuration, this.reparationDuration, this.interventionCreate.breakNumber, this.interventionCreate.actions);
       this._interventions.push(interventionClone);
       this.interventionCreate = new InterventionDayVo();
     }
   }
 
   public getBreakDuration() {
-    this.http.get<TimingVo>(this._url + "call/" + this.interventionCreate.callIntervention + "/startOrAnd/" + this.interventionCreate.interventionEnd).subscribe(
+    this.http.get<TimingVo>(this._url + 'call/' + this.interventionCreate.callIntervention + '/startOrAnd/' + this.interventionCreate.interventionEnd).subscribe(
       data => {
         this.breakDuration = data;
-        console.log(this.breakDuration)
+        console.log(this.breakDuration);
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
-    )
+    );
   }
 
   public getReparationDuration() {
-    this.http.get<TimingVo>(this._url + "call/" + this.interventionCreate.callIntervention + "/startOrAnd/" + this.interventionCreate.interventionStart).subscribe(
+    this.http.get<TimingVo>(this._url + 'call/' + this.interventionCreate.callIntervention + '/startOrAnd/' + this.interventionCreate.interventionStart).subscribe(
       data => {
         this.reparationDuration = data;
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
-    )
+    );
   }
 
   public findAllType() {
@@ -89,26 +89,26 @@ export class InterventionDayService {
       data => {
         this._allTypes = data;
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
-    )
+    );
   }
 
   public findByType(type: TypeVo) {
-    this.http.get<Array<EquipementVo>>(this._urlEquipement + "nameEquipement/" + type.name).subscribe(
+    this.http.get<Array<EquipementVo>>(this._urlEquipement + 'nameEquipement/' + type.name).subscribe(
       data => {
         this.equipments = data;
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
-    )
+    );
   }
 
   public saveIntervention(nameEquipement: string) {
     if (this.interventions.length != 0) {
       SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
         if (result.value) {
-          this._http.post(this._url + "equipement/" + nameEquipement, this.interventions).subscribe(
+          this._http.post(this._url + 'equipement/' + nameEquipement, this.interventions).subscribe(
             data => {
               this.interventions = new Array<InterventionDayVo>();
               this.interventionCreate = new InterventionDayVo();

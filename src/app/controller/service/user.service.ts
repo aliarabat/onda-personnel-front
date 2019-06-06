@@ -4,7 +4,7 @@ import {User} from '../model/user.model';
 import {UserUtil} from '../../util/userUtil';
 import {Router} from '@angular/router';
 import {SwalUtil} from '../../util/swal-util';
-import {UrlsUtil} from "../../util/urls-util";
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class UserService {
   public userModifiedData: User = new User(0, '', '', '', '', '', null, null, '', false);
   public users: Array<User> = new Array<User>();
 
-  constructor(private http: HttpClient, public router: Router) {
+  constructor(public http: HttpClient, public router: Router) {
   }
 
   login() {

@@ -2,27 +2,27 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {VacationVo} from '../model/vacation.model';
 import {EmployeeVo} from '../model/employee.model';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VacationService {
 
-  private _main_url = UrlsUtil.main_personnel_url;
-  private _url = this._main_url + UrlsUtil.url_day + UrlsUtil.url_vacation;
-  private _urlVac = this._main_url + UrlsUtil.url_vacation;
-  private _url_employees = this._main_url+UrlsUtil.url_employee;
+  public _main_url = UrlsUtil.main_personnel_url;
+  public _url = this._main_url + UrlsUtil.url_day + UrlsUtil.url_vacation;
+  public _urlVac = this._main_url + UrlsUtil.url_vacation;
+  public _url_employees = this._main_url + UrlsUtil.url_employee;
 
-  private _vacationCreate: VacationVo = new VacationVo();
+  public _vacationCreate: VacationVo = new VacationVo();
 
-  private _employee: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', true);
-  private _employees: Array<EmployeeVo> = new Array<EmployeeVo>();
-  private _vacations: Array<VacationVo> = new Array<VacationVo>();
-  private _newVacation: VacationVo = new VacationVo(0, new EmployeeVo(), '', '', '', '');
+  public _employee: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', true);
+  public _employees: Array<EmployeeVo> = new Array<EmployeeVo>();
+  public _vacations: Array<VacationVo> = new Array<VacationVo>();
+  public _newVacation: VacationVo = new VacationVo(0, new EmployeeVo(), '', '', '', '');
 
-  constructor(private _http: HttpClient) {
+  constructor(public _http: HttpClient) {
   }
 
   public saveVacation() {
@@ -67,20 +67,20 @@ export class VacationService {
       data => {
         data ? this._vacations = data : this._vacations = [];
       }, error => {
-        console.log(error)
+        console.log(error);
       }
     );
   }
 
   deleteVaction(id: number) {
-    this.http.delete(this.urlVac + "/id/" + id).subscribe(
+    this.http.delete(this.urlVac + '/id/' + id).subscribe(
       data => {
         this.findAllVacations();
         SwalUtil.topEndSavedSuccessfully();
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
-    )
+    );
   }
 
   updateEmployee(newVacation: VacationVo, matricule: string) {
@@ -98,7 +98,7 @@ export class VacationService {
       data => {
         data ? this._newVacation = data : this._newVacation = new VacationVo(0, new EmployeeVo(), '', '', '', '');
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
     );
   }

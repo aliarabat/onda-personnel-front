@@ -28,11 +28,11 @@ export class SidebarComponent implements OnInit {
   absencesState: boolean = false;
   indicateursState: boolean = false;
   //for pesonnel project
-  employeeState:boolean=false;
-  holidaysState:boolean=false;
-  detailsState:boolean=false;
+  employeeState: boolean = false;
+  holidaysState: boolean = false;
+  detailsState: boolean = false;
   // for dashboard project
-  equipementsState:boolean=false;
+  equipementsState: boolean = false;
 
   async ngOnInit() {
     await this.router.events.subscribe(() => {
@@ -47,6 +47,7 @@ export class SidebarComponent implements OnInit {
         this.userDataChangeRequestLocal.lastName = loggedUser.lastName;
         this.controlAccessByRang();
       }
+
     });
 
   }
@@ -55,12 +56,12 @@ export class SidebarComponent implements OnInit {
     if (UserUtil.getLoggedUser().rang === 'Technicien') {
       this.gestionState = true;
       this.absencesState = true;
-      this.equipementsState=true;
+      this.equipementsState = true;
     } else if (UserUtil.getLoggedUser().rang === 'Responsable') {
       this.indicateursState = true;
-      this.holidaysState=true;
-      this.employeeState=true;
-      this.detailsState=true;
+      this.holidaysState = true;
+      this.employeeState = true;
+      this.detailsState = true;
     }
   }
 
@@ -152,7 +153,7 @@ export class SidebarComponent implements OnInit {
         } else {
           SwalUtil.actionCanceled();
         }
-      })
+      });
 
     }
   }
@@ -187,7 +188,7 @@ export class SidebarComponent implements OnInit {
         } else {
           SwalUtil.actionCanceled();
         }
-      })
+      });
 
     }
   }
@@ -227,7 +228,7 @@ export class SidebarComponent implements OnInit {
         } else {
           SwalUtil.actionCanceled();
         }
-      })
+      });
     }
   }
 
@@ -303,6 +304,21 @@ export class SidebarComponent implements OnInit {
     if (this.isUserCreationValidated) {
       this.userService.create();
     }
+  }
 
+  changeImg() {
+    $('#logo').attr('src', '../../../assets/Images/logo-ONDA2.png');
+  }
+
+  restoreImg() {
+    $('#logo').attr('src', '../../../assets/Images/logo-ONDA.png');
+  }
+
+  isAllowed(){
+    let route = location.pathname;
+    if (route === '/login' || route === '/acceuil') {
+      return true;
+    }
+    else return false;
   }
 }

@@ -2,40 +2,40 @@ import {Injectable} from '@angular/core';
 import {DetailVo} from '../model/detail.model';
 import {TimingVo} from '../model/timing.model';
 import {HttpClient} from '@angular/common/http';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DetailServiceService {
 
-  private _url: string = UrlsUtil.main_personnel_url + UrlsUtil.url_Detail;
-  private _detailCreate: DetailVo = new DetailVo;
-  private _details: Array<DetailVo> = [];
-  private _allDetails: Array<DetailVo> = [];
-  private _he: TimingVo = new TimingVo('00', '00');
-  private _hn: TimingVo = new TimingVo('00', '00');
-  private _newDetail: DetailVo = new DetailVo();
+  public _url: string = UrlsUtil.main_personnel_url + UrlsUtil.url_Detail;
+  public _detailCreate: DetailVo = new DetailVo;
+  public _details: Array<DetailVo> = [];
+  public _allDetails: Array<DetailVo> = [];
+  public _he: TimingVo = new TimingVo('00', '00');
+  public _hn: TimingVo = new TimingVo('00', '00');
+  public _newDetail: DetailVo = new DetailVo();
 
   constructor(private _http: HttpClient) {
   }
 
   public addDetail() {
     if (this.detailCreate.wording === '' || this.detailCreate.wording === undefined) {
-      SwalUtil.insert("le libelle!")
+      SwalUtil.insert('le libelle!');
     } else if (this.detailCreate.mode === '' || this.detailCreate.mode == undefined) {
-      SwalUtil.select("le mode!");
+      SwalUtil.select('le mode!');
     } else if (this.detailCreate.startingTimeVo.hour == '' || this.detailCreate.startingTimeVo.hour == undefined) {
-      SwalUtil.insert("l'heure debut!");
+      SwalUtil.insert('l\'heure debut!');
     } else if (this.detailCreate.startingTimeVo.minute == '' || this.detailCreate.startingTimeVo.minute == undefined) {
-      SwalUtil.insert("les minutes début!");
+      SwalUtil.insert('les minutes début!');
     } else if (this.detailCreate.endingTimeVo.hour == '' || this.detailCreate.endingTimeVo.hour == undefined) {
-      SwalUtil.insert("l'heure début!");
+      SwalUtil.insert('l\'heure début!');
     } else if (this.detailCreate.endingTimeVo.minute == '' || this.detailCreate.endingTimeVo.minute == undefined) {
-      SwalUtil.insert("les minutes fin!");
+      SwalUtil.insert('les minutes fin!');
     } else if (this.detailCreate.pan == undefined) {
-      SwalUtil.insert("le pan!");
+      SwalUtil.insert('le pan!');
     } else {
       this.getHe();
       this.getHn();
@@ -107,19 +107,19 @@ export class DetailServiceService {
 
   updateDetail(newDetail: DetailVo) {
     if (this.newDetail.wording === '' || this.newDetail.wording === undefined) {
-      SwalUtil.insert("le libelle!");
+      SwalUtil.insert('le libelle!');
     } else if (this.newDetail.mode === '' || this.newDetail.mode == undefined) {
-      SwalUtil.select("le mode!");
+      SwalUtil.select('le mode!');
     } else if (this.newDetail.startingTimeVo.hour == '' || this.newDetail.startingTimeVo.hour == undefined) {
-      SwalUtil.insert("l'heure debut!");
+      SwalUtil.insert('l\'heure debut!');
     } else if (this.newDetail.startingTimeVo.minute == '' || this.newDetail.startingTimeVo.minute == undefined) {
-      SwalUtil.insert("les minutes debut!");
+      SwalUtil.insert('les minutes debut!');
     } else if (this.newDetail.endingTimeVo.hour == '' || this.newDetail.endingTimeVo.hour == undefined) {
-      SwalUtil.insert("l'heure fin!");
+      SwalUtil.insert('l\'heure fin!');
     } else if (this.newDetail.endingTimeVo.minute == '' || this.newDetail.endingTimeVo.minute == undefined) {
-      SwalUtil.insert("les minutes fin!");
+      SwalUtil.insert('les minutes fin!');
     } else if (this.newDetail.pan == '' || this.newDetail.pan == undefined) {
-      SwalUtil.insert("le pan!");
+      SwalUtil.insert('le pan!');
     } else {
       SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
@@ -152,13 +152,13 @@ export class DetailServiceService {
       data => {
         data ? this._newDetail = data : this._newDetail = new DetailVo();
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
     );
   }
 
   countAllHours() {
-    return this.http.get<number>(this.url + "countdetailwordings");
+    return this.http.get<number>(this.url + 'countdetailwordings');
   }
 
   get newDetail(): DetailVo {

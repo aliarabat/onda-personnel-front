@@ -1,39 +1,38 @@
 import {Injectable} from '@angular/core';
 import {EmployeeVo} from '../model/employee.model';
 import {HttpClient} from '@angular/common/http';
-import Swal from 'sweetalert2';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeServiceService {
 
-  private _url: string = UrlsUtil.main_personnel_url + UrlsUtil.url_employee;
+  public _url: string = UrlsUtil.main_personnel_url + UrlsUtil.url_employee;
 
-  private _employeeCreate: EmployeeVo = new EmployeeVo();
-  private _employees: Array<EmployeeVo> = [];
-  private _allEmployees: Array<EmployeeVo> = [];
-  private _employeeSearch: Array<EmployeeVo> = [];
-  private _newEmployee: EmployeeVo = new EmployeeVo();
+  public _employeeCreate: EmployeeVo = new EmployeeVo();
+  public _employees: Array<EmployeeVo> = [];
+  public _allEmployees: Array<EmployeeVo> = [];
+  public _employeeSearch: Array<EmployeeVo> = [];
+  public _newEmployee: EmployeeVo = new EmployeeVo();
 
-  private _employerSearch: EmployeeVo = new EmployeeVo();
+  public _employerSearch: EmployeeVo = new EmployeeVo();
 
   constructor(private _http: HttpClient) {
   }
 
   public addEmployee() {
     if (this.employeeCreate.matricule == '' || this.employeeCreate.matricule == undefined) {
-      SwalUtil.insert("le matricule!");
+      SwalUtil.insert('le matricule!');
     } else if (this.employeeCreate.lastName == '' || this.employeeCreate.lastName == undefined) {
-      SwalUtil.insert("le nom!");
+      SwalUtil.insert('le nom!');
     } else if (this.employeeCreate.firstName == '' || this.employeeCreate.firstName == undefined) {
-      SwalUtil.insert("le prénom!");
+      SwalUtil.insert('le prénom!');
     } else if (this.employeeCreate.fonction == undefined || this.employeeCreate.fonction == '') {
-      SwalUtil.insert("la fonction!");
+      SwalUtil.insert('la fonction!');
     } else if (this.employeeCreate.type == '' || this.employeeCreate.type == undefined) {
-      SwalUtil.insert("le type!");
+      SwalUtil.insert('le type!');
     } else {
       let EmployeeClone = new EmployeeVo(0, this._employeeCreate.matricule, this._employeeCreate.firstName, this._employeeCreate.lastName, this._employeeCreate.fonction, this._employeeCreate.type, false);
       this._employees.push(EmployeeClone);
@@ -108,22 +107,22 @@ export class EmployeeServiceService {
 
   revert(matricule: string) {
     this._http.delete(this._url + 'revert/matricule/' + parseInt(matricule)).subscribe(data => {
-        this.findAllEmployeNotExist()
+        this.findAllEmployeNotExist();
       }
-    )
+    );
   }
 
   updateEmployee(newEmployee: EmployeeVo) {
     if (this.newEmployee.matricule == '' || this.newEmployee.matricule == undefined) {
-      SwalUtil.insert("le matricule!");
+      SwalUtil.insert('le matricule!');
     } else if (this.newEmployee.lastName == '' || this.newEmployee.lastName == undefined) {
-      SwalUtil.insert("le nom!");
+      SwalUtil.insert('le nom!');
     } else if (this.newEmployee.firstName == '' || this.newEmployee.firstName == undefined) {
-      SwalUtil.insert("le prénom!");
+      SwalUtil.insert('le prénom!');
     } else if (this.newEmployee.fonction == undefined || this.newEmployee.fonction == '') {
-      SwalUtil.insert("la fonction!");
+      SwalUtil.insert('la fonction!');
     } else if (this.newEmployee.type == '' || this.newEmployee.type == undefined) {
-      SwalUtil.insert("le type!");
+      SwalUtil.insert('le type!');
     } else {
       SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
@@ -144,7 +143,7 @@ export class EmployeeServiceService {
       data => {
         this._newEmployee = data;
       }, error1 => {
-        console.log(error1)
+        console.log(error1);
       }
     );
   }
@@ -154,7 +153,7 @@ export class EmployeeServiceService {
   }
 
   countAllEmployees() {
-    return this.http.get<number>(this._url + "numberofemployees");
+    return this.http.get<number>(this._url + 'numberofemployees');
   }
 
   get newEmployee(): EmployeeVo {

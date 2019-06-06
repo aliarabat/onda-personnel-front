@@ -2,10 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {HolidayVo} from '../model/holiday.model';
 //import * as $ from 'jquery';
-import Swal from 'sweetalert2';
-import {isFatalDiagnosticError} from '@angular/compiler-cli/src/ngtsc/diagnostics';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +12,24 @@ export class HolidayService {
   constructor(private http: HttpClient) {
   }
 
-  private _url = UrlsUtil.main_personnel_url+UrlsUtil.url_holiday;
-  private _holidayCreate: HolidayVo = new HolidayVo(0, '', '', '');
-  private _holidaysVo: Array<HolidayVo> = new Array<HolidayVo>();
-  private _holidaysList: Array<HolidayVo> = new Array<HolidayVo>();
-  private _holidayVoToUpdate: HolidayVo = new HolidayVo(0, '', '', '');
+  public _url = UrlsUtil.main_personnel_url + UrlsUtil.url_holiday;
+  public _holidayCreate: HolidayVo = new HolidayVo(0, '', '', '');
+  public _holidaysVo: Array<HolidayVo> = new Array<HolidayVo>();
+  public _holidaysList: Array<HolidayVo> = new Array<HolidayVo>();
+  public _holidayVoToUpdate: HolidayVo = new HolidayVo(0, '', '', '');
 
-  private _holidaysNumber: Array<number> = [];
+  public _holidaysNumber: Array<number> = [];
 
   addHoliday() {
     if (this._holidayCreate.reference === '') {
-      SwalUtil.insert("le référence");
+      SwalUtil.insert('le référence');
     } else if (this._holidayCreate.startingDate === '') {
-      SwalUtil.insert("la date début");
+      SwalUtil.insert('la date début');
     } else if (this._holidayCreate.endingDate === '') {
-      SwalUtil.insert("la date fin");
+      SwalUtil.insert('la date fin');
     } else {
       if (this._holidaysVo.findIndex(hVo => hVo.reference === this._holidayCreate.reference) !== -1 || this._holidaysList.findIndex(hVo => hVo.reference === this._holidayCreate.reference) !== -1) {
-        SwalUtil.alreadyExist("Ce référence");
+        SwalUtil.alreadyExist('Ce référence');
       } else {
         this._holidaysVo.push(this._holidayCreate);
         this._holidayCreate = new HolidayVo(0, '', '', '');
@@ -85,7 +83,7 @@ export class HolidayService {
           data => {
             if (data == 1) {
               // @ts-ignore
-              $("#updateHolidayModal").modal("hide");
+              $('#updateHolidayModal').modal('hide');
               this.findAll();
               this._holidayVoToUpdate = new HolidayVo(0, '', '', '');
               SwalUtil.topEndSavedSuccessfully();
@@ -126,7 +124,7 @@ export class HolidayService {
   }
 
   countAllHolidays() {
-    return this.http.get<number>(this._url + "countholidays");
+    return this.http.get<number>(this._url + 'countholidays');
   }
 
   get holidayCreate(): HolidayVo {

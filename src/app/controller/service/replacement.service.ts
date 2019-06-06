@@ -3,30 +3,28 @@ import {HttpClient} from '@angular/common/http';
 import {EmployeeVo} from '../model/employee.model';
 import {ReplacementVo} from '../model/replacement.model';
 import {DetailVo} from '../model/detail.model';
-import Swal from "sweetalert2";
-import {MissionVo} from '../model/mission.model';
 import {DayDetailVo} from '../model/day-detail.model';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReplacementService {
 
-  constructor(private http: HttpClient) {
+  constructor(public http: HttpClient) {
   }
 
-  private _main_url=UrlsUtil.main_personnel_url;
-  private _url = this._main_url+UrlsUtil.url_dayDetail;
-  private _urlEmployee = this._main_url+UrlsUtil.url_employee;
-  private _urlDetail = this._main_url+UrlsUtil.url_Detail;
+  public _main_url = UrlsUtil.main_personnel_url;
+  public _url = this._main_url + UrlsUtil.url_dayDetail;
+  public _urlEmployee = this._main_url + UrlsUtil.url_employee;
+  public _urlDetail = this._main_url + UrlsUtil.url_Detail;
 
-  private _orgEmployee: EmployeeVo = new EmployeeVo();
-  private _rempEmployee: EmployeeVo = new EmployeeVo();
-  private _employee1: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', false);
-  private _replacement: ReplacementVo = new ReplacementVo();
-  private _dayDetailsRemp: Array<DayDetailVo> = new Array<DayDetailVo>();
+  public _orgEmployee: EmployeeVo = new EmployeeVo();
+  public _rempEmployee: EmployeeVo = new EmployeeVo();
+  public _employee1: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', false);
+  public _replacement: ReplacementVo = new ReplacementVo();
+  public _dayDetailsRemp: Array<DayDetailVo> = new Array<DayDetailVo>();
 
   findEmployesByMatricule(matricule: string) {
     this.http.get<EmployeeVo>(this._urlEmployee + 'matricule/' + matricule).subscribe(
@@ -106,7 +104,7 @@ export class ReplacementService {
   }
 
   findAlldayDetailsReplacement() {
-    this.http.get<Array<DayDetailVo>>(this._url + "replacement/").subscribe(
+    this.http.get<Array<DayDetailVo>>(this._url + 'replacement/').subscribe(
       data => {
         data ? this.dayDetailsRemp = data : this.dayDetailsRemp = [];
       }, error => {
@@ -117,13 +115,13 @@ export class ReplacementService {
 
 
   deleteReplacement(dayDetail: DayDetailVo) {
-    SwalUtil.saveConfirmation('Suppression','supprimer').then((result) => {
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
       if (result.value) {
         this.http.put(this._url + 'replacement/id/' + dayDetail.id, dayDetail).subscribe(
           (res) => {
             if (res == 1) {
               this.findAlldayDetailsReplacement();
-              SwalUtil.anySuccess('Suppression du remplacement', 'Suppression du service réussite')
+              SwalUtil.anySuccess('Suppression du remplacement', 'Suppression du service réussite');
             } else {
               SwalUtil.any('Erreur!', 'Suppression du service échouée:Erreur Inconnue');
             }

@@ -18,14 +18,14 @@ import {SwalUtil} from "../../../util/swal-util";
 })
 
 export class GestionServiceListComponent implements OnInit {
-  private selectedDaysFormModal: Array<DayVo> = [];
-  private hiddenStateMonth: boolean = true;
+  public selectedDaysFormModal: Array<DayVo> = [];
+  public hiddenStateMonth: boolean = true;
 
-  constructor(private workService: WorkService, private dayService: DayServiceService, private router: Router) {
+  constructor(public workService: WorkService, public dayService: DayServiceService, public router: Router) {
   }
 
-  private hiddenState: boolean = true;
-  private employee: EmployeeVo = new EmployeeVo(0, '');
+  public hiddenState: boolean = true;
+  public employee: EmployeeVo = new EmployeeVo(0, '');
 
   ngOnInit() {
     MiddleWare.checkIfUserIsLogged(this.router)

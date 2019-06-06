@@ -3,24 +3,24 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {InterventionMonthVo} from '../model/intervention-month';
 import {DateModel} from '../model/date.model';
 import {InterventionDayVo} from '../model/intervention-day';
-import Swal from "sweetalert2";
-import {SwalUtil} from "../../util/swal-util";
-import {downloadfile} from "../../util/downloadfile-util";
-import {MonthUtil} from "../../util/month-util";
-import {UrlsUtil} from "../../util/urls-util";
+import Swal from 'sweetalert2';
+import {SwalUtil} from '../../util/swal-util';
+import {downloadfile} from '../../util/downloadfile-util';
+import {MonthUtil} from '../../util/month-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterventionMonthService {
-  private _url = UrlsUtil.main_dashboard_url+UrlsUtil.url_interventionMonth;
-  private _listEquipementssByYear: Array<InterventionMonthVo> = new Array<InterventionMonthVo>();
-  private _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());
-  private _listInterventionsByDay: Array<InterventionDayVo> = new Array<InterventionDayVo>();
-  private _dateForPrinting: DateModel = new DateModel(new Date().getFullYear());
-  private _interventionMonthVoSearch: InterventionMonthVo = new InterventionMonthVo();
+  public _url = UrlsUtil.main_dashboard_url + UrlsUtil.url_interventionMonth;
+  public _listEquipementssByYear: Array<InterventionMonthVo> = new Array<InterventionMonthVo>();
+  public _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());
+  public _listInterventionsByDay: Array<InterventionDayVo> = new Array<InterventionDayVo>();
+  public _dateForPrinting: DateModel = new DateModel(new Date().getFullYear());
+  public _interventionMonthVoSearch: InterventionMonthVo = new InterventionMonthVo();
 
-  constructor(private http: HttpClient) {
+  constructor(public http: HttpClient) {
   }
 
   findInterventionMonthByYear(name?: string) {
@@ -88,9 +88,9 @@ export class InterventionMonthService {
 
   searchInterventionMonthToPrint() {
     if (this._dateForPrinting.year === null || this._dateForPrinting.year === undefined) {
-      SwalUtil.insert("l'année");
+      SwalUtil.insert('l\'année');
     } else if (this._dateForPrinting.month === null || this._dateForPrinting.month === undefined) {
-      SwalUtil.insert("le mois");
+      SwalUtil.insert('le mois');
     } else {
       this.http.get<InterventionMonthVo>(this._url + 'interventiontoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
         data => {
@@ -118,7 +118,7 @@ export class InterventionMonthService {
           if (value === 'dashboard') {
             resolve();
           } else if (value === 'graph') {
-            resolve()
+            resolve();
           } else {
             resolve('Merci de selectionner un choix');
           }
@@ -135,8 +135,8 @@ export class InterventionMonthService {
 
     if (type === 'dashboard') {
       // @ts-ignore
-      return this.http.get<Blob>(this._url + "printdoc/year/" + fullYear + "/month/" + (month + 1), httpOptions).subscribe((result) => {
-        downloadfile(result, 'application/pdf', "TableauDeBord" + MonthUtil.getMonth(month) + fullYear + ".pdf");
+      return this.http.get<Blob>(this._url + 'printdoc/year/' + fullYear + '/month/' + (month + 1), httpOptions).subscribe((result) => {
+        downloadfile(result, 'application/pdf', 'TableauDeBord' + MonthUtil.getMonth(month) + fullYear + '.pdf');
       });
     } else if (type === 'graph') {
       const {value: object} = await Swal.fire({
@@ -154,8 +154,8 @@ export class InterventionMonthService {
       });
       if (object) {
         // @ts-ignore
-        return this.http.get(this._url + "printgraph/year/" + fullYear + "/month/" + (month + 1) + "/object/" + object, httpOptions).subscribe((result) => {
-          downloadfile(result, 'application/pdf', "TBF" + MonthUtil.getMonth(month) + fullYear + ".pdf");
+        return this.http.get(this._url + 'printgraph/year/' + fullYear + '/month/' + (month + 1) + '/object/' + object, httpOptions).subscribe((result) => {
+          downloadfile(result, 'application/pdf', 'TBF' + MonthUtil.getMonth(month) + fullYear + '.pdf');
         });
       }
     }
@@ -200,6 +200,7 @@ export class InterventionMonthService {
   set dateForPrinting(value: DateModel) {
     this._dateForPrinting = value;
   }
+
   get interventionMonthVoSearch(): InterventionMonthVo {
     return this._interventionMonthVoSearch;
   }

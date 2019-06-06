@@ -19,10 +19,10 @@ import {Router} from "@angular/router";
 })
 export class GestionAnomalyListComponent implements OnInit {
 
-  constructor(private workService: WorkService, private equipementService: EquipementService, private interventionMonthService: InterventionMonthService, private router: Router) {
+  constructor(public workService: WorkService, public equipementService: EquipementService, public interventionMonthService: InterventionMonthService, public router: Router) {
   }
 
-  private equipement: EquipementVo = new EquipementVo(0, '', new TimingVo(), new TypeVo());
+  public equipement: EquipementVo = new EquipementVo(0, '', new TimingVo(), new TypeVo());
 
   ngOnInit() {
     if (MiddleWare.checkIfUserIsLogged(this.router))
@@ -37,8 +37,8 @@ export class GestionAnomalyListComponent implements OnInit {
     return MonthUtil.months;
   }
 
-  private hiddenStateInterventionMonth: boolean = true;
-  private hiddenStateEquipement: boolean = true;
+  public hiddenStateInterventionMonth: boolean = true;
+  public hiddenStateEquipement: boolean = true;
 
   selectPerYearIntervention() {
     this.hiddenStateEquipement = !$("#inlineCheckboxperyearIntervention").is(':checked');

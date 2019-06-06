@@ -1,22 +1,22 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {TypeVo} from '../model/type';
-import {SwalUtil} from "../../util/swal-util";
-import {UrlsUtil} from "../../util/urls-util";
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TypeService {
-  private _url = UrlsUtil.main_dashboard_url + UrlsUtil.url_type;
+  public _url = UrlsUtil.main_dashboard_url + UrlsUtil.url_type;
 
-  constructor(private http: HttpClient) {
+  constructor(public http: HttpClient) {
   }
 
-  private _typeCreate: TypeVo = new TypeVo();
-  private _typeEdit: TypeVo = new TypeVo();
+  public _typeCreate: TypeVo = new TypeVo();
+  public _typeEdit: TypeVo = new TypeVo();
 
-  private _allTypes: Array<TypeVo> = new Array<TypeVo>();
+  public _allTypes: Array<TypeVo> = new Array<TypeVo>();
 
   createType(type: TypeVo) {
     if (type.reference === '' || type.reference === undefined) {
@@ -78,7 +78,7 @@ export class TypeService {
                 // @ts-ignore
                 $('#equipmentTypeModal').modal('hide');
               } else {
-                SwalUtil.any('Erreur!', "Modification du Type échouée:Erreur Inconnue!");
+                SwalUtil.any('Erreur!', 'Modification du Type échouée:Erreur Inconnue!');
               }
             },
           );
@@ -96,7 +96,7 @@ export class TypeService {
               this.findAllTypes();
               SwalUtil.anySuccess('Suppression du type', ' Type Supprimé');
             } else {
-              SwalUtil.any('Erreur!', "Suppression échouée:Erreur inconnue ");
+              SwalUtil.any('Erreur!', 'Suppression échouée:Erreur inconnue ');
             }
           }
         );

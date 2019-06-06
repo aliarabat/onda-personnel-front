@@ -25,7 +25,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text">Équipement</div>
             </div>
-            <select class="custom-select" [disabled]="!!interventions.length>0" [(ngModel)]="equipement.name"
+            <select class="custom-select" [disabled]="interventions.length>0" [(ngModel)]="equipement.name"
                     id="equipement" name="equi">
               <option selected disabled>Selectionner l'équipement</option>
               <option *ngFor="let e of equipements" value="{{e.name}}">{{e.name}} </option>
