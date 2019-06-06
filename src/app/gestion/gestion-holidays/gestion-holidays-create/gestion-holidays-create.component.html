@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="col-md-5">
+    <div class="container">
+      <br>
+      <form>
+        <!-- Reference-->
+        <div class="form-group">
+          <label class="sr-only" for="reference">Reference</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Reference</div>
+            </div>
+            <input class="form-control" [(ngModel)]="holidayCreate.reference" id="reference"
+                   placeholder="Entrer la reference du jour férier ..." type="text" name="refrence">
+          </div>
+        </div>
+        <br>
+        <!-- Date debut-->
+        <div class="form-group">
+          <label class="sr-only" for="dateDebut">Date debut</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Date debut</div>
+            </div>
+            <input class="form-control" [(ngModel)]="holidayCreate.startingDate" id="dateDebut" name="dateDebut"
+                   placeholder="Entrer la date du debut ..." type="date">
+          </div>
+        </div>
+        <br>
+        <!-- Date fin-->
+        <div class="form-group">
+          <label class="sr-only" for="dateFin">Date de fin</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Date de fin</div>
+            </div>
+            <input class="form-control" [(ngModel)]="holidayCreate.endingDate" id="dateFin" name="dateFin"
+                   placeholder="Entrer la date de fin ..." type="date">
+          </div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-outline-secondary mr-1" (click)="reinitializeForm()" type="submit">Reinitialiser le
+            formulaire
+          </button>
+          <button class="btn btn-outline-success" (click)="addHoliday()">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <br>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Reference</th>
+        <th scope="col">Date debut</th>
+        <th scope="col">Date fin</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngIf="holidaysVo.length===0">
+        <td colspan="4" class="text-center font-italic">No item added</td>
+      </tr>
+      <tr *ngFor="let h of holidaysVo">
+        <th scope="row">{{ h.reference }}</th>
+        <td>{{ formatDate(h.startingDate).toLocaleDateString() }}</td>
+        <td>{{ formatDate(h.endingDate).toLocaleDateString() }}</td>
+        <td>
+          <button class="btn btn-outline-danger" (click)="substructHoliday(h)"><i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-outline-secondary mr-1"  (click)="reinitializeList()">Reinitialiser la liste</button>
+      <button class="btn btn-outline-primary" (click)="confirm()">Confirmer</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="container-fluid" >
+  <table class="table table-striped" >
+    <thead>
+    <tr>
+      <th scope="col">Référence</th>
+      <th scope="col">Employé en Mission</th>
+      <th scope="col">Type-Mission</th>
+      <th scope="col">Date Mission</th>
+      <th scope="col">Horaire(s)</th>
+
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let dayDetail of listOfDayDetails " >
+      <td >{{dayDetail.missionVo.reference}}</td>
+      <td >{{dayDetail.missionVo.employee.firstName}} {{dayDetail.missionVo.employee.lastName}}</td>
+      <td >{{dayDetail.missionVo.type}}</td>
+      <td >{{dayDetail.missionVo.startingDate}}</td>
+      <td >[{{dayDetail.missionVo.startingTimeVo.hour}}:{{dayDetail.missionVo.startingTimeVo.minute}}-{{dayDetail.missionVo.endingTimeVo.hour}}:{{dayDetail.missionVo.endingTimeVo.minute}}]</td>
+      <td class="float-right">
+        <button type="button" id="btnMission" (click)="findDayDetailById(dayDetail.id)"  class="btn btn-outline-info ml-sm-1" data-toggle="modal" data-target="#missionModal" data-whatever="@fat"><i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-outline-danger ml-2" (click)="delete(dayDetail)"><i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!--Modal-->
+<div class="modal fade" id="missionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modification de Mission pour : {{theDayDetail.missionVo.employee.lastName}} {{theDayDetail.missionVo.employee.firstName}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="sr-only" for="referenceMissionList">Référence</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Référence</div>
+            </div>
+            <input class="form-control" id="referenceMissionList"  [(ngModel)]="theDayDetail.missionVo.reference" name="referenceMission" placeholder="Entrer la référence de la mission ..." type="text" >
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="sr-only" for="typeMissionlist">Type de la mission</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Type de la mission</div>
+            </div>
+            <input class="form-control" id="typeMissionlist"  [(ngModel)]="theDayDetail.missionVo.type" name="typeList" placeholder="Entrer le type de la mission ..." type="text">
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="sr-only" for="dateDebutMission">Date debut</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Date debut</div>
+            </div>
+            <input class="form-control" id="dateDebutMission" [(ngModel)]="theDayDetail.missionVo.startingDate" name="startingDateMission" placeholder="Entrer le prenom de l'employe ..." type="date">
+          </div>
+        </div>
+        <br>
+        <!-- HEURE DEBUT -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Heure debut</span>
+          </div>
+          <input type="text" class="form-control" id="missionStartingTimeH" [(ngModel)]="theDayDetail.missionVo.startingTimeVo.hour" name="updateMissionstartingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
+          <div class="input-group-append">
+            <span class="input-group-text">H</span>
+          </div>
+          <input type="text" class="form-control" id="missionStartingTimeM"  [(ngModel)]="theDayDetail.missionVo.startingTimeVo.minute" name="updateMissionstartingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <div class="input-group-append">
+            <span class="input-group-text">M</span>
+          </div>
+        </div>
+        <br>
+        <!-- HEURE FIN-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Heure fin</span>
+          </div>
+          <input type="text" class="form-control" id="missionEndingTimeH" [(ngModel)]="theDayDetail.missionVo.endingTimeVo.hour" name="updateMissionendingTimeHpurs"  placeholder="Entrer l'heure de fin ..." min="0" max="23">
+          <div class="input-group-append">
+            <span class="input-group-text">H</span>
+          </div>
+          <input type="text" class="form-control" id="missionEndingTimeM"  [(ngModel)]="theDayDetail.missionVo.endingTimeVo.minute" name="updateMissionendingTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <div class="input-group-append">
+            <span class="input-group-text">M</span>
+          </div>
+        </div>
+        <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="modifierMission" (click)="updateMission(theDayDetail)"  class="btn btn-outline-info">Modifier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#btnMission').click(function () {
+    $('#missionModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var recipient = button.data('whatever');
+      // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this);
+      modal.find('.modal-title').text('New message to ' + recipient);
+      modal.find('.modal-body input').val(recipient);
+    })
+  });
+</script>
+

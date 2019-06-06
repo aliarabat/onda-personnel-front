@@ -1,0 +1,126 @@
+<div class="container-fluid" >
+  <table class="table table-striped" >
+    <thead>
+    <tr>
+      <th scope="col">Nom de l'équipement</th>
+      <th scope="col">Type-équipement</th>
+      <th scope="col">Maint.prévue</th>
+
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let e of allEquipements">
+     <td>{{e.name}}</td>
+      <td>{{e.typeVo.name}}</td>
+      <td>{{e.expectedBreakPeriodMaintenance.hour}}:{{e.expectedBreakPeriodMaintenance.minute}}</td>
+      <td>
+        <button type="button" id="btnEquipement" (click)="findById(e.id)"    class="btn btn-outline-info ml-sm-1" data-toggle="modal" data-target="#equipmentModal" data-whatever="@fat"><i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-outline-danger ml-2" (click)="deleteById(e.id)" ><i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+<!--Modal-->
+<div class="modal fade" id="equipmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modification de l'équipement : </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label class="sr-only" for="nameEquipementList">Nom</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Nom</div>
+            </div>
+            <input class="form-control" id="nameEquipementList" [(ngModel)]="equipementEdit.name" name="nameEquipementList" placeholder="Entrer le nom de l'équipement" type="text" >
+          </div>
+        </div>
+        <br>
+
+
+        <div class="form-group">
+          <label class="sr-only" for="typeEquiEdit">Type</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Type</div>
+            </div>
+            <select  class="custom-select" id="typeEquiEdit" [(ngModel)]="equipementEdit.typeVo.name" name="typeEquiEdit">
+              <option selected disabled>Selectionner le type d'équipement ...</option>
+              <option *ngFor="let t of allTypes" ngValue="{{ t.name }}" data-toggle="tooltip" data-placement="top"
+                      title="{{ t.name}}">{{ t.name }}</option>
+
+
+
+            </select>
+          </div>
+        </div>
+        <br>
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Maintenance prévue</span>
+          </div>
+          <input type="text" class="form-control" id="editmaintStartingTimeH" [(ngModel)]="equipementEdit.expectedBreakPeriodMaintenance.hour" name="editmaintstartingTimeHours" placeholder="Entrer l'heure de debut ..." min="0" max="23">
+          <div class="input-group-append">
+            <span class="input-group-text">H</span>
+          </div>
+          <input type="text" class="form-control" id="editmaintStartingTimeM" [(ngModel)]="equipementEdit.expectedBreakPeriodMaintenance.minute"  name="editmaintTimeMinute" placeholder="Entrer la minute de fin ..." min="0" max="59">
+          <div class="input-group-append">
+            <span class="input-group-text">M</span>
+          </div>
+        </div>
+        <br>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="button"  (click)="edit()"  class="btn btn-outline-info">Modifier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+
+
+
+  $('#btnEquipement').click(function () {
+    $('#equipmentModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var recipient = button.data('whatever');
+      // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this);
+      modal.find('.modal-title').text('New message to ' + recipient);
+      modal.find('.modal-body input').val(recipient);
+    })
+  });
+
+
+
+
+
+
+
+
+</script>
+

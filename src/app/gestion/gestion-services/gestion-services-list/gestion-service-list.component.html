@@ -1,0 +1,133 @@
+<!--FORM DATA-->
+<br>
+<div class="container-fluid row">
+  <form class="col-md-12">
+    <div class="form-row align-items-center">
+      <div class="col-md-2">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Année</div>
+          </div>
+          <input type="number" name="annee" id="annee" min="0" max="{{ date() }}" [(ngModel)]="dateByYear.year" class="form-control" placeholder="Annee">
+        </div>
+      </div>
+      <div [hidden]="hiddenStateMonth" id="monthDiv" class="col-md-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Mois</div>
+          </div>
+          <select class="custom-select" id="mois" [(ngModel)]="dateByYear.month" name="mois">
+            <option selected disabled>Selectionner un mois...</option>
+            <option *ngFor="let m of getMonths(); index as i" value="{{ i+1 }}">{{ m }}</option>
+          </select>
+        </div>
+      </div>
+      <div [hidden]="hiddenState" id="employeeDiv" class="col-md-4">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Employée</div>
+          </div>
+          <select class="custom-select" id="inputGroupSelectEmployee" [(ngModel)]="employee.matricule" name="employeematricule">
+            <option selected disabled>Selectionner un employe</option>
+            <option *ngFor="let emp of employeeVo" value="{{ emp.matricule }}">{{ emp.matricule+" ("+emp.firstName+" "+emp.lastName+")" }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2 d-flex justify-content-between">
+        <button (click)="findWorkByYear()" type="submit" class="btn btn-outline-success mr-sm-1">Chercher</button>
+        <button (click)="reinitializeForm()" type="button" class="btn btn-outline-secondary">Réinitialiser</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Default unchecked -->
+  <div class="col-md-12 d-flex">
+    <div class="custom-control custom-checkbox mr-sm-1">
+      <input type="checkbox" class="custom-control-input" value="option1" (click)="selectPerYear()" id="inlineCheckboxperyear">
+      <label class="custom-control-label" for="inlineCheckboxperyear">Recherche par employé</label>
+    </div>
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" value="option1" (click)="selectPerMonth()" id="inlineCheckboxpermonth">
+      <label class="custom-control-label" for="inlineCheckboxpermonth">Recherche par mois</label>
+    </div>
+  </div>
+</div>
+<br>
+<table class="table table-striped table-sm">
+  <thead>
+  <tr>
+    <th scope="col">Matricule</th>
+    <th scope="col">Année</th>
+    <th scope="col">Nom</th>
+    <th scope="col">Prénom</th>
+    <th scope="col">Mois</th>
+    <th scope="col">Pan</th>
+    <th scope="col">Hjf</th>
+    <th scope="col">Hn</th>
+    <th scope="col">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let w of listEmployeesByYear" [class]="w.employeeVo.isExist?'':'table-danger'">
+    <td>{{ w.employeeVo.matricule }}</td>
+    <td>{{ formatDate(w.workDetailVo.workDetailDate).getFullYear() }}</td>
+    <td>{{ w.employeeVo.lastName}}</td>
+    <td>{{ w.employeeVo.firstName}}</td>
+    <td >{{ getMonth(formatDate(w.workDetailVo.workDetailDate).getMonth())}}</td>
+    <td>{{ w.workDetailVo.pan }}</td>
+    <td>{{ w.workDetailVo.hjf.hour+"h"+w.workDetailVo.hjf.minute+"min" }}</td>
+    <td>{{ w.workDetailVo.hn.hour+"h"+w.workDetailVo.hn.minute+"min" }}</td>
+    <td>
+      <button type="button" (click)="setDaysInfo(w.workDetailVo.daysVo)" class="btn btn-outline-info mr-sm-1" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<!--Large Modal-->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="container-fluid">
+        <div class="row col-md-10 offset-1">
+          <table class="table table-hover table-sm">
+            <thead>
+            <tr class="text-center">
+              <th scope="col">Date</th>
+              <th scope="col">Etat</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngIf="selectedDaysFormModal.length===0">
+              <div class="text-center font-italic" aria-colspan="2">No items found</div>
+            </tr>
+            <tr *ngFor="let day of selectedDaysFormModal">
+              <td>{{ formatDate(day.dayDate).toLocaleDateString() }}</td>
+              <td>
+                <div *ngIf="day.vacationVo!==null">
+                  {{ day.vacationVo.type }}
+                </div>
+                <!--<div *ngIf="day.vacationVo===null&&day.reference!==null">
+                  {{ day.vacationVo.type }}
+                </div>-->
+                <div class="d-flex" *ngIf="day.vacationVo===null">
+                  <div *ngFor="let dt of day.dayDetailsVo">
+                    <div class="mr-sm-1" *ngIf="dt.missionVo!=null">{{ dt.missionVo.reference+" ("+dt.missionVo.startingTimeVo.hour+":"+dt.missionVo.startingTimeVo.minute+"-"+dt.missionVo.endingTimeVo.hour+":"+dt.missionVo.endingTimeVo.minute+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.skipVo!=null">{{ dt.skipVo.type+" ("+dt.skipVo.detailVo.wording+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null  && dt.detailVo!=null">{{ "Remp"+" ("+dt.replacementVo.detailVo.wording+")" }}</div>
+                    <div class="mr-sm-1" *ngIf="dt.replacementVo!=null  && dt.detailVo==null">{{ "Rem"+" ("+dt.replacementVo.detailVo.wording+")" }}</div>
+
+                    <div class="mr-sm-1" *ngIf="dt.missionVo===null && dt.skipVo===null && dt.replacementVo===null && dt.detailVo!=null">
+                      {{ dt.detailVo.wording }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

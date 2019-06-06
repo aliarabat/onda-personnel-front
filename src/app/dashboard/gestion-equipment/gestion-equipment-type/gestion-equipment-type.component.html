@@ -1,0 +1,151 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="container">
+      <br>
+      <form>
+        <div class="form-group">
+          <label class="sr-only" for="referenceType">Référence</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Référence</div>
+            </div>
+            <input class="form-control" id="referenceType" [(ngModel)]="typeCreate.reference" name="refType"  placeholder="Entrer la référence du type" type="text" >
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label class="sr-only" for="typeEquipement">Type</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Type</div>
+            </div>
+            <input class="form-control" id="typeEquipement" [(ngModel)]="typeCreate.name" name="typeName"  placeholder="Entrer le nom de l'équipement" type="text" >
+          </div>
+        </div>
+        <br>
+
+
+
+
+
+
+
+
+
+        <div class="d-flex justify-content-end">
+          <button type="submit" (click)="initForm()"  class="btn btn-outline-secondary mr-1">Réinitialiser le formulaire</button>
+          <button type="submit" (click)="createType()" class="btn btn-outline-success">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <br>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Référence</th>
+        <th scope="col">Type-Équipement</th>
+
+        <th ></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let t of allTypes">
+        <td>{{t.reference}}</td>
+        <td>{{t.name}}</td>
+
+
+        <td class="float-right">
+          <button type="button" id="btnTypeEquipement" (click)="findById(t.id)"  class="btn btn-outline-info ml-sm-1" data-toggle="modal" data-target="#equipmentTypeModal" data-whatever="@fat"><i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+          <!--
+          <button class="btn btn-outline-danger ml-2" (click)="deleteType(t.id)"><i class="fa fa-trash" aria-hidden="true"></i>
+          </button>-->
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+
+
+<!--Modal-->
+<div class="modal fade" id="equipmentTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modification de l'équipement : </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="form-group">
+          <label class="sr-only" for="referenceEquipementTypeList">Référence</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Référence</div>
+            </div>
+            <input class="form-control" id="referenceEquipementTypeList" [(ngModel)]="typeEdit.reference" name="typerefedit"  placeholder="Entrer la référence du type" type="text" >
+          </div>
+        </div>
+        <br>
+
+
+        <div class="form-group">
+          <label class="sr-only" for="nameEquipementTypeList">Type</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Type</div>
+            </div>
+            <input class="form-control" id="nameEquipementTypeList" [(ngModel)]="typeEdit.name" name="typeNameedit" placeholder="Entrer le type d'équipement" type="text" >
+          </div>
+        </div>
+        <br>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="button"  (click)="editType()"  class="btn btn-outline-info">Modifier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+
+
+
+  $('#btnTypeEquipement').click(function () {
+    $('#equipmentTypeModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var recipient = button.data('whatever');
+      // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this);
+      modal.find('.modal-title').text('New message to ' + recipient);
+      modal.find('.modal-body input').val(recipient);
+    })
+  });
+
+
+
+
+
+
+
+
+</script>
+

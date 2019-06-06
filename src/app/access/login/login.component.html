@@ -1,0 +1,30 @@
+<div class="cover">
+  <div class="card center" style="width: 40%;">
+    <div class="container" style="padding: 2%">
+      <br>
+      <img src="../../../assets/Images/logo-ONDA.png" alt="" width="148" height="92" class="center-img">
+      <br>
+      <br>
+      <form style="padding: 5%">
+        <div class="form-group">
+          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Entrer votre email" name="email" [(ngModel)]="loginRequest.email">
+          <div class="invalid-feedback">
+            L'email que vous avez entre est invalid
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" id="password" placeholder="Entrer votre password" name="password" [(ngModel)]="loginRequest.password">
+          <div class="invalid-feedback">
+            Le mot de passe doit etre compose de 6 caracteres au minimum
+          </div>
+        </div>
+        <button type="submit" class="btn btn-outline-primary w-100" (click)="seConnecter()">Se connecter</button>
+      </form>
+    </div>
+    <br>
+    <br>
+    <div class="card-footer text-muted " style="text-align: center">
+      <a routerLink="reinitialisation-de-mot-de-passe">Mot de passe oublie?</a>
+    </div>
+  </div>
+</div>

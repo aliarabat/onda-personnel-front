@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="col-md-5">
+    <div class="container">
+      <br>
+      <form>
+        <div class="form-group">
+          <label>Insertion du {{listDate[0]}} au  {{listDate[1]}}</label>
+        </div>
+        <!-- EMPLOYE-->
+        <div class="form-group">
+          <label class="sr-only" for="employe">Employé</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Employé</div>
+            </div>
+            <select [disabled]="days.length>0" class="custom-select" (change)="checkDates()"
+                    [(ngModel)]="employee.matricule" id="employe" name="matricule">
+              <option selected disabled>Selectionner l'employe ...</option>
+              <option *ngFor="let emp of employeeVo"
+                      [value]="emp.matricule">{{ emp.matricule + " " + emp.firstName + " " + emp.lastName }}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <!-- HORAIRE -->
+        <div class="form-group">
+          <label class="sr-only" for="horaire">Horaire(s)</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Horaire(s)</div>
+            </div>
+            <select class="custom-select" [(ngModel)]="detail.wording" (ngModelChange)="addDetailToBadges()"
+                    name="horaire" id="horaire">
+              <option selected disabled>Selectionner l(es) horaire(s) ...</option>
+              <option *ngFor="let d of detailVo" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top"
+                      title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" (change)="ramadanHours()" class="custom-control-input" value="option1"
+                 id="inlineCheckboxHoraireRamadan">
+          <label class="custom-control-label" for="inlineCheckboxHoraireRamadan">Horaire Ramadan</label>
+        </div>
+        <h5>
+          <span class="badge badge-info mr-2" *ngFor="let dd of day.dayDetailsVo">
+           <div class="d-flex justify-content-between align-items-center">
+              <div>{{ dd.detailVo.wording }}</div>
+              <button (click)="substructDetail(dd)" type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+           </div>
+          </span>
+        </h5>
+        <br/>
+        <div class="d-flex justify-content-end">
+          <button (click)="reinitializeForm()" class="btn btn-outline-secondary mr-1">Reinitialiser le formulaire
+          </button>
+          <button (click)="ajouter()" class="btn btn-outline-success">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <br>
+    <table class="table table-striped table-sm">
+      <thead>
+      <tr>
+        <th scope="col">Matricule</th>
+        <th scope="col">Jour</th>
+        <th scope="col">Services effectuees</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let day of days; index as i">
+        <th scope="row">{{ employee.matricule }}</th>
+        <td>{{ getDay(i) }}</td>
+        <td>
+          <div class="d-flex">
+            <p *ngFor="let dd of day.dayDetailsVo" class="mr-1">
+              {{" " + dd.detailVo.wording }}
+              <span
+                *ngIf="dd.detailVo.wording!=='R'">{{" [" + horaire(dd.detailVo.startingTimeVo.hour, dd.detailVo.startingTimeVo.minute) + "-"
+              + horaire(dd.detailVo.endingTimeVo.hour, dd.detailVo.endingTimeVo.minute) + "]"}}</span>
+            </p>
+          </div>
+        <td>
+          <button (click)="deleteDay(day)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+      <button (click)="initializeList()" class="btn btn-outline-secondary mr-1">Reinitialiser la liste</button>
+      <button (click)="confirm()" class="btn btn-outline-primary">Confirmer</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-insert-tab" data-toggle="tab" href="#nav-insert" role="tab" aria-controls="nav-insert" aria-selected="true">Insertion des services</a>
+    <a class="nav-item nav-link" id="nav-list-tab" data-toggle="tab" href="#nav-list" role="tab" aria-controls="nav-list" aria-selected="false">Liste des services</a>
+    <a class="nav-item nav-link" id="nav-print-tab" data-toggle="tab" href="#nav-print" role="tab" aria-controls="nav-list" aria-selected="false">Impression des services</a>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-insert" role="tabpanel" aria-labelledby="nav-insert-tab"><app-gestion-services-create></app-gestion-services-create></div>
+  <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab"><app-gestion-services-list></app-gestion-services-list></div>
+  <div class="tab-pane fade" id="nav-print" role="tabpanel" aria-labelledby="nav-list-tab"><app-gestion-services-print></app-gestion-services-print></div>
+</div>

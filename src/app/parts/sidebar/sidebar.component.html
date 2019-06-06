@@ -1,0 +1,419 @@
+<body>
+<div class="wrapper">
+  <nav id="sidebar">
+    <div class="sidebar-header center-img">
+      <a class="navbar-brand" href="#"><img src="../assets/Images/logo-ONDA.png" width="110" height="62" alt=""></a>
+    </div>
+    <br><br>
+    <ul class="list-unstyled components" id="accordion">
+      <li>
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-tasks mr-3"></i>Gestion</a>
+        <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">
+          <li>
+            <a routerLink="employes" class="pointer"><i class="fas fa-user mr-3"></i>Gestion des employes</a>
+          </li>
+          <li>
+            <a routerLink="horaires" class="pointer"><i class="fas fa-clock-o mr-3"></i>Gestion des horaires</a>
+          </li>
+          <li>
+            <a routerLink="joursferies" class="pointer"><i class="fas fa-calendar-alt mr-3"></i>Gestion des jours feries</a>
+          </li>
+          <li>
+            <a routerLink="services" class="pointer"><i class="fas fa-hammer mr-3"></i>Gestion des services</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-receipt mr-3"></i>Absences</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu" data-parent="#accordion">
+          <li>
+            <a routerLink="missions" class="pointer"><i class="fas fa-briefcase mr-3"></i>Missions</a>
+          </li>
+          <li>
+            <a routerLink="conges" class="pointer"><i class="fas fa-plane mr-3"></i>Conges</a>
+          </li>
+          <li>
+            <a routerLink="remplacements" class="pointer"><i class="fas fa-random mr-3"></i>Remplacements</a>
+          </li>
+          <li>
+            <a routerLink="absences" class="pointer"><i class="fas fa-user-times mr-3"></i>Absences</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#anomalySubmenu" data-toggle="collapse" aria-expanded="false" class="pointer"><i class="fas fa-bar-chart-o mr-3"></i>Indicateurs</a>
+        <ul class="collapse list-unstyled" id="anomalySubmenu" data-parent="#accordion">
+          <li>
+            <a routerLink="equipements" class="pointer"><i class="fas fa-server mr-3"></i>Gestion des équipements</a>
+          </li>
+          <li>
+            <a routerLink="anomalies" class="pointer"><i class="fas fa-bell mr-3"></i>Gestion des anomalies</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="container w-100">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;" *ngIf="userData">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown mr-4">
+            <a class="nav-link dropdown-toggle" href="#" id="profile" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+              {{userData.lastName + " " + userData.firstName + " ( @" + userData.username + " )"}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="profile">
+              <a class="dropdown-item pointer" (click)="triggerUserDataChangeModal()"><i
+                class="fas fa-user-cog mr-3"></i>Parametres</a>
+              <div class="dropdown-divider" *ngIf="userData.rang === 'Administrateur'"></div>
+              <a class="dropdown-item pointer" data-toggle="modal" data-target="#userCreate" *ngIf="userData.rang === 'Administrateur'"><i class="fas fa-user-plus mr-3" ></i>Ajouter un compte</a>
+              <div class="dropdown-divider" *ngIf="userData.rang === 'Administrateur'"></div>
+              <a class="dropdown-item pointer" routerLink="admin-dashboard" *ngIf="userData.rang === 'Administrateur'"><i class="fas fa-columns mr-3" ></i>Admin dashboard</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger pointer" href="#" (click)="logout()"><i
+                class="fas fa-sign-out-alt mr-3"></i>Deconnexion</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<!--MODAL FOR USER DATA CHANGE PERSO-->
+<div class="modal fade" id="userDataChangeFormPerso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <br>
+          <form>
+            <!-- USERNAME -->
+            <div class="form-group">
+              <label class="sr-only" for="username">@</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">@</div>
+                </div>
+                <input type="text" class="form-control" id="username" [(ngModel)]="userDataChangeRequestLocal.username"
+                       name="username">
+                <div class="invalid-feedback">
+                  Le nom d'utilsateur que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- FIRSTNAME-->
+            <div class="form-group">
+              <label class="sr-only" for="pnom">Prenom</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Prenom</div>
+                </div>
+                <input type="text" class="form-control" [(ngModel)]="userDataChangeRequestLocal.firstName" name="pnom"
+                       id="pnom">
+                <div class="invalid-feedback">
+                  Le prenom que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- LASTNAME -->
+            <div class="form-group">
+              <label class="sr-only" for="nomm">Nom</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Nom</div>
+                </div>
+                <input type="text" class="form-control" id="nomm" [(ngModel)]="userDataChangeRequestLocal.lastName"
+                       name="nomm">
+                <div class="invalid-feedback">
+                  Le nom que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quitter</button>
+        <button type="button" class="btn btn-outline-primary" (click)="update()">Sauvegarder</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--MODAL FOR USER DATA CHANGE Email-->
+<div class="modal fade" id="userDataChangeFormEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <br>
+          <form>
+            <!-- EMAIL -->
+            <div class="form-group">
+              <label class="sr-only" for="emailOld">Ancien email</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Ancien email</div>
+                </div>
+                <input type="email" class="form-control" id="emailOld"
+                       [(ngModel)]="emailChangeRequestLocal.originalEmail"
+                       name="email">
+                <div class="invalid-feedback">
+                  L'email que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- EMAIL -->
+            <div class="form-group">
+              <label class="sr-only" for="emailNew">Nouveau email</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Nouveau email</div>
+                </div>
+                <input type="email" class="form-control" id="emailNew" [(ngModel)]="emailChangeRequestLocal.newEmail"
+                       name="email">
+                <div class="invalid-feedback">
+                  L'email que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quitter</button>
+        <button type="button" class="btn btn-outline-primary" (click)="updateEmail()">Sauvegarder</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--MODAL FOR USER DATA CHANGE PWD-->
+<div class="modal fade" id="userDataChangeFormPwd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <br>
+          <form>
+            <!-- PASSWORD-->
+            <div class="form-group">
+              <label class="sr-only" for="pwdOld">Ancien mot de passe</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Ancien mot de passe</div>
+                </div>
+                <input type="password" class="form-control" id="pwdOld" [(ngModel)]="pwdChangeRequestLocal.oldPassword"
+                       name="pwdAdd">
+                <div class="invalid-feedback">
+                  Le mot de passe que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- PASSWORD-->
+            <div class="form-group">
+              <label class="sr-only" for="pwdNew">Mot de passe</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Mot de passe</div>
+                </div>
+                <input type="password" class="form-control" id="pwdNew" [(ngModel)]="pwdChangeRequestLocal.newPassword"
+                       name="pwdAdd">
+                <div class="invalid-feedback">
+                  Le mot de passe que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- PASSWORD CONFIRMATION-->
+            <div class="form-group">
+              <label class="sr-only" for="pwdConfirmation">Confirmation</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Confirmation</div>
+                </div>
+                <input type="password" class="form-control" [(ngModel)]="pwdChangeConfirmation" name="pwdConfirmation"
+                       id="pwdConfirmation">
+                <div class="invalid-feedback">
+                  Les deux mot de passes sont non identiques
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quitter</button>
+        <button type="button" class="btn btn-outline-primary" (click)="updatePassword()">Sauvegarder</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--MODAL PARAMETRES-->
+<div class="modal" id="userDataChange" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ml-0 mr-0">
+      <div class="modal-body">
+        <input class="btn btn-outline-info mb-2" type="button" value="Modifier l'adresse email" data-toggle="modal"
+               data-target="#userDataChangeFormEmail" data-dismiss="modal">
+        <br>
+        <input class="btn btn-outline-info mb-2" type="submit" value="Modifier le mot de passe" data-toggle="modal"
+               data-target="#userDataChangeFormPwd" data-dismiss="modal">
+        <br>
+        <input class="btn btn-outline-info mb-2" type="reset" value="Modifier les informations personneles"
+               data-toggle="modal" data-target="#userDataChangeFormPerso" data-dismiss="modal">
+      </div>
+    </div>
+  </div>
+</div>
+<!--MODAL FOR USER CREATE-->
+<div class="modal fade" id="userCreate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" (keyup)="validateUserCreation()"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <br>
+          <form>
+            <!-- USERNAME-->
+            <div class="form-group">
+              <label class="sr-only" for="userCreateUsername">@</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">@</div>
+                </div>
+                <input type="text" class="form-control" id="userCreateUsername"
+                       name="userCreateUsername" placeholder="Entrer un username" [(ngModel)]="user.username" (keydown)="validateUserCreation()">
+                <div class="invalid-feedback">
+                  Le username que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- EMAIL-->
+            <div class="form-group">
+              <label class="sr-only" for="userCreateEmail">Email</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Email</div>
+                </div>
+                <input type="email" class="form-control" id="userCreateEmail" placeholder="Entrer un email valid" [(ngModel)]="user.email" (keydown)="validateUserCreation()"
+                       name="userCreateEmail">
+                <div class="invalid-feedback">
+                  L'email que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- FIRSTNAME-->
+            <div class="form-group">
+              <label class="sr-only" for="userCreateFirstName">Prenom</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Prenom</div>
+                </div>
+                <input type="text" class="form-control" name="userCreateFirstName" placeholder="Entrer votre prenom" [(ngModel)]="user.firstName" (keydown)="validateUserCreation()"
+                       id="userCreateFirstName">
+                <div class="invalid-feedback">
+                  Le prenom que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- LASTNAME-->
+            <div class="form-group">
+              <label class="sr-only" for="userCreateLastName">Nom</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Nom</div>
+                </div>
+                <input type="text" class="form-control" name="userCreateLastName" placeholder="Entrer votre nom" [(ngModel)]="user.lastName" (keydown)="validateUserCreation()"
+                       id="userCreateLastName">
+                <div class="invalid-feedback">
+                  Le nom que vous avez entre est invalid
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- PASSWORD-->
+            <div class="form-group">
+              <label class="sr-only" for="userCreatePwd">Mot de passe</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Mot de passe</div>
+                </div>
+                <input type="password" class="form-control" name="userCreatePwd" placeholder="Entrer un mot de passe" [(ngModel)]="user.password" (keyup)="validateUserCreation()"
+                       id="userCreatePwd">
+                <div class="invalid-feedback">
+                  Le mot de passe doit avoir 6 caracteres au minimum
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- PASSWORD CONFIRMATION-->
+            <div class="form-group">
+              <label class="sr-only" for="userCreatePwdConfirmation">Confirmation</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Confirmation</div>
+                </div>
+                <input type="password" class="form-control" name="userCreatePwdConfirmation" placeholder="Confimer votre mot de passe" [(ngModel)]="pwdUserCreateConfirmation" (keyup)="validateUserCreation()"
+                       (mousemove)="validateUserCreation()" id="userCreatePwdConfirmation">
+                <div class="invalid-feedback">
+                  Les deux mot de passes sont non identiques
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- BDATE-->
+            <div class="form-group">
+              <label class="sr-only" for="userCreateBDate">Date de naissance</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Date de naissance</div>
+                </div>
+                <input type="date" class="form-control" name="userCreateBDate" [(ngModel)]="user.birthDate"  (click)="validateUserCreation()"
+                       id="userCreateBDate">
+                <div class="invalid-feedback">
+                  Chaque utilisateur doit avoir au minimum 18 ans
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- RANG-->
+            <div class="form-group">
+              <label class="sr-only" for="userCreateRang">Rang</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Rang</div>
+                </div>
+                <select class="form-control" name="userCreateRang" [(ngModel)]="user.rang" (click)="validateUserCreation()"
+                        id="userCreateRang">
+                  <option disabled selected>Selectionner le rang</option>
+                  <option [selected]="user.rang">Administrateur</option>
+                  <option [selected]="user.rang">Responsable</option>
+                  <option [selected]="user.rang">Technicien</option>
+                </select>
+                <div class="invalid-feedback">
+                  Choix invalide
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quitter</button>
+        <button type="button" class="btn btn-outline-success" (click)="create()">Creer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>

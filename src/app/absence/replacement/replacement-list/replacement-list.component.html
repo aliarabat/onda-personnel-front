@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Référence</th>
+      <th scope="col">Employé original</th>
+      <th scope="col">Employé remplacant</th>
+      <th scope="col">Date du remplacement</th>
+      <th scope="col">Horaire</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let dayDetail of listDayDetailsReplacement " >
+      <td>{{dayDetail.replacementVo.reference}}</td>
+      <td>{{dayDetail.replacementVo.originalEmployee.firstName}} {{dayDetail.replacementVo.originalEmployee.lastName}}</td>
+      <td>{{dayDetail.replacementVo.replacedEmployee.firstName}} {{dayDetail.replacementVo.replacedEmployee.lastName}}</td>
+      <td>{{dayDetail.replacementVo.replacementDate}}</td>
+      <td>{{dayDetail.replacementVo.detailVo.wording}}</td>
+      <td>
+        <button class="btn btn-outline-danger" (click)="deleteReplacement(dayDetail)"><i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

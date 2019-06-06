@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col">
+    <div class="container">
+      <br>
+      <form>
+        <!-- EMPLOYE-->
+        <div class="form-group">
+          <label class="sr-only" for="employeVacation">Employé </label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Employé</div>
+            </div>
+            <select class="custom-select" [(ngModel)]="employee.matricule" id="employeVacation" name="matricule"
+                    (change)="test(employee)" placeholder="Selectionner l'employe ...">
+              <option selected disabled>Selectionner l'employé ...</option>
+              <option *ngFor="let emp of employeeVo"
+                      [value]="emp.matricule">{{ emp.matricule + " " + emp.firstName + " " + emp.lastName }}</option>
+            </select>
+          </div>
+        </div>
+
+
+        <br>
+        <!-- Date debut-->
+        <div class="form-group">
+          <label class="sr-only" for="dateDebut">Date debut</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Date debut</div>
+            </div>
+            <input class="form-control" [(ngModel)]="vacation.startingDate" name="Date debut" id="dateDebut"
+                   placeholder="Entrer la date du debut ..." type="date">
+          </div>
+        </div>
+        <br>
+        <!-- Date fin-->
+        <div class="form-group">
+          <label class="sr-only" for="dateFin">Date de fin</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Date de fin</div>
+            </div>
+            <input class="form-control" [(ngModel)]="vacation.endingDate" name="Date fin" id="dateFin"
+                   placeholder="Entrer la date de fin ..." type="date">
+          </div>
+        </div>
+        <br>
+        <!-- type-->
+        <div class="form-group">
+          <label class="sr-only" for="Type du conge">Type du conge</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Type du conge</div>
+            </div>
+            <select name="Type du conge" class="custom-select" id="Type du conge" [(ngModel)]="vacation.type"
+                    placeholder="Entrer le type du conge ...">
+              <option selected disabled>Selectionner le type ...</option>
+              <option>C.M</option>
+              <option>C.AT</option>
+              <option>C.EXCEP</option>
+              <option>C.R</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-outline-secondary mr-1" type="submit">Reinitialiser le formulaire</button>
+          <button class="btn btn-outline-success" (click)="saveVacation()" type="submit">Créer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
