@@ -1,3 +1,24 @@
-<p>
-  stats works!
-</p>
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-emp-tab" data-toggle="tab" href="#nav-emp" role="tab" aria-controls="nav-emp" aria-selected="true">Employes</a>
+    <a class="nav-item nav-link" id="nav-list-tab" data-toggle="tab" href="#nav-list" role="tab" aria-controls="nav-list" aria-selected="false">Heures travaillees</a>
+    <a class="nav-item nav-link" id="nav-services-tab" data-toggle="tab" href="#nav-list" role="tab" aria-controls="nav-services" aria-selected="false">Services</a>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-emp" role="tabpanel" aria-labelledby="nav-emp-tab">
+    <canvas id="employees"></canvas>
+  </div>
+  <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+    <canvas id="holidaysanddetails"></canvas>
+  </div>
+  <div class="tab-pane fade" id="nav-services" role="tabpanel" aria-labelledby="nav-list-tab">
+    <canvas id="mainSource"></canvas>
+  </div>
+</div>
+<style>
+  *{
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+</style>

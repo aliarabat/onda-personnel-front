@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DayServiceService} from "../../../controller/service/day-service.service";
 import {EmployeeVo} from "../../../controller/model/employee.model";
 import {DayVo} from "../../../controller/model/day.model";
@@ -16,37 +16,41 @@ import {MiddleWare} from '../../../util/middle-ware';
 })
 export class GestionServicesCreateComponent implements OnInit {
 
-  constructor(private dayService:DayServiceService, private router:Router) {  }
-
-  private selectedEmployee:EmployeeVo;
-
-  ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.dayService.findAllEmployees();
-    this.dayService.findAllDetails();
-    this.dayService.detail=new DetailVo();
-    this.dayService.employee=new EmployeeVo();
+  constructor(private dayService: DayServiceService, private router: Router) {
   }
 
-  get listDate(){
+  private selectedEmployee: EmployeeVo;
+
+  ngOnInit() {
+    if (MiddleWare.checkIfUserIsLogged(this.router)) {
+      this.dayService.findAllEmployees();
+      this.dayService.findAllDetails();
+      //this.dayService.detail = new DetailVo();
+      //this.dayService.employee = new EmployeeVo();
+    }
+  }
+
+  get listDate() {
     return this.dayService.listDate;
   }
 
-  public get employeeVo(){
+  public get employeeVo() {
     return this.dayService.employeeVo;
   }
-  get detailVo(){
+
+  get detailVo() {
     return this.dayService.detailVo;
   }
-  public get employee(){
+
+  public get employee() {
     return this.dayService.employee;
   }
 
-  public get days(){
+  public get days() {
     return this.dayService.days;
   }
 
-  public get dayDetail(){
+  public get dayDetail() {
     return this.dayService.dayDetail;
   }
 
@@ -54,11 +58,11 @@ export class GestionServicesCreateComponent implements OnInit {
     this.dayService.ajouter();
   }
 
-  setSelectedEmployee(emp:EmployeeVo) {
-    this.selectedEmployee=emp;
+  setSelectedEmployee(emp: EmployeeVo) {
+    this.selectedEmployee = emp;
   }
 
-  public get day(){
+  get day() {
     return this.dayService.day;
   }
 
@@ -66,11 +70,8 @@ export class GestionServicesCreateComponent implements OnInit {
     this.dayService.addDetailToBadges();
   }
 
-  public get detail(){
+  get detail() {
     return this.dayService.detail;
-  }
-  public get detailClone(){
-    return this.dayService.day.dayDetailsVo;
   }
 
   initializeList() {
@@ -81,35 +82,35 @@ export class GestionServicesCreateComponent implements OnInit {
     this.dayService.deleteDay(day);
   }
 
-  confirm() {
-    this.dayService.confirm();
+  async confirm() {
+    await this.dayService.confirm();
   }
 
-  checkDates(){
+  checkDates() {
     this.dayService.checkDates();
   }
 
-  reinitializeForm() {
+  initForm() {
     this.dayService.employee = new EmployeeVo();
-    this.dayService.detail = new DetailVo('', '');
+    this.dayService.detail = new DetailVo();
     this.dayService.day = new DayVo();
     this.dayService.listDate = [];
-    this.dayService.days=[];
+    this.dayService.days = [];
   }
 
   substructDetail(dd: DayDetailVo) {
     this.dayService.substructDetail(dd);
   }
 
-  public getDay(index:number){
+  getDay(index: number) {
     return MonthUtil.day(index);
   }
 
   ramadanHours() {
-    if ($("#inlineCheckboxHoraireRamadan").prop("checked")){
-      this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Ramadan')
+    if ($("#inlineCheckboxHoraireRamadan").prop("checked")) {
+      this.dayService.details = this.dayService.detailsHelper.filter(dt => dt.mode === 'Ramadan')
     } else {
-      this.dayService.details=this.dayService.detailsHelper.filter(dt=>dt.mode==='Normal');
+      this.dayService.details = this.dayService.detailsHelper.filter(dt => dt.mode === 'Normal');
     }
   }
 

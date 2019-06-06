@@ -4,13 +4,15 @@ import {User} from '../model/user.model';
 import {UserUtil} from '../../util/userUtil';
 import {Router} from '@angular/router';
 import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  public url: string = 'http://localhost:8098/user-api/user/';
+  public url: string = UrlsUtil.main_user_url + UrlsUtil.url_user;
+
   public userData: User;
   public user = new User(0, '', '', '', '', '', null, null, '');
   public loginRequest = {email: '', password: ''};
@@ -21,7 +23,7 @@ export class UserService {
   public userModifiedData: User = new User(0, '', '', '', '', '', null, null, '', false);
   public users: Array<User> = new Array<User>();
 
-  constructor(private http: HttpClient, public router: Router) {
+  constructor(public http: HttpClient, public router: Router) {
   }
 
   login() {
@@ -101,10 +103,10 @@ export class UserService {
   public block(user: User) {
     user.isBlocked = true;
     this.http.put(this.url, user).subscribe((response) => {
-      if(response === 1){
+      if (response === 1) {
         SwalUtil.changesSavedSuccessfully();
         this.getAll();
-      }else{
+      } else {
         SwalUtil.unkownError();
       }
     });
@@ -113,10 +115,10 @@ export class UserService {
   public unblock(user: User) {
     user.isBlocked = false;
     this.http.put(this.url, user).subscribe((response) => {
-      if(response === 1){
+      if (response === 1) {
         SwalUtil.changesSavedSuccessfully();
         this.getAll();
-      }else{
+      } else {
         SwalUtil.unkownError();
       }
     });

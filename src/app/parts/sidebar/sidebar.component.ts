@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {UserUtil} from '../../util/userUtil';
 import {Validator} from '../../validator/validator';
 import {SwalUtil} from '../../util/swal-util';
-import {MiddleWare} from '../../util/middle-ware';
 
 
 @Component({
@@ -26,8 +25,18 @@ export class SidebarComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {
   }
 
-  ngOnInit() {
-    this.router.events.subscribe(() => {
+  gestionState: boolean = false;
+  absencesState: boolean = false;
+  indicateursState: boolean = false;
+  //for pesonnel project
+  employeeState: boolean = false;
+  holidaysState: boolean = false;
+  detailsState: boolean = false;
+  // for dashboard project
+  equipementsState: boolean = false;
+
+  async ngOnInit() {
+    await this.router.events.subscribe(() => {
       let loggedUser = UserUtil.getLoggedUser();
       if (loggedUser) {
         this.userData = loggedUser;
@@ -37,8 +46,24 @@ export class SidebarComponent implements OnInit {
         this.userDataChangeRequestLocal.username = loggedUser.username;
         this.userDataChangeRequestLocal.firstName = loggedUser.firstName;
         this.userDataChangeRequestLocal.lastName = loggedUser.lastName;
+        this.controlAccessByRang();
       }
+
     });
+
+  }
+
+  controlAccessByRang() {
+    if (UserUtil.getLoggedUser().rang === 'Technicien') {
+      this.gestionState = true;
+      this.absencesState = true;
+      this.equipementsState = true;
+    } else if (UserUtil.getLoggedUser().rang === 'Responsable') {
+      this.indicateursState = true;
+      this.holidaysState = true;
+      this.employeeState = true;
+      this.detailsState = true;
+    }
   }
 
   public get userData() {
@@ -121,15 +146,15 @@ export class SidebarComponent implements OnInit {
       isValidated = true;
     }
 
-    if(isValidated){
-      SwalUtil.changeWarning().then((result)=>{
-        if (result.value){
+    if (isValidated) {
+      SwalUtil.changeWarning().then((result) => {
+        if (result.value) {
           this.emailChangeRequest = this.emailChangeRequestLocal;
           this.userService.emailUpdate();
-        }else{
-        SwalUtil.actionCanceled();
+        } else {
+          SwalUtil.actionCanceled();
         }
-      })
+      });
 
     }
   }
@@ -157,14 +182,14 @@ export class SidebarComponent implements OnInit {
       isValidated = true;
     }
     if (isValidated) {
-      SwalUtil.changeWarning().then((result)=>{
-        if( result.value){
+      SwalUtil.changeWarning().then((result) => {
+        if (result.value) {
           this.pwdChangeRequest = this.pwdChangeRequestLocal;
           this.userService.passwordUpdate();
-        }else{
+        } else {
           SwalUtil.actionCanceled();
         }
-      })
+      });
 
     }
   }
@@ -197,14 +222,14 @@ export class SidebarComponent implements OnInit {
       isValidated = true;
     }
     if (isValidated) {
-      SwalUtil.changeWarning().then((result)=>{
-        if (result.value){
+      SwalUtil.changeWarning().then((result) => {
+        if (result.value) {
           this.userDataChangeRequest = this.userDataChangeRequestLocal;
           this.userService.update();
-        } else{
+        } else {
           SwalUtil.actionCanceled();
         }
-      })
+      });
     }
   }
 
@@ -280,6 +305,21 @@ export class SidebarComponent implements OnInit {
     if (this.isUserCreationValidated) {
       this.userService.create();
     }
+  }
 
+  changeImg() {
+    $('#logo').attr('src', '../../../assets/Images/logo-ONDA2.png');
+  }
+
+  restoreImg() {
+    $('#logo').attr('src', '../../../assets/Images/logo-ONDA.png');
+  }
+
+  isAllowed(){
+    let route = location.pathname;
+    if (route === '/login' || route === '/acceuil') {
+      return true;
+    }
+    else return false;
   }
 }

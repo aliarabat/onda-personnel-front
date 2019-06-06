@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
+import {MiddleWare} from "../../util/middle-ware";
+import {GrantedAccess} from "../../util/granted-access";
 
 @Component({
   selector: 'app-gestion-equipment',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GestionEquipmentComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private router: Router) {
   }
+
+  async ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
+    await GrantedAccess.checkIfUserIsAdmin(this.router);
+  }
+
 
 }

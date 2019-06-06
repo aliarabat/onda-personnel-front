@@ -52,6 +52,7 @@ import {PasswordChangeComponent} from "./access/recovery/password-change/passwor
 import {PasswordRecoveryComponent} from './access/recovery/password-recovery/password-recovery.component';
 import { UsersListComponent } from './access/admin-panel/users-list/users-list.component';
 import { StatsComponent } from './access/admin-panel/stats/stats.component';
+import * as $ from "jquery";
 
 @NgModule({
   declarations: [

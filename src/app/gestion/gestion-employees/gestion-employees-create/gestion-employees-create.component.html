@@ -74,7 +74,7 @@
           <button type="submit" (click)="renitialiser()" class="btn btn-outline-secondary mr-sm-1">Reinitialiser le
             formulaire
           </button>
-          <button type="submit" (click)="addEmployee()" class="btn btn-outline-success">Creer</button>
+          <button type="submit" (click)="addEmployee()" class="btn btn-outline-success">Créer</button>
         </div>
       </form>
     </div>
@@ -100,7 +100,7 @@
         <td>{{e.fonction}}</td>
         <td>{{e.type}}</td>
         <td class="float-right">
-          <button class="btn btn-outline-danger" (click)="deleteRow(e.matricule)">Supprimer</button>
+          <button class="btn btn-outline-danger" (click)="deleteRow(e.matricule)"><i class="fa fa-trash"></i></button>
         </td>
       </tr>
       </tbody>

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MonthUtil} from '../../../util/month-util';
 import {InterventionMonthService} from "../../../controller/service/intervention-month.service";
 import {DateUtil} from "../../../util/date-util";
+import {Router} from "@angular/router";
+import {MiddleWare} from "../../../util/middle-ware";
 
 @Component({
   selector: 'app-gestion-anomaly-print',
@@ -10,15 +12,18 @@ import {DateUtil} from "../../../util/date-util";
 })
 export class GestionAnomalyPrintComponent implements OnInit {
 
-  constructor(private interventionMonthService:InterventionMonthService) { }
+  constructor(private interventionMonthService: InterventionMonthService, private router: Router) {
+  }
 
   ngOnInit() {
+    MiddleWare.checkIfUserIsLogged(this.router);
   }
 
-  get dateToPrint(){
+  get dateToPrint() {
     return this.interventionMonthService.dateForPrinting;
   }
-  months(){
+
+  months() {
     return MonthUtil.months;
   }
 
@@ -26,7 +31,7 @@ export class GestionAnomalyPrintComponent implements OnInit {
     this.interventionMonthService.searchInterventionMonthToPrint();
   }
 
-  get interventionToPrint(){
+  get interventionToPrint() {
     return this.interventionMonthService.interventionMonthVoSearch;
   }
 
@@ -39,6 +44,6 @@ export class GestionAnomalyPrintComponent implements OnInit {
   }
 
   print(fullYear: number, month: number) {
-    return this.interventionMonthService.print(fullYear,month);
+    return this.interventionMonthService.print(fullYear, month);
   }
 }

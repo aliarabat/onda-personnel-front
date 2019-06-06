@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EquipementService} from '../../../controller/service/equipement.service';
 import {TypeService} from '../../../controller/service/type.service';
+import {Router} from "@angular/router";
+import {MiddleWare} from "../../../util/middle-ware";
 
 @Component({
   selector: 'app-gestion-equipment-list',
@@ -9,29 +11,37 @@ import {TypeService} from '../../../controller/service/type.service';
 })
 export class GestionEquipmentListComponent implements OnInit {
 
-  constructor(private equipementService:EquipementService,private typeService:TypeService) { }
+  constructor(private equipementService: EquipementService, private typeService: TypeService, private router: Router) {
+  }
 
   ngOnInit() {
-    this.equipementService.findAllEquipements();
-    this.typeService.findAllTypes();
+    if (MiddleWare.checkIfUserIsLogged(this.router)) {
+      this.equipementService.findAllEquipements();
+      this.typeService.findAllTypes();
+    }
   }
-  public get allEquipements(){
+
+  public get allEquipements() {
     return this.equipementService.allEquipements;
   }
-  public get equipementEdit(){
+
+  public get equipementEdit() {
     return this.equipementService.editEquipement;
   }
-  public get allTypes(){
+
+  public get allTypes() {
     return this.typeService.allTypes;
   }
 
-  findById(id:number){
+  findById(id: number) {
     this.equipementService.findById(id);
   }
-  deleteById(id:number){
+
+  deleteById(id: number) {
     this.equipementService.deleteEquipById(id);
   }
-  edit(){
+
+  edit() {
     this.equipementService.editEquip();
   }
 }

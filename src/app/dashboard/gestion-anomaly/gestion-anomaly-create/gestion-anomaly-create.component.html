@@ -126,11 +126,10 @@
         <td>{{i.anomaly}} </td>
         <td>{{toDate(i.interventionStart) | date:'yyyy-MM-dd'}}</td>
         <td>
-          <button type="button" (click)="show(i)" class="btn btn-outline-info mr-sm-1" data-toggle="modal"
+          <!--<button type="button" (click)="show(i)" class="btn btn-outline-info mr-sm-1" data-toggle="modal"
                   data-target=".bd-example1-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
-          </button>
-          <button class="btn btn-outline-danger" (click)="deleteRow(i.id)"><i class="fa fa-trash"
-                                                                              aria-hidden="true"></i>
+          </button>-->
+          <button class="btn btn-outline-danger" (click)="deleteRow(i.id)"><i class="fa fa-trash" aria-hidden="true"></i>
           </button>
         </td>
       </tr>
@@ -178,11 +177,13 @@
 </div>
 <!--Large Modal-->
 <!--
-<div class="modal fade bd-example1-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example1-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
   <div class="modal-dialog modal-full">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Détails de l'intervention : <small id="emailHelp6" class="form-text text-muted">*interv : intervention</small>
+        <h5 class="modal-title" id="exampleModalLabel">Détails de l'intervention :
+          <small id="emailHelp6" class="form-text text-muted">*interv : intervention</small>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -190,32 +191,32 @@
       </div>
 
       <div class="container-fluid">
-          <table class="table table-hover table-md">
-            <thead >
-            <tr>
-             <th scope="col">Date d'appel d'interv</th>
-              <th scope="col">Heure d'appel d'interv</th>
-              <th scope="col">Date début d'interv</th>
-              <th scope="col">Heure début d'interv</th>
-              <th scope="col">Date fin de réparation</th>
-              <th scope="col">Heure fin de réparation</th>
-              <th scope="col">Nbre d'arrêts</th>
-              <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody  >
-            <tr>
-              <td>{{toDate(interventionDetail.callIntervention) | date:'yyyy-MM-dd'}}</td>
-              <td>{{toDate(interventionDetail.callIntervention) | date:'HH:mm'}}</td>
-              <td>{{toDate(interventionDetail.interventionStart) | date:'yyyy-MM-dd'}}</td>
-              <td>{{toDate(interventionDetail.interventionStart) | date:'HH:mm'}}</td>
-              <td>{{toDate(interventionDetail.interventionEnd) | date:'yyyy-MM-dd'}}</td>
-              <td>{{toDate(interventionDetail.interventionEnd) | date:'HH:mm'}}</td>
-              <td>{{interventionDetail.breakNumber}}</td>
-              <td>{{interventionDetail.actions}}</td>
-            </tr>
-            </tbody>
-          </table>
+        <table class="table table-hover table-md">
+          <thead>
+          <tr>
+            <th scope="col">Date d'appel d'interv</th>
+            <th scope="col">Heure d'appel d'interv</th>
+            <th scope="col">Date début d'interv</th>
+            <th scope="col">Heure début d'interv</th>
+            <th scope="col">Date fin de réparation</th>
+            <th scope="col">Heure fin de réparation</th>
+            <th scope="col">Nbre d'arrêts</th>
+            <th scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{toDate(interventionDetail.callIntervention) | date:'yyyy-MM-dd'}}</td>
+            <td>{{toDate(interventionDetail.callIntervention) | date:'HH:mm'}}</td>
+            <td>{{toDate(interventionDetail.interventionStart) | date:'yyyy-MM-dd'}}</td>
+            <td>{{toDate(interventionDetail.interventionStart) | date:'HH:mm'}}</td>
+            <td>{{toDate(interventionDetail.interventionEnd) | date:'yyyy-MM-dd'}}</td>
+            <td>{{toDate(interventionDetail.interventionEnd) | date:'HH:mm'}}</td>
+            <td>{{interventionDetail.breakNumber}}</td>
+            <td>{{interventionDetail.actions}}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

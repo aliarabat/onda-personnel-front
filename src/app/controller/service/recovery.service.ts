@@ -1,25 +1,33 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 import {SwalUtil} from '../../util/swal-util';
 import {User} from '../model/user.model';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecoveryService {
 
-  private userUrl: string = 'http://localhost:8098/user-api/user/';
-  private recoveryUrl: string = 'http://localhost:8098/user-api/recovery/';
+  public userUrl: string = UrlsUtil.main_user_url + UrlsUtil.url_user;
+  public recoveryUrl: string = UrlsUtil.main_user_url + UrlsUtil.url_recovery;
+
   public recoveryRequest = {email: ''};
   public passwordRecoveryRequest = {userId: 0, newPwd: '', newPwdConfirmation: ''};
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(public http: HttpClient, public router: Router) {
   }
 
   public goSendLink() {
     this.http.post(this.userUrl + 'password-recovery', this.recoveryRequest.email).subscribe((response) => {
+      if (response === 1) {
         SwalUtil.emailSent();
+      } else if (response === -3) {
+        SwalUtil.unableToConnect();
+      } else {
+        SwalUtil.unkownError();
+      }
     });
   }
 
@@ -28,8 +36,8 @@ export class RecoveryService {
       if (!response) {
         SwalUtil.invalidLink();
         setTimeout(() => {
-          this.router.navigate(['login'])
-        }, 2000)
+          this.router.navigate(['login']);
+        }, 2000);
       } else {
         this.passwordRecoveryRequest.userId = response.id;
         this.recoveryRequest.email = response.email;
@@ -42,11 +50,11 @@ export class RecoveryService {
     this.http.put(this.userUrl + 'password-recovery', this.passwordRecoveryRequest).subscribe((response) => {
       if (response === 1) {
         SwalUtil.changesSavedSuccessfully();
-        setTimeout(() => this.router.navigate(['login']), 1600)
-      }else{
+        setTimeout(() => this.router.navigate(['login']), 1600);
+      } else {
         SwalUtil.unkownError();
       }
-    })
+    });
   }
 
 }

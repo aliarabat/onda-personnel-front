@@ -11,7 +11,7 @@ export class AppComponent {
   route: string;
 
   constructor() {
-    this.route = location.pathname;
+
   }
 
 }

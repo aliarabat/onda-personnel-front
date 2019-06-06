@@ -2,46 +2,44 @@ import {Injectable} from '@angular/core';
 import {EmployeeVo} from '../model/employee.model';
 import {DetailVo} from '../model/detail.model';
 import {HttpClient} from '@angular/common/http';
-import Swal from "sweetalert2";
-import {VacationVo} from '../model/vacation.model';
 import {SkipVo} from '../model/skip.model';
 import {DayDetailVo} from '../model/day-detail.model';
 import {DayVo} from '../model/day.model';
-import {ReplacementVo} from '../model/replacement.model';
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkipService {
-  private _url = "http://localhost:8099/personnel-api/personnels/";
-  private _urlDay='http://localhost:8099/personnel-api/personnels/day/';
-  private _urlSkip='http://localhost:8099/personnel-api/personnels/skip/';
+  public _url = UrlsUtil.main_personnel_url;
+  public _urlDay = this._url + UrlsUtil.url_day;
+  public _urlSkip = this._url + UrlsUtil.url_skip;
 
-  private _url_employees = this._url + "employee/";
-  private _url_detail = this._url + "Detail/";
-  private _url_skip = this._url + "dayDetail/skip/";
-  private _url_dayDetail= this._url + "dayDetail/"
-  private _employee: EmployeeVo = new EmployeeVo();
-  private _detail: DetailVo = new DetailVo('', '', {}, {}, '', '');
-  private _employees: Array<EmployeeVo> = new Array<EmployeeVo>();
-  private _details: Array<DetailVo> = new Array<DetailVo>();
-  private _skipCreate : SkipVo = new SkipVo();
-  private _dayDetails : Array<DayDetailVo> = new Array<DayDetailVo>();
-  private _employee1: EmployeeVo = new EmployeeVo(0,'','','','','',false);
-  private _detail1: DetailVo = new DetailVo('', '', {}, {}, '', '');
-  private _skipInit:SkipVo=new SkipVo(0,'',this._employee1,'','',new DetailVo());
-  private _selectedDayDetail:DayDetailVo=new DayDetailVo(0,this._detail1,null,this._skipInit,null);
-  private _skip:SkipVo=new SkipVo();
-  constructor(private _http: HttpClient) {
+  public _url_employees = this._url + 'employee/';
+  public _url_detail = this._url + 'Detail/';
+  public _url_skip = this._url + 'dayDetail/skip/';
+  public _url_dayDetail = this._url + 'dayDetail/';
+  public _employee: EmployeeVo = new EmployeeVo();
+  public _detail: DetailVo = new DetailVo('', '', {}, {}, '', '');
+  public _employees: Array<EmployeeVo> = new Array<EmployeeVo>();
+  public _details: Array<DetailVo> = new Array<DetailVo>();
+  public _skipCreate: SkipVo = new SkipVo();
+  public _dayDetails: Array<DayDetailVo> = new Array<DayDetailVo>();
+  public _employee1: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', false);
+  public _detail1: DetailVo = new DetailVo('', '', {}, {}, '', '');
+  public _skipInit: SkipVo = new SkipVo(0, '', this._employee1, '', '', new DetailVo());
+  public _selectedDayDetail: DayDetailVo = new DayDetailVo(0, this._detail1, null, this._skipInit, null);
+  public _skip: SkipVo = new SkipVo();
+
+  constructor(public _http: HttpClient) {
   }
 
-
   findAllEmployees() {
-    this._http.get<Array<EmployeeVo>>(this._url_employees + "allExist/isExist/" + true).subscribe(
+    this._http.get<Array<EmployeeVo>>(this._url_employees + 'allExist/isExist/' + true).subscribe(
       data => {
-        if (data != null) {
-          this._employees = data;
-        }
+        data ?
+          this._employees = data : this._employees = [];
       }, error => {
         console.log(error);
       }
@@ -51,9 +49,7 @@ export class SkipService {
   findAllDetails() {
     this._http.get<Array<DetailVo>>(this._url_detail).subscribe(
       data => {
-        if (data != null) {
-          this._details = data;
-        }
+        data ? this._details = data : this._details = [];
       }, error => {
         console.log(error);
       }
@@ -61,251 +57,141 @@ export class SkipService {
   }
 
   public saveSkip() {
-    if (this.employee.matricule === '' ||this.employee.matricule === undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de selctionee l\'employee!'
-      });
-    } else if (this.skipCreate.type === ''|| this.skipCreate.type === undefined ) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Merci de saisir le type de skip!'
-      });
-    } else if (this.skipCreate.skipDate == '' || this.skipCreate.skipDate == undefined ) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de saisir la date de skip'
-      });
-    }
-    else if (this.skipCreate.detailVo.wording == '' || this.skipCreate.detailVo.wording == undefined ) {
-      Swal.fire({
-        type: 'info',
-        title: 'Info...',
-        text: 'Merci de selectioner l\'horaire!'
-      });
-    }else{
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success ml-1',
-          cancelButton: 'btn btn-danger mr-1'
-        },
-        buttonsStyling: false,
-      });
-      swalWithBootstrapButtons.fire({
-        type: 'info',
-        title: 'voulez vous souvgarger',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, confirm',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then((result) => {
+    if (this.employee.matricule === '' || this.employee.matricule === undefined) {
+      SwalUtil.select('l\'employee!');
+    } else if (this.skipCreate.type === '' || this.skipCreate.type === undefined) {
+      SwalUtil.insert('le type d\'absence!');
+    } else if (this.skipCreate.skipDate == '' || this.skipCreate.skipDate == undefined) {
+      SwalUtil.insert('le date d\'absence!');
+    } else if (this.skipCreate.detailVo.wording == '' || this.skipCreate.detailVo.wording == undefined) {
+      SwalUtil.select('l\'horaire!');
+    } else {
+      SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
         if (result.value) {
-
-          this._http.put(this._url_skip + 'matricule/' + this.employee.matricule+'/wordingDetail/'+this._skipCreate.detailVo.wording, this._skipCreate).subscribe(
+          this._http.put(this._url_skip + 'matricule/' + this.employee.matricule + '/wordingDetail/' + this._skipCreate.detailVo.wording, this._skipCreate).subscribe(
             data => {
-              console.log(data)
               this._employee = new EmployeeVo();
               this._detail = new DetailVo();
-              this._skipCreate=new SkipVo();
+              this._skipCreate = new SkipVo();
               this.findAllSkips();
               this.deleteAllDayDetailsWhereIsNull();
             }, error1 => {
               console.log(error1);
             }
           );
-          swalWithBootstrapButtons.fire(
-            'Sauvegardé!',
-            'Vos infos sont sauvegardées',
-            'success'
-          );
+          SwalUtil.savedSuccessfully('Sauvegarde');
         }
-      });
-
-    }}
-
-  findAllSkips(){
-    this._http.get<Array<DayDetailVo>>(this._url_dayDetail).subscribe(
-      data=>{
-        this._dayDetails = data;
-      },error1 => {
-        console.log(error1)
-      }
-    )
-  }
-  findSkipedEmployesByMatricule(matricule:string) {
-    this.http.get<EmployeeVo>(this._url + 'employee/matricule/' + matricule).subscribe(
-      data => {
-        this.employee= data;
-      }, error => {
-        console.log(error);
-      }
-    );
-  }
-
-  findDetailByWording(wording:string) {
-    this.http.get<DetailVo>(this._url_detail + 'wording/' + wording).subscribe(
-      data => {
-        if(data!=null){
-          this.selectedDayDetail.skipVo.detailVo=data;
-          this.selectedDayDetail.detailVo=data;
-          this.skipCreate.detailVo=data;
-        }
-
-      }, error => {
-        console.log(error);
-      }
-    );
-  }
-
-  deleteSkip(id:number){
-    this.http.delete(this._url_dayDetail+"id/"+id).subscribe(
-      data=>{
-        this.findAllSkips()
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000
-        });
-        Toast.fire({
-          type: 'success',
-          title: 'Supression avec succés'
-        })
-      },error1 => {
-        console.log(error1)
-      }
-    )
-  }
-
-  findDayDetailById(id:number){
-    this.http.get<DayDetailVo>(this._url_dayDetail + "id/" + id).subscribe(
-      data => {
-        if (data != null) {
-        this.selectedDayDetail=data;
-        console.log(this._selectedDayDetail);
-        }
-
-      }, error => {
-        console.log(error);
-      }
-    );
-  }
-
-
-
-
-  updateSkip(dayDetail:DayDetailVo){
-
-    if (dayDetail.skipVo.type === '' || dayDetail.skipVo.type === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: "Veuillez saisir le type d'absence ",
-        type: 'warning',
-      });
-    } else if (dayDetail.skipVo.skipDate === '' || dayDetail.skipVo.skipDate === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: "Veuillez choisir la date ",
-        type: 'warning',
-      });
-    } else if ( dayDetail.detailVo.wording=== '' || dayDetail.detailVo.wording === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: "Veuillez choisir l'horaire d'absence ",
-        type: 'warning',
       });
     }
-    else{
-      Swal.fire({
-        title: 'Modification',
-        text: "Vous êtes sûr de la modification",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d6d20b',
-        cancelButtonText:'Annuler',
+  }
 
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Modifier'
-      }).then((result) => {
+  findAllSkips() {
+    this._http.get<Array<DayDetailVo>>(this._url_dayDetail).subscribe(
+      data => {
+        data ? this._dayDetails = data : this._dayDetails = [];
+      }, error1 => {
+        console.log(error1);
+      }
+    );
+  }
+
+  findSkipedEmployesByMatricule(matricule: string) {
+    this.http.get<EmployeeVo>(this._url + 'employee/matricule/' + matricule).subscribe(
+      data => {
+        this.employee = data;
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  findDetailByWording(wording: string) {
+    this.http.get<DetailVo>(this._url_detail + 'wording/' + wording).subscribe(
+      data => {
+        if (data != null) {
+          this.selectedDayDetail.skipVo.detailVo = data;
+          this.selectedDayDetail.detailVo = data;
+          this.skipCreate.detailVo = data;
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  deleteSkip(id: number) {
+    this.http.delete(this._url_dayDetail + 'id/' + id).subscribe(
+      data => {
+        this.findAllSkips();
+        SwalUtil.topEndSavedSuccessfully();
+      }, error1 => {
+        console.log(error1);
+      }
+    );
+  }
+
+  findDayDetailById(id: number) {
+    this.http.get<DayDetailVo>(this._url_dayDetail + 'id/' + id).subscribe(
+      data => {
+        if (data != null) {
+          this.selectedDayDetail = data;
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  updateSkip(dayDetail: DayDetailVo) {
+    if (dayDetail.skipVo.type === '' || dayDetail.skipVo.type === undefined) {
+      SwalUtil.insert('le type d\'absence');
+    } else if (dayDetail.skipVo.skipDate === '' || dayDetail.skipVo.skipDate === undefined) {
+      SwalUtil.insert('la date d\'absence');
+    } else if (dayDetail.detailVo.wording === '' || dayDetail.detailVo.wording === undefined) {
+      SwalUtil.select('l\'horaire d\'absence');
+    } else {
+      SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
-          this.http.get<DayVo>(this._urlDay + "matricule/" + dayDetail.skipVo.employeeVo.matricule+"/dayDate/"+dayDetail.skipVo.skipDate).subscribe(
+          this.http.get<DayVo>(this._urlDay + 'matricule/' + dayDetail.skipVo.employeeVo.matricule + '/dayDate/' + dayDetail.skipVo.skipDate).subscribe(
             data => {
               if (data == null) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: "Erreur: Cet employé n'as pas encore de service à cette date ",
-                  type: 'error',
-                });
-              } else{
+                SwalUtil.any('Erreur!', 'Erreur: Cet employé n\'as pas encore de service à cette date');
+              } else {
                 this.http.put(this._urlSkip, dayDetail).subscribe(
                   (res) => {
-                    if (res == 1 || res==2 || res==3 || res==7) {
+                    if (res == 1 || res == 2 || res == 3 || res == 7) {
                       this.findAllSkips();
                       this.deleteAllDayDetailsWhereIsNull();
-
-                      Swal.fire({
-                        title: "Modification d'absence",
-                        text: 'Modification du service réussite',
-                        type: 'success',
-                      });
+                      SwalUtil.anySuccess('Modification d\'absence', 'Modification du service réussite');
                       // @ts-ignore
-                      $('#skipModal').modal('hide')
-
-
+                      $('#skipModal').modal('hide');
                     } else if (res == -2) {
-                      Swal.fire({
-                        title: 'Erreur!',
-                        text: "Modification du service échouée:Ce fonctionnaire n'a pas de service à cette date  ",
-                        type: 'error',
-                      });
-                    }else if (res == -6 || res==-7) {
-                      Swal.fire({
-                        title: 'Erreur!',
-                        text: "Modification du service échouée:Ce fonctionnaire est absent à cette date  ",
-                        type: 'error',
-                      });
+                      SwalUtil.any('Erreur!', 'Modification du service échouée:Ce fonctionnaire n\'a pas de service à cette date');
+                    } else if (res == -6 || res == -7) {
+                      SwalUtil.any('Erreur!', 'Modification du service échouée:Ce fonctionnaire est absent à cette date');
+                    } else {
+                      SwalUtil.any('Erreur!', 'Modification du service échouée:Erreur Inconnue');
                     }
-
-                    else {
-                      Swal.fire({
-                        title: 'Erreur!',
-                        text: "Modification du service échouée:Erreur Inconnue  ",
-                        type: 'error',
-                      });
-                    }
-
                   },
                 );
-
               }
-
             }, error => {
               console.log(error);
             }
           );
-
         }
-
       });
     }
   }
 
-  deleteAllDayDetailsWhereIsNull(){
-    this.http.delete(this._url_dayDetail+'null').subscribe(
-      data => {
-        console.log(data);
-      }, error => {
-        console.log(error);
-      }
-    );
+  deleteAllDayDetailsWhereIsNull() {
+    this.http.delete(this._url_dayDetail + 'null').subscribe();
   }
 
-  formInit(){
-    this.skipCreate=new SkipVo();
-    this.employee=new EmployeeVo();
+  formInit() {
+    this.skipCreate = new SkipVo();
+    this.employee = new EmployeeVo();
   }
 
   get url_dayDetail(): string {

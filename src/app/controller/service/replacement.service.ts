@@ -3,55 +3,53 @@ import {HttpClient} from '@angular/common/http';
 import {EmployeeVo} from '../model/employee.model';
 import {ReplacementVo} from '../model/replacement.model';
 import {DetailVo} from '../model/detail.model';
-import Swal from "sweetalert2";
-import {MissionVo} from '../model/mission.model';
 import {DayDetailVo} from '../model/day-detail.model';
+import {SwalUtil} from '../../util/swal-util';
+import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReplacementService {
 
-  constructor(private http:HttpClient) {
+  constructor(public http: HttpClient) {
   }
-  private _url='http://localhost:8099/personnel-api/personnels/dayDetail/';
-  private _orgEmployee:EmployeeVo=new EmployeeVo();
-  private _rempEmployee:EmployeeVo=new EmployeeVo();
-  private _urlEmployee='http://localhost:8099/personnel-api/personnels/employee/';
-  private _employee1: EmployeeVo = new EmployeeVo(0,'','','','','',false);
-  private _replacement:ReplacementVo=new ReplacementVo();
-  private _urlDetail='http://localhost:8099/personnel-api/personnels/Detail/';
-  private _dayDetailsRemp: Array<DayDetailVo> = new Array<DayDetailVo>();
 
+  public _main_url = UrlsUtil.main_personnel_url;
+  public _url = this._main_url + UrlsUtil.url_dayDetail;
+  public _urlEmployee = this._main_url + UrlsUtil.url_employee;
+  public _urlDetail = this._main_url + UrlsUtil.url_Detail;
 
+  public _orgEmployee: EmployeeVo = new EmployeeVo();
+  public _rempEmployee: EmployeeVo = new EmployeeVo();
+  public _employee1: EmployeeVo = new EmployeeVo(0, '', '', '', '', '', false);
+  public _replacement: ReplacementVo = new ReplacementVo();
+  public _dayDetailsRemp: Array<DayDetailVo> = new Array<DayDetailVo>();
 
-
-  findEmployesByMatricule(matricule:string) {
+  findEmployesByMatricule(matricule: string) {
     this.http.get<EmployeeVo>(this._urlEmployee + 'matricule/' + matricule).subscribe(
       data => {
-        this.orgEmployee= data;
-        console.log(this._orgEmployee);
+        this.orgEmployee = data;
       }, error => {
         console.log(error);
       }
     );
   }
 
-  findReplacedEmployesByMatricule(matricule:string) {
+  findReplacedEmployesByMatricule(matricule: string) {
     this.http.get<EmployeeVo>(this._urlEmployee + 'matricule/' + matricule).subscribe(
       data => {
-        this.rempEmployee= data;
-        console.log(this._rempEmployee);
+        this.rempEmployee = data;
       }, error => {
         console.log(error);
       }
     );
   }
 
-  findDetailByWording(wording:string) {
+  findDetailByWording(wording: string) {
     this.http.get<DetailVo>(this._urlDetail + 'wording/' + wording).subscribe(
       data => {
-        this.replacement.detailVo=data;
+        this.replacement.detailVo = data;
       }, error => {
         console.log(error);
       }
@@ -59,144 +57,56 @@ export class ReplacementService {
   }
 
 
-  saveReplacement(replacement:ReplacementVo,matriculeOrg:string,matriculeRemp:string,wording:string){
+  saveReplacement(replacement: ReplacementVo, matriculeOrg: string, matriculeRemp: string, wording: string) {
     if (replacement.reference === '' || replacement.reference === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: "Veuillez choisir la référence de la mission  ",
-        type: 'warning',
-      });
+      SwalUtil.select('la référence de la mission');
     } else if (matriculeOrg === '' || matriculeOrg === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: "Veuillez choisir l'employé considéré ",
-        type: 'warning',
-      });
-    }
-    else if (matriculeRemp === '' || matriculeRemp === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: "Veuillez choisir l'employé remplacant ",
-        type: 'warning',
-      });
-    }
-
-     else if (replacement.replacementDate === '' || replacement.replacementDate === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: "Veuillez choisir la date ",
-        type: 'warning',
-      });
+      SwalUtil.select('l\'employé considéré');
+    } else if (matriculeRemp === '' || matriculeRemp === undefined) {
+      SwalUtil.select('l\'employé remplacant');
+    } else if (replacement.replacementDate === '' || replacement.replacementDate === undefined) {
+      SwalUtil.insert('la date');
     } else if (replacement.detailVo.wording === '' || replacement.detailVo.wording === undefined) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: "Veuillez choisir l'horaire d'absence ",
-        type: 'warning',
-      });
-    }
-    else if (matriculeRemp === matriculeOrg ) {
-      Swal.fire({
-        title: 'Erreur!',
-        text: "Veuillez bien  choisir les employés ",
-        type: 'warning',
-      });
-    }
-    else{
-      Swal.fire({
-        title: 'Modification',
-        text: "Vous êtes sûr de la modification",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d6d20b',
-        cancelButtonText:'Annuler',
-
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Modifier'
-      }).then((result) => {
+      SwalUtil.select('l\'horaire d\'absence');
+    } else if (matriculeRemp === matriculeOrg) {
+      SwalUtil.select('les employés concernés');
+    } else {
+      SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
-
-
-
-
-          this.http.put(this._url + 'replacement/matricule/' + matriculeOrg +'/matricule1/'+ matriculeRemp+'/wordingDetail/' + wording, replacement).subscribe(
+          this.http.put(this._url + 'replacement/matricule/' + matriculeOrg + '/matricule1/' + matriculeRemp + '/wordingDetail/' + wording, replacement).subscribe(
             (res) => {
-              if (res == 1) {
-                this.replacement=new ReplacementVo();
+              if (res === 1) {
+                this.replacement = new ReplacementVo();
                 this.findAlldayDetailsReplacement();
-
-                Swal.fire({
-                  title: 'Remplacement effectué',
-                  text: 'Modification du service réussite',
-                  type: 'success',
-                });
-
-              } else if (res == -5 ) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: "Modification du service échouée:l'un des employés  n'as pas encore de service à cette date ",
-                  type: 'error',
-                });
+                SwalUtil.anySuccess('Remplacement effectué', 'Modification du service réussite');
+              } else if (res == -5) {
+                SwalUtil.any('Erreur!', 'Modification du service échouée:l\'un des employés  n\'as pas encore de service à cette date');
               } else if (res == -4) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: "Modification du service échouée:l'un des employés n'as pas encore de service à ce jour là ",
-                  type: 'error',
-                });
+                SwalUtil.any('Erreur!', 'Modification du service échouée:l\'un des employés  n\'as pas encore de service à ce jour là');
               } else if (res == -3) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: "Modification du service échouée:l'un des employés est en vacances  ",
-                  type: 'error',
-                });
+                SwalUtil.any('Erreur!', 'Modification du service échouée:l\'un des employés est en vacances');
               } else if (res == -2) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: "Modification du service échouée:Le remplacant n'est pas libre à cette horaire  ",
-                  type: 'error',
-                });
-              }else if (res == -1) {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: "Modification du service échouée:l'un des employés est déjà absent pour une raison  ",
-                  type: 'error',
-                });
+                SwalUtil.any('Erreur!', 'Modification du service échouée:Le remplacant n\'est pas libre à cette horaire');
+              } else if (res == -1) {
+                SwalUtil.any('Erreur!', 'Modification du service échouée:l\'un des employés est déjà absent pour une raison');
+              } else {
+                SwalUtil.any('Erreur!', 'Modification du service échouée:Erreur Inconnue');
               }
-              else {
-                Swal.fire({
-                  title: 'Erreur!',
-                  text: "Modification du service échouée:Erreur Inconnue  ",
-                  type: 'error',
-                });
-              }
-
             },
           );
-
-
         }
-
       });
     }
-
   }
 
-
-  deleteAllDayDetailsWhereIsNull(){
-    this.http.delete(this.url+'null').subscribe(
-      data => {
-         console.log(data);
-      }, error => {
-        console.log(error);
-      }
-    );
+  deleteAllDayDetailsWhereIsNull() {
+    this.http.delete(this.url + 'null').subscribe();
   }
 
-  findAlldayDetailsReplacement(){
-    this.http.get<Array<DayDetailVo>>(this._url+"replacement/" ).subscribe(
+  findAlldayDetailsReplacement() {
+    this.http.get<Array<DayDetailVo>>(this._url + 'replacement/').subscribe(
       data => {
-        console.log(data);
-        this.dayDetailsRemp = data;
-        console.log(this._dayDetailsRemp);
+        data ? this.dayDetailsRemp = data : this.dayDetailsRemp = [];
       }, error => {
         console.log(error);
       }
@@ -204,59 +114,27 @@ export class ReplacementService {
   }
 
 
-  deleteReplacement(dayDetail:DayDetailVo){
-    Swal.fire({
-      title: 'Suppression',
-      text: "Vous êtes sûr de vouloir Supprimer ce service",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#377bd6',
-      cancelButtonText:'Annuler',
-
-      cancelButtonColor: '#dd0009',
-      confirmButtonText: 'Supprimer'
-    }).then((result) => {
+  deleteReplacement(dayDetail: DayDetailVo) {
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
       if (result.value) {
-
-
-
-
-        this.http.put(this._url+'replacement/id/'+dayDetail.id,dayDetail).subscribe(
+        this.http.put(this._url + 'replacement/id/' + dayDetail.id, dayDetail).subscribe(
           (res) => {
             if (res == 1) {
-              console.log(dayDetail.id);
               this.findAlldayDetailsReplacement();
-
-              Swal.fire({
-                title: 'Suppression du remplacement',
-                text: 'Suppression du service réussite',
-                type: 'success',
-              });
-
-            }  else {
-              console.log(dayDetail.id);
-              console.log(this._url);
-
-              Swal.fire({
-                title: 'Erreur!',
-                text: "Suppression du service échouée:Erreur Inconnue  ",
-                type: 'error',
-              });
+              SwalUtil.anySuccess('Suppression du remplacement', 'Suppression du service réussite');
+            } else {
+              SwalUtil.any('Erreur!', 'Suppression du service échouée:Erreur Inconnue');
             }
-
           },
         );
-
-
       }
-
     });
-
   }
-  formInit(){
-    this.replacement=new ReplacementVo();
-    this.orgEmployee=new EmployeeVo();
-    this.rempEmployee=new EmployeeVo();
+
+  formInit() {
+    this.replacement = new ReplacementVo();
+    this.orgEmployee = new EmployeeVo();
+    this.rempEmployee = new EmployeeVo();
   }
 
   get orgEmployee(): EmployeeVo {
@@ -314,7 +192,6 @@ export class ReplacementService {
   set url(value: string) {
     this._url = value;
   }
-
 
   get dayDetailsRemp(): Array<DayDetailVo> {
     return this._dayDetailsRemp;

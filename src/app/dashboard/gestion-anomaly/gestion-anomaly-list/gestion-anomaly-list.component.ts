@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MonthUtil} from '../../../util/month-util';
 import * as $ from 'jquery';
 import {WorkService} from '../../../controller/service/work.service';
@@ -9,6 +9,8 @@ import {TimingVo} from '../../../controller/model/timing.model';
 import {TypeVo} from '../../../controller/model/type';
 import Swal from "sweetalert2";
 import {DateUtil} from '../../../util/date-util';
+import {MiddleWare} from "../../../util/middle-ware";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-gestion-anomaly-list',
@@ -17,26 +19,33 @@ import {DateUtil} from '../../../util/date-util';
 })
 export class GestionAnomalyListComponent implements OnInit {
 
-  constructor(private workService: WorkService,private equipementService:EquipementService,private interventionMonthService:InterventionMonthService) { }
-  public equipement: EquipementVo = new EquipementVo(0,'',new TimingVo(),new TypeVo());
+  constructor(public workService: WorkService, public equipementService: EquipementService, public interventionMonthService: InterventionMonthService, public router: Router) {
+  }
+
+  public equipement: EquipementVo = new EquipementVo(0, '', new TimingVo(), new TypeVo());
 
   ngOnInit() {
-    this.equipementService.findAllEquipements();
-
+    if (MiddleWare.checkIfUserIsLogged(this.router))
+      this.equipementService.findAllEquipements();
   }
-  public get allEquipements(){
+
+  public get allEquipements() {
     return this.equipementService.allEquipements;
   }
-  public getMonths(){
+
+  public getMonths() {
     return MonthUtil.months;
   }
+
   public hiddenStateInterventionMonth: boolean = true;
   public hiddenStateEquipement: boolean = true;
+
   selectPerYearIntervention() {
     this.hiddenStateEquipement = !$("#inlineCheckboxperyearIntervention").is(':checked');
   }
+
   selectPerMonthIntervention() {
-    this.hiddenStateInterventionMonth= !$("#inlineCheckboxpermonthIntervention").is(':checked');
+    this.hiddenStateInterventionMonth = !$("#inlineCheckboxpermonthIntervention").is(':checked');
   }
 
 
@@ -90,28 +99,36 @@ export class GestionAnomalyListComponent implements OnInit {
       }
     }
   }
+
   get listInterventionsByYear() {
     return this.interventionMonthService.listEquipementssByYear;
   }
+
   formatDate(workDetailDate: string) {
     return DateUtil.formatDate(workDetailDate);
   }
+
   date() {
     return new Date().getFullYear();
   }
+
   get dateByYear() {
     return this.interventionMonthService.dateByAnnee;
   }
+
   public getMonth(index: number) {
     return MonthUtil.getMonth(index);
   }
-  findById(id:number){
+
+  findById(id: number) {
     this.interventionMonthService.findInterventionMonthById(id);
   }
-  public get listInterventionsDay(){
+
+  public get listInterventionsDay() {
     return this.interventionMonthService.listInterventionsByDay;
   }
-  public  toDate (ldt :string){
+
+  public toDate(ldt: string) {
     let newDate = new Date(ldt);
     return newDate
   }
