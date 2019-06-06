@@ -2,20 +2,20 @@ import {Router} from "@angular/router";
 import {Session} from "./session";
 
 export class GrantedAccess {
-  public static async checkIfUserIsAdmin(router: Router) {
+  public static checkIfUserIsAdmin(router: Router) {
     if (Session.retrieve('loggedUser').rang === 'Technicien') {
-      await setTimeout(() => router.navigate(['anomalies']), 1);
+      setTimeout(() => router.navigate(['anomalies']));
       return false;
     }else if (Session.retrieve('loggedUser').rang === 'Responsable'){
-      await setTimeout(() => router.navigate(['services']), 1);
+      setTimeout(() => router.navigate(['services']));
       return false;
     }
     return true;
   }
 
-  public static async checkIfUserIsResponsableOrAdmin(router: Router) {
+  public static checkIfUserIsResponsableOrAdmin(router: Router) {
     if (Session.retrieve('loggedUser').rang === 'Technicien') {
-      await setTimeout(() => router.navigate(['anomalies']), 1);
+      setTimeout(() => router.navigate(['anomalies']), 0);
       return false;
     }
     return true;
@@ -23,7 +23,7 @@ export class GrantedAccess {
 
   public static async checkIfUserIsTechniqueOrAdmin(router: Router) {
     if (Session.retrieve('loggedUser').rang === 'Responsable') {
-      await setTimeout(() => router.navigate(['services']), 1);
+      setTimeout(() => router.navigate(['services']), 0);
       return false;
     }
     return true;

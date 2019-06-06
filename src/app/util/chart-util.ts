@@ -42,9 +42,6 @@ export function doubleChart(htmlElement: any, labels: Array<any>, dataSets: Arra
       datasets: dataSets
     },
     options: {
-      animation: {
-        duration: 1000
-      },
       hover: {
         animationDuration: 0
       },
