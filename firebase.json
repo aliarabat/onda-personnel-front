@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "public": "dist/onda-personnel",
+    "ignore": [
+      "firebase.json",
+      "**/.*"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
