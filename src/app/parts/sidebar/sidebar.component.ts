@@ -5,7 +5,6 @@ import {UserUtil} from '../../util/userUtil';
 import {Validator} from '../../validator/validator';
 import {SwalUtil} from '../../util/swal-util';
 
-
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',

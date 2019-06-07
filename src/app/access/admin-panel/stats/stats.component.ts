@@ -41,7 +41,7 @@ export class StatsComponent implements OnInit {
     const dataSets = [];
     await this.holidayService.countAllHolidays().subscribe(data => dataSets.push(data));
     await this.detailService.countAllHours().subscribe(data => dataSets.push(data));
-    let ctx = document.getElementById('holidaysanddetails');
+    let ctx = document.getElementById('holidays');
     ChartUtil(ctx, labels, dataSets, 'Horaires et jours féries');
 
   }
