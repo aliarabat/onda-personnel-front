@@ -251,7 +251,8 @@ export class MissionService {
             if (res == 1) {
               this.findAlldayDetails();
               this.deleteAllDayDetailsWhereIsNull();
-              SwalUtil.deleted('la Mission', 'Suppression du service réussite');
+              //SwalUtil.deleted('la Mission', 'Suppression du service réussite');
+              SwalUtil.topEndSavedSuccessfully();
             } else {
               SwalUtil.any('Erreur!', 'Suppression du service échouée:Erreur Inconnue!');
             }

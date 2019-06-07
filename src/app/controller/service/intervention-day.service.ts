@@ -117,6 +117,7 @@ export class InterventionDayService {
               this.reparationDuration = new TimingVo('0', '0');
               this.equipement = new EquipementVo();
               this.selectedType = new TypeVo();
+              SwalUtil.savedSuccessfully('Sauvegarde');
             }, error1 => {
               console.log(error1);
             }

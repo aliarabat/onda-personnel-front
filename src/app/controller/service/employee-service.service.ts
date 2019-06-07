@@ -3,6 +3,7 @@ import {EmployeeVo} from '../model/employee.model';
 import {HttpClient} from '@angular/common/http';
 import {SwalUtil} from '../../util/swal-util';
 import {UrlsUtil} from '../../util/urls-util';
+import {HolidayVo} from "../model/holiday.model";
 
 @Injectable({
   providedIn: 'root'
@@ -95,14 +96,17 @@ export class EmployeeServiceService {
   }
 
   deleteEmployee(matricule: string) {
-    this._http.delete(this._url + 'matricule/' + parseInt(matricule)).subscribe(data => {
-        this.findAllEmployesExist();
-        SwalUtil.topEndSavedSuccessfully();
-      }, error1 => {
-        console.log(error1);
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
+      if (result.value) {
+        this._http.delete(this._url + 'matricule/' + matricule).subscribe(data => {
+            this.findAllEmployesExist();
+            SwalUtil.topEndSavedSuccessfully();
+          }, error1 => {
+            console.log(error1);
+          }
+        );
       }
-    );
-
+    });
   }
 
   revert(matricule: string) {

@@ -25,8 +25,6 @@ export class MissionListComponent implements OnInit {
     this.missionService.mission = new MissionVo();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
     this.missionService.findAlldayDetails();
-
-
   }
 
   public get listOfWorks() {

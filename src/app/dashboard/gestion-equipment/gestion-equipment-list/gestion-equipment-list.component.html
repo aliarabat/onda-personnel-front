@@ -5,7 +5,6 @@
       <th scope="col">Nom de l'équipement</th>
       <th scope="col">Type-équipement</th>
       <th scope="col">Maint.prévue</th>
-
       <th scope="col">Actions</th>
     </tr>
     </thead>
@@ -17,17 +16,13 @@
       <td>
         <button type="button" id="btnEquipement" (click)="findById(e.id)"    class="btn btn-outline-info ml-sm-1" data-toggle="modal" data-target="#equipmentModal" data-whatever="@fat"><i class="fa fa-pencil" aria-hidden="true"></i>
         </button>
-        <button class="btn btn-outline-danger ml-2" (click)="deleteById(e.id)" ><i class="fa fa-trash" aria-hidden="true"></i>
-        </button>
+        <!--<button class="btn btn-outline-danger ml-2" (click)="deleteById(e.id)" ><i class="fa fa-trash" aria-hidden="true"></i>
+        </button>-->
       </td>
     </tr>
     </tbody>
   </table>
 </div>
-
-
-
-
 
 <!--Modal-->
 <div class="modal fade" id="equipmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -51,8 +46,6 @@
           </div>
         </div>
         <br>
-
-
         <div class="form-group">
           <label class="sr-only" for="typeEquiEdit">Type</label>
           <div class="input-group mb-2">
@@ -63,14 +56,10 @@
               <option selected disabled>Selectionner le type d'équipement ...</option>
               <option *ngFor="let t of allTypes" ngValue="{{ t.name }}" data-toggle="tooltip" data-placement="top"
                       title="{{ t.name}}">{{ t.name }}</option>
-
-
-
             </select>
           </div>
         </div>
         <br>
-
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Maintenance prévue</span>
@@ -85,8 +74,6 @@
           </div>
         </div>
         <br>
-
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
@@ -96,12 +83,7 @@
   </div>
 </div>
 
-
 <script>
-
-
-
-
   $('#btnEquipement').click(function () {
     $('#equipmentModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // Button that triggered the modal
@@ -114,13 +96,5 @@
       modal.find('.modal-body input').val(recipient);
     })
   });
-
-
-
-
-
-
-
-
 </script>
 

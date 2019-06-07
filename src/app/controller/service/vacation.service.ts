@@ -73,14 +73,18 @@ export class VacationService {
   }
 
   deleteVaction(id: number) {
-    this.http.delete(this.urlVac + '/id/' + id).subscribe(
-      data => {
-        this.findAllVacations();
-        SwalUtil.topEndSavedSuccessfully();
-      }, error1 => {
-        console.log(error1);
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
+      if (result.value) {
+        this.http.delete(this.urlVac + '/id/' + id).subscribe(
+          () => {
+            this.findAllVacations();
+            SwalUtil.topEndSavedSuccessfully();
+          }, error1 => {
+            console.log(error1);
+          }
+        );
       }
-    );
+    });
   }
 
   updateEmployee(newVacation: VacationVo, matricule: string) {

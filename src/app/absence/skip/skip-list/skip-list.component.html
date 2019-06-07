@@ -2,7 +2,7 @@
   <table class="table table-striped">
     <thead>
     <tr>
-     <th scope="col">Emloye associe</th>
+      <th scope="col">Emloye associe</th>
       <th scope="col">Type d'absence</th>
       <th scope="col">Date d'absence</th>
       <th scope="col">Horaire(s)</th>
@@ -16,114 +16,78 @@
       <td>{{dd.skipVo.skipDate}}</td>
       <td>{{dd.skipVo.detailVo.wording}}</td>
       <td class="float-right">
-        <button class="btn btn-outline-info mr-2"  id="skipBtn"  data-toggle="modal" (click)="findDayDetailById(dd.id)" data-target="#skipModal" data-whatever="@mdo"><i class="fa fa-pencil" aria-hidden="true"></i>
+        <button class="btn btn-outline-info mr-2" id="skipBtn" data-toggle="modal" (click)="findDayDetailById(dd.id)"
+                data-target="#skipModal" data-whatever="@mdo"><i class="fa fa-pencil" aria-hidden="true"></i>
         </button>
-        <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowDetailInfo(dd)" data-target="#exampleModal2"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        <button class="btn btn-outline-danger" data-toggle="modal" (click)="deleteSkip(dd.skipVo.id)"
+                data-target="#exampleModal2"><i class="fa fa-trash" aria-hidden="true"></i></button>
       </td>
     </tr>
     </tbody>
   </table>
 </div>
 
-
-<div class="modal fade" id="exampleModal2" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> Voulez vous vraiment supprimer le skip de
-          <i>{{(!!dayDetailInfo ?dayDetailInfo.skipVo.employeeVo.lastName:null) +" " +(!!dayDetailInfo ?dayDetailInfo.skipVo.employeeVo.firstName:null) }}</i></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" (click)="deleteSkip()" data-dismiss="modal">supprimer</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
 <!--Modal of Modification-->
-
-<div class="modal fade" id="skipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelSkip" aria-hidden="true">
+<div class="modal fade" id="skipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelSkip"
+     aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabelSkip">Modification de Mission pour : {{selectedDayDetail.skipVo.employeeVo.lastName}} {{selectedDayDetail.skipVo.employeeVo.firstName}}</h5>
+        <h5 class="modal-title" id="exampleModalLabelSkip">Modification de Mission pour
+          : {{selectedDayDetail.skipVo.employeeVo.lastName}} {{selectedDayDetail.skipVo.employeeVo.firstName}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-
-
-
-
-
-
         <div class="form-group">
           <label class="sr-only" for="typeSkiplist">Type d'absence</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Type d'absence</div>
             </div>
-            <input class="form-control" id="typeSkiplist"  [(ngModel)]="selectedDayDetail.skipVo.type" name="typeList" placeholder="Entrer le type de la mission ..." type="text">
+            <input class="form-control" id="typeSkiplist" [(ngModel)]="selectedDayDetail.skipVo.type" name="typeList"
+                   placeholder="Entrer le type de la mission ..." type="text">
           </div>
         </div>
         <br>
-
-
-
         <div class="form-group">
           <label class="sr-only" for="dateAbsence">Date d'absence</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">Date d'absence</div>
             </div>
-            <input class="form-control" id="dateAbsence" [(ngModel)]="selectedDayDetail.skipVo.skipDate" name="DateAbsence" placeholder="Entrer le prenom de l'employe ..." type="date">
+            <input class="form-control" id="dateAbsence" [(ngModel)]="selectedDayDetail.skipVo.skipDate"
+                   name="DateAbsence" placeholder="Entrer le prenom de l'employe ..." type="date">
           </div>
         </div>
         <br>
-
-
-
-
         <div class="form-group">
-
           <label class="sr-only" for="horaireSkiplist">Horaire d'absence</label>
-
           <div class="input-group mb-2">
-
             <div class="input-group-prepend">
-
               <div class="input-group-text">Horaire d'absence</div>
             </div>
-
-            <select  (change)="findDetailByWording()" (click)="findDetailByWording()"  class="custom-select" [(ngModel)]="selectedDayDetail.skipVo.detailVo.wording"  name="horaireSkipList" id="horaireSkiplist">
+            <select (change)="findDetailByWording()" (click)="findDetailByWording()" class="custom-select"
+                    [(ngModel)]="selectedDayDetail.skipVo.detailVo.wording" name="horaireSkipList" id="horaireSkiplist">
               <option selected disabled>Selectionner l' horaire ...</option>
-              <option *ngFor="let d of detailVo" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top" title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
+              <option *ngFor="let d of detailVo" ngValue="{{ d.wording }}" data-toggle="tooltip" data-placement="top"
+                      title="{{ d.startingTimeVo.hour+'h'+d.endingTimeVo.minute+'min-'+d.endingTimeVo.hour+'h'+d.endingTimeVo.minute+'min' }}">{{ d.wording }}</option>
             </select>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="modifierMission" (click)="updateSkip(selectedDayDetail)"  class="btn btn-outline-info">Modifier</button>
+        <button type="button" id="modifierMission" (click)="updateSkip(selectedDayDetail)" class="btn btn-outline-info">
+          Modifier
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-
 <script>
-
-
-
-
   $('#skipBtn').click(function () {
     $('#skipModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // Button that triggered the modal
@@ -136,7 +100,5 @@
       modal.find('.modal-body input').val(recipient);
     })
   });
-
-
 </script>
 
