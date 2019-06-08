@@ -135,7 +135,8 @@ export class InterventionMonthService {
 
     if (type === 'dashboard') {
       // @ts-ignore
-      return this.http.get<Blob>(this._url + 'printdoc/year/' + fullYear + '/month/' + (month + 1), httpOptions).subscribe((result) => {
+      return this.http.get<Blob>(this._url + 'printdoc/year/' + fullYear + '/month/' + (month + 1), httpOptions).subscribe(async (result) => {
+        await SwalUtil.loadAndWait();
         downloadfile(result, 'application/pdf', 'TableauDeBord' + MonthUtil.getMonth(month) + fullYear + '.pdf');
       });
     } else if (type === 'graph') {
@@ -154,7 +155,8 @@ export class InterventionMonthService {
       });
       if (object) {
         // @ts-ignore
-        return this.http.get(this._url + 'printgraph/year/' + fullYear + '/month/' + (month + 1) + '/object/' + object, httpOptions).subscribe((result) => {
+        return this.http.get(this._url + 'printgraph/year/' + fullYear + '/month/' + (month + 1) + '/object/' + object, httpOptions).subscribe(async (result) => {
+          await SwalUtil.loadAndWait();
           downloadfile(result, 'application/pdf', 'TBF' + MonthUtil.getMonth(month) + fullYear + '.pdf');
         });
       }

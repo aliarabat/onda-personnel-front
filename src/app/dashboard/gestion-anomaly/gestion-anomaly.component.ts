@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {MiddleWare} from "../../util/middle-ware";
 import {GrantedAccess} from "../../util/granted-access";
@@ -9,12 +9,13 @@ import {GrantedAccess} from "../../util/granted-access";
   styleUrls: ['./gestion-anomaly.component.css']
 })
 export class GestionAnomalyComponent implements OnInit {
+  private isTechOrAdmin: boolean = false;
 
-  constructor(private router:Router) { }
-
-  async ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    await GrantedAccess.checkIfUserIsTechniqueOrAdmin(this.router);
+  constructor(private router: Router) {
   }
 
+  async ngOnInit() {
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsTechniqueOrAdmin(this.router))
+      this.isTechOrAdmin = true;
+  }
 }

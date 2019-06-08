@@ -4,6 +4,7 @@ import {DayDetailVo} from '../../../controller/model/day-detail.model';
 import {DayServiceService} from '../../../controller/service/day-service.service';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import {DateUtil} from "../../../util/date-util";
 
 @Component({
   selector: 'app-skip-list',
@@ -48,5 +49,9 @@ export class SkipListComponent implements OnInit {
 
   updateSkip(daydetail: DayDetailVo) {
     this.skipService.updateSkip(daydetail);
+  }
+
+  formatDate(date:string){
+    return DateUtil.formatDate(date).toLocaleDateString();
   }
 }

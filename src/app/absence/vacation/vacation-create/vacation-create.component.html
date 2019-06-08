@@ -11,7 +11,7 @@
               <div class="input-group-text">Employé</div>
             </div>
             <select class="custom-select" [(ngModel)]="employee.matricule" id="employeVacation" name="matricule"
-                    (change)="test(employee)" placeholder="Selectionner l'employe ...">
+                    placeholder="Selectionner l'employe ...">
               <option selected disabled>Selectionner l'employé ...</option>
               <option *ngFor="let emp of employeeVo"
                       [value]="emp.matricule">{{ emp.matricule + " " + emp.firstName + " " + emp.lastName }}</option>

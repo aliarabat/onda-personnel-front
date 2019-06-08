@@ -1,13 +1,21 @@
-<nav>
+<nav *ngIf="isTechOrAdmin">
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active" id="nav-listType-tab" data-toggle="tab" href="#nav-listType" role="tab" aria-controls="nav-listType" aria-selected="true">Type des équipements</a>
-    <a class="nav-item nav-link " id="nav-insert-tab" data-toggle="tab" href="#nav-insert" role="tab" aria-controls="nav-insert" aria-selected="false">Insertion des équipements</a>
-    <a class="nav-item nav-link" id="nav-list-tab" data-toggle="tab" href="#nav-list" role="tab" aria-controls="nav-list" aria-selected="false">Liste des équipements</a>
+    <a class="nav-item nav-link active" id="nav-listType-tab" data-toggle="tab" href="#nav-listType" role="tab"
+       aria-controls="nav-listType" aria-selected="true">Type des équipements</a>
+    <a class="nav-item nav-link " id="nav-insert-tab" data-toggle="tab" href="#nav-insert" role="tab"
+       aria-controls="nav-insert" aria-selected="false">Insertion des équipements</a>
+    <a class="nav-item nav-link" id="nav-list-tab" data-toggle="tab" href="#nav-list" role="tab"
+       aria-controls="nav-list" aria-selected="false">Liste des équipements</a>
   </div>
 </nav>
-<div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-listType" role="tabpanel" aria-labelledby="nav-listType-tab"><app-gestion-equipment-type></app-gestion-equipment-type></div>
-  <div class="tab-pane fade " id="nav-insert" role="tabpanel" aria-labelledby="nav-insert-tab"><app-gestion-equipment-create></app-gestion-equipment-create></div>
-  <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab"><app-gestion-equipment-list></app-gestion-equipment-list></div>
-
+<div *ngIf="isTechOrAdmin" class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-listType" role="tabpanel" aria-labelledby="nav-listType-tab">
+    <app-gestion-equipment-type></app-gestion-equipment-type>
+  </div>
+  <div class="tab-pane fade " id="nav-insert" role="tabpanel" aria-labelledby="nav-insert-tab">
+    <app-gestion-equipment-create></app-gestion-equipment-create>
+  </div>
+  <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+    <app-gestion-equipment-list></app-gestion-equipment-list>
+  </div>
 </div>

@@ -8,6 +8,7 @@ import {SwalUtil} from '../../util/swal-util';
 import {downloadfile} from '../../util/downloadfile-util';
 import {MonthUtil} from '../../util/month-util';
 import {UrlsUtil} from '../../util/urls-util';
+import {__await} from "tslib";
 
 @Injectable({
   providedIn: 'root'
@@ -135,7 +136,8 @@ export class WorkService {
         headers: headers
       };
       // @ts-ignore
-      return this.http.get(this._url + 'generatedoc/year/' + fullYear + '/month/' + (month + 1) + '/type/' + type, httpOptions).subscribe((result) => {
+      return this.http.get(this._url + 'generatedoc/year/' + fullYear + '/month/' + (month + 1) + '/type/' + type, httpOptions).subscribe(async (result) => {
+        await SwalUtil.loadAndWait();
         downloadfile(result, applicationType, 'etat_elements' + MonthUtil.getMonth(month) + fullYear + '.' + type);
       });
     }
@@ -161,7 +163,8 @@ export class WorkService {
       headers: headers
     };
     // @ts-ignore
-    return this.http.get(this._url + 'printgraph/matricule/' + matricule + '/year/' + fullyear, httpOptions).subscribe((result) => {
+    return this.http.get(this._url + 'printgraph/matricule/' + matricule + '/year/' + fullyear, httpOptions).subscribe(async (result) => {
+      await SwalUtil.loadAndWait();
       downloadfile(result, applicationType, 'Graphe-' + matricule + '-' + fullyear + '.' + 'pdf');
     });
   }

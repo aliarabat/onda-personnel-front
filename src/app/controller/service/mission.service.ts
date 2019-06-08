@@ -252,7 +252,7 @@ export class MissionService {
               this.findAlldayDetails();
               this.deleteAllDayDetailsWhereIsNull();
               //SwalUtil.deleted('la Mission', 'Suppression du service réussite');
-              SwalUtil.topEndSavedSuccessfully();
+              SwalUtil.topEndSuccessfully('Suppression');
             } else {
               SwalUtil.any('Erreur!', 'Suppression du service échouée:Erreur Inconnue!');
             }

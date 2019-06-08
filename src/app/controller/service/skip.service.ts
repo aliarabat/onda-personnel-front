@@ -126,7 +126,7 @@ export class SkipService {
         this.http.delete(this._url_dayDetail + 'id/' + id).subscribe(
           () => {
             this.findAllSkips();
-            SwalUtil.topEndSavedSuccessfully();
+            SwalUtil.topEndSuccessfully('Suppression');
           }, error1 => {
             console.log(error1);
           }

@@ -139,7 +139,7 @@ export class DetailServiceService {
   deleteDetail(wording: string) {
     this.http.delete(this._url + 'wording/' + wording).subscribe(data => {
         this.findAllDetails();
-        SwalUtil.topEndSavedSuccessfully();
+        SwalUtil.topEndSuccessfully('Suppression');
       }, error1 => {
         console.log(error1);
       }

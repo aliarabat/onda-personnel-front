@@ -7,6 +7,7 @@ import {MissionVo} from '../../../controller/model/mission.model';
 import {ReplacementService} from '../../../controller/service/replacement.service';
 import {MiddleWare} from '../../../util/middle-ware';
 import {Router} from '@angular/router';
+import {DateUtil} from "../../../util/date-util";
 
 @Component({
   selector: 'app-mission-list',
@@ -80,6 +81,10 @@ export class MissionListComponent implements OnInit {
 
   getEmployeeByMatricule() {
     this.missionService.findEmployesByMatricule(this.missionService.theDayDetail.missionVo.employee.matricule);
+  }
+
+  formatDate(date:string){
+    return DateUtil.formatDate(date).toLocaleDateString();
   }
 
 }

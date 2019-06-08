@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {VacationService} from '../../../controller/service/vacation.service';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import {DateUtil} from "../../../util/date-util";
 
 @Component({
   selector: 'app-vacation-list',
@@ -44,5 +45,9 @@ export class VacationListComponent implements OnInit {
 
   public findVacationById(id: number) {
     this.vacationService.findVacationById(id);
+  }
+
+  formatDate(date:string){
+    return DateUtil.formatDate(date).toLocaleDateString();
   }
 }

@@ -3,7 +3,6 @@ import {EmployeeVo} from '../model/employee.model';
 import {HttpClient} from '@angular/common/http';
 import {SwalUtil} from '../../util/swal-util';
 import {UrlsUtil} from '../../util/urls-util';
-import {HolidayVo} from "../model/holiday.model";
 
 @Injectable({
   providedIn: 'root'
@@ -100,7 +99,7 @@ export class EmployeeServiceService {
       if (result.value) {
         this._http.delete(this._url + 'matricule/' + matricule).subscribe(data => {
             this.findAllEmployesExist();
-            SwalUtil.topEndSavedSuccessfully();
+            SwalUtil.topEndSuccessfully('Suppression');
           }, error1 => {
             console.log(error1);
           }

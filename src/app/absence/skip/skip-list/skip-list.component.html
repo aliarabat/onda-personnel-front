@@ -13,7 +13,7 @@
     <tr *ngFor="let dd of dayDetails">
       <td>{{dd.skipVo.employeeVo.lastName}} {{dd.skipVo.employeeVo.firstName}}</td>
       <td>{{dd.skipVo.type}}</td>
-      <td>{{dd.skipVo.skipDate}}</td>
+      <td>{{formatDate(dd.skipVo.skipDate)}}</td>
       <td>{{dd.skipVo.detailVo.wording}}</td>
       <td class="float-right">
         <button class="btn btn-outline-info mr-2" id="skipBtn" data-toggle="modal" (click)="findDayDetailById(dd.id)"

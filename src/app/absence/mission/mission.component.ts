@@ -10,12 +10,14 @@ import {GrantedAccess} from "../../util/granted-access";
 })
 export class MissionComponent implements OnInit {
 
-  constructor(private router:Router) {
+  private isRespoOrAdmin: boolean = false;
+
+  constructor(private router: Router) {
   }
 
   async ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    await GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router);
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router))
+      this.isRespoOrAdmin = true;
   }
 
 }

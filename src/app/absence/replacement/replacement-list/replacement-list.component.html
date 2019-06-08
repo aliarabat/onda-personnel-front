@@ -15,7 +15,7 @@
       <td>{{dayDetail.replacementVo.reference}}</td>
       <td>{{dayDetail.replacementVo.originalEmployee.firstName}} {{dayDetail.replacementVo.originalEmployee.lastName}}</td>
       <td>{{dayDetail.replacementVo.replacedEmployee.firstName}} {{dayDetail.replacementVo.replacedEmployee.lastName}}</td>
-      <td>{{dayDetail.replacementVo.replacementDate}}</td>
+      <td>{{formatDate(dayDetail.replacementVo.replacementDate)}}</td>
       <td>{{dayDetail.replacementVo.detailVo.wording}}</td>
       <td>
         <button class="btn btn-outline-danger" (click)="deleteReplacement(dayDetail)"><i class="fa fa-trash" aria-hidden="true"></i>

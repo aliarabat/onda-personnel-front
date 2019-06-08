@@ -16,7 +16,7 @@
       <td >{{dayDetail.missionVo.reference}}</td>
       <td >{{dayDetail.missionVo.employee.firstName}} {{dayDetail.missionVo.employee.lastName}}</td>
       <td >{{dayDetail.missionVo.type}}</td>
-      <td >{{dayDetail.missionVo.startingDate}}</td>
+      <td >{{formatDate(dayDetail.missionVo.startingDate)}}</td>
       <td >[{{dayDetail.missionVo.startingTimeVo.hour}}:{{dayDetail.missionVo.startingTimeVo.minute}}-{{dayDetail.missionVo.endingTimeVo.hour}}:{{dayDetail.missionVo.endingTimeVo.minute}}]</td>
       <td class="float-right">
         <button type="button" id="btnMission" (click)="findDayDetailById(dayDetail.id)"  class="btn btn-outline-info ml-sm-1" data-toggle="modal" data-target="#missionModal" data-whatever="@fat"><i class="fa fa-pencil" aria-hidden="true"></i>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EmployeeServiceService} from '../../../controller/service/employee-service.service';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
@@ -10,36 +10,37 @@ import {MiddleWare} from '../../../util/middle-ware';
 })
 export class GestionEmployeesCreateComponent implements OnInit {
 
-  constructor(private employeeService : EmployeeServiceService, private router:Router) { }
+  constructor(private employeeService: EmployeeServiceService, private router: Router) {
+  }
 
   ngOnInit() {
     MiddleWare.checkIfUserIsLogged(this.router);
   }
 
-  public get employee(){
+  public get employee() {
     return this.employeeService.employeeCreate;
   }
 
-  public  get employees(){
+  public get employees() {
     return this.employeeService.employees;
   }
 
-  public addEmployee(){
+  public addEmployee() {
     this.employeeService.addEmployee();
   }
 
-  public renitialiser(){
+  public renitialiser() {
     this.employeeService.reinitialiser();
   }
 
-  public saveEmployee(){
+  public saveEmployee() {
     this.employeeService.saveEmployee();
   }
 
-  deleteRow(matricule){
-    for(let i = 0; i < this.employeeService.employees.length; ++i){
+  deleteRow(matricule) {
+    for (let i = 0; i < this.employeeService.employees.length; ++i) {
       if (this.employeeService.employees[i].matricule === matricule) {
-        this.employeeService.employees.splice(i,1);
+        this.employeeService.employees.splice(i, 1);
       }
     }
   }
