@@ -42,20 +42,16 @@ export class GestionServiceListComponent implements OnInit {
 
   findWorkByYear() {
     if (this.dateByYear.year === undefined || this.dateByYear.year === null) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...!',
-        text: 'Merci de saisir l\'année'
-      });
+      SwalUtil.insert('l\'année');
     } else {
       if ($('#employeeDiv').is(':visible') || $('#monthDiv').is(':visible')) {
         if ($('#employeeDiv').is(':visible')) {
           if (this.employee.matricule === undefined || this.employee.matricule === '') {
-            SwalUtil.insert("l'employé");
+            SwalUtil.select("l'employé");
           } else {
             if ($('#monthDiv').is(':visible')) {
               if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
-                SwalUtil.insert("le mois");
+                SwalUtil.select("le mois");
               } else {
                 this.workService.findWorkByEmployeeAndMonthAndYear(this.employee.matricule);
               }
@@ -67,7 +63,7 @@ export class GestionServiceListComponent implements OnInit {
         }
         if ($('#monthDiv').is(':visible')) {
           if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
-            SwalUtil.insert("le mois");
+            SwalUtil.select("le mois");
           } else {
             this.workService.findWorksByMonth();
           }

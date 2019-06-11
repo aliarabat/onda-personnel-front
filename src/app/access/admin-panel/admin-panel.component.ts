@@ -10,12 +10,14 @@ import {GrantedAccess} from "../../util/granted-access";
 })
 export class AdminPanelComponent implements OnInit {
 
+  isAdmin: boolean = false;
+
   constructor(private router: Router) {
   }
 
   async ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    await GrantedAccess.checkIfUserIsAdmin(this.router);
+    if(MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router))
+      this.isAdmin=true;
   }
 
 }

@@ -1,54 +1,37 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th >Employe associe</th>
-    <th >Date debut</th>
-    <th >Date fin</th>
-    <th >Type du conge</th>
+    <th>Employe associe</th>
+    <th>Date debut</th>
+    <th>Date fin</th>
+    <th>Type du conge</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let v of vacations">
     <td>{{v.employeeVo.lastName}} {{v.employeeVo.firstName}}</td>
-    <td>{{v.startingDate}}</td>
-    <td>{{v.endingDate}}</td>
+    <td>{{formatDate(v.startingDate)}}</td>
+    <td>{{formatDate(v.startingDate)}}</td>
     <td>{{v.type}}</td>
     <td class="float-right">
-      <button class="btn btn-outline-info mr-2"   data-toggle="modal" (click)="findVacationById(v.id)" data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-pencil" aria-hidden="true"></i>
+      <button class="btn btn-outline-info mr-2" data-toggle="modal" (click)="findVacationById(v.id)"
+              data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-pencil" aria-hidden="true"></i>
       </button>
-      <button class="btn btn-outline-danger"   data-toggle="modal" (click)="ShowDetailInfo(v)" data-target="#exampleModal2"><i class="fa fa-trash" aria-hidden="true"></i></button>
+      <button class="btn btn-outline-danger" data-toggle="modal" (click)="deleteVacation(v.id)"
+              data-target="#exampleModal2"><i class="fa fa-trash" aria-hidden="true"></i></button>
     </td>
   </tr>
   </tbody>
 </table>
 
-
-<div class="modal fade" id="exampleModal2" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class=" modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> Voulez vous vraiment supprimer le conge de
-          <i>{{(!!vacationInfo ?vacationInfo.employeeVo.lastName:null) +" " +(!!vacationInfo ?vacationInfo.employeeVo.firstName:null) }}</i></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" (click)="deleteVacation()" data-dismiss="modal">supprimer</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div class=" modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modification de :  <i>{{(!!newVacation ?newVacation.employeeVo.lastName:null) +" " +(!!newVacation ?newVacation.employeeVo.firstName:null) }}</i></h5>
+        <h5 class="modal-title" id="exampleModalLabel">Modification de :
+          <i>{{(!!newVacation ? newVacation.employeeVo.lastName : null) + " " + (!!newVacation ? newVacation.employeeVo.firstName : null) }}</i>
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -102,7 +85,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit"   class="btn btn-outline-success" data-dismiss="modal" (click)="updateVacation()">Modifier</button>
+        <button type="submit" class="btn btn-outline-success" data-dismiss="modal" (click)="updateVacation()">Modifier
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

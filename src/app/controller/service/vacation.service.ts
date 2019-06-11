@@ -34,11 +34,13 @@ export class VacationService {
       SwalUtil.insert('la date fin!');
     } else if (this.vacationCreate.type == '' || this.vacationCreate.type == undefined) {
       SwalUtil.select('le type de congé!');
+    } else if (new Date(this.vacationCreate.startingDate) > new Date(this.vacationCreate.endingDate)) {
+      SwalUtil.select('des dates valides');
     } else {
       SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
         if (result.value) {
           this._http.post(this._url + 'matricule/' + parseInt(this._employee.matricule), this._vacationCreate).subscribe(
-            data => {
+            () => {
               this._vacationCreate = new VacationVo();
               this.findAllEmployees();
               this.findAllVacations();
@@ -73,20 +75,24 @@ export class VacationService {
   }
 
   deleteVaction(id: number) {
-    this.http.delete(this.urlVac + '/id/' + id).subscribe(
-      data => {
-        this.findAllVacations();
-        SwalUtil.topEndSavedSuccessfully();
-      }, error1 => {
-        console.log(error1);
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
+      if (result.value) {
+        this.http.delete(this.urlVac + '/id/' + id).subscribe(
+          () => {
+            this.findAllVacations();
+            SwalUtil.topEndSuccessfully('Suppression');
+          }, error1 => {
+            console.log(error1);
+          }
+        );
       }
-    );
+    });
   }
 
   updateEmployee(newVacation: VacationVo, matricule: string) {
     this._http.put(this._url + 'matricule/' + matricule, newVacation).subscribe(data => {
         this.findAllVacations();
-        SwalUtil.topEndSavedSuccessfully();
+        SwalUtil.topEndSuccessfully('Mise à jour succés');
       }, error1 => {
         console.log(error1);
       }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../util/middle-ware';
 import {GrantedAccess} from "../../util/granted-access";
@@ -9,12 +9,14 @@ import {GrantedAccess} from "../../util/granted-access";
   styleUrls: ['./gestion-timings.component.css']
 })
 export class GestionTimingsComponent implements OnInit {
+  private isAdmin: boolean = false;
 
-  constructor(private router:Router) { }
+  constructor(private router: Router) {
+  }
 
   async ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    await GrantedAccess.checkIfUserIsAdmin(this.router);
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router))
+      this.isAdmin = true;
   }
 
 }

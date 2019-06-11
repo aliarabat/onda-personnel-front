@@ -27,6 +27,8 @@ export class HolidayService {
       SwalUtil.insert('la date début');
     } else if (this._holidayCreate.endingDate === '') {
       SwalUtil.insert('la date fin');
+    } else if (new Date(this._holidayCreate.startingDate)>new Date(this._holidayCreate.endingDate)) {
+      SwalUtil.select("des dates valides");
     } else {
       if (this._holidaysVo.findIndex(hVo => hVo.reference === this._holidayCreate.reference) !== -1 || this._holidaysList.findIndex(hVo => hVo.reference === this._holidayCreate.reference) !== -1) {
         SwalUtil.alreadyExist('Ce référence');
@@ -86,7 +88,7 @@ export class HolidayService {
               $('#updateHolidayModal').modal('hide');
               this.findAll();
               this._holidayVoToUpdate = new HolidayVo(0, '', '', '');
-              SwalUtil.topEndSavedSuccessfully();
+              SwalUtil.topEndSuccessfully('Mise à jour');
             }
           }, error => {
             console.log(error);

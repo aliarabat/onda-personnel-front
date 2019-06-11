@@ -95,14 +95,17 @@ export class EmployeeServiceService {
   }
 
   deleteEmployee(matricule: string) {
-    this._http.delete(this._url + 'matricule/' + parseInt(matricule)).subscribe(data => {
-        this.findAllEmployesExist();
-        SwalUtil.topEndSavedSuccessfully();
-      }, error1 => {
-        console.log(error1);
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
+      if (result.value) {
+        this._http.delete(this._url + 'matricule/' + matricule).subscribe(data => {
+            this.findAllEmployesExist();
+            SwalUtil.topEndSuccessfully('Suppression');
+          }, error1 => {
+            console.log(error1);
+          }
+        );
       }
-    );
-
+    });
   }
 
   revert(matricule: string) {

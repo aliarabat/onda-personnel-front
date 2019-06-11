@@ -1,8 +1,6 @@
 import Swal from 'sweetalert2';
-import {Observable} from "rxjs";
 
 export class SwalUtil {
-
 
   public static wrongEmailOrPassword() {
     Swal.fire({
@@ -247,7 +245,7 @@ export class SwalUtil {
     });
   }
 
-  public static topEndSavedSuccessfully() {
+  public static topEndSuccessfully(actionName:string) {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -256,7 +254,16 @@ export class SwalUtil {
     });
     Toast.fire({
       type: 'success',
-      title: 'Supression avec succés'
+      title: actionName+' succés'
+    })
+  }
+
+  public static async loadAndWait(){
+    await Swal.fire({
+      timer: 1500,
+      onOpen: function () {
+        Swal.showLoading()
+      }
     })
   }
 }

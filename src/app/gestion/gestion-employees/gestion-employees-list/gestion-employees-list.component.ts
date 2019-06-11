@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EmployeeServiceService} from '../../../controller/service/employee-service.service';
 import {EmployeeVo} from '../../../controller/model/employee.model';
 import * as $ from 'jquery';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+
 @Component({
   selector: 'app-gestion-employees-list',
   templateUrl: './gestion-employees-list.component.html',
@@ -11,60 +12,51 @@ import {MiddleWare} from '../../../util/middle-ware';
 })
 export class GestionEmployeesListComponent implements OnInit {
 
-  constructor(private  employeeService : EmployeeServiceService, private router:Router) { }
+  constructor(private  employeeService: EmployeeServiceService, private router: Router) {
+  }
 
-  public employeeInfo : EmployeeVo = new EmployeeVo() ;
+  public employeeInfo: EmployeeVo = new EmployeeVo();
 
   ngOnInit() {
-    if(MiddleWare.checkIfUserIsLogged(this.router))
+    if (MiddleWare.checkIfUserIsLogged(this.router))
       this.employeeService.findAllEmployesExist();
   }
 
-  public  get employeesSearch(){
+  public get employeesSearch() {
     return this.employeeService.employeeSearch;
   }
 
-
-  public deleteEmployee(){
-    this.employeeService.deleteEmployee(this.employeeInfo.matricule)
+  public deleteEmployee(matricule: string) {
+    this.employeeService.deleteEmployee(matricule);
   }
 
-  public ShowEmployeeInfo(employee) {
-    this.employeeInfo = employee;
-  }
-public Revert(matricule:string){
+  public Revert(matricule: string) {
     this.employeeService.revert(matricule)
 
-}
-  public updateEmployee(){
+  }
+
+  public updateEmployee() {
     this.employeeService.updateEmployee(this.newEmpl)
   }
 
-  public get newEmployee(){
-    return this.employeeInfo;
-  }
   selectPerEmployee() {
-    if ($("#inlineCheckboxperyear2").is (':checked')) {
+    if ($("#inlineCheckboxperyear2").is(':checked')) {
       this.employeeService.findAllEmployeNotExist();
-    } else{
+    } else {
       this.employeeService.findAllEmployesExist();
 
     }
   }
 
-  public get newEmpl(){
+  public get newEmpl() {
     return this.employeeService.newEmployee
   }
 
-  get employeeSearch(){
-    return this.employeeService.employerSearch;
-  }
-
-  public findEmployeeById(id:number){
+  public findEmployeeById(id: number) {
     this.employeeService.findEmployeeyId(id);
   }
 
-  employeeSearchChange(value : string) {
+  employeeSearchChange(value: string) {
     this.employeeService.employeeSearchChange(value);
   }
 }

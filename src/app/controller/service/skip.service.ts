@@ -120,14 +120,19 @@ export class SkipService {
   }
 
   deleteSkip(id: number) {
-    this.http.delete(this._url_dayDetail + 'id/' + id).subscribe(
-      data => {
-        this.findAllSkips();
-        SwalUtil.topEndSavedSuccessfully();
-      }, error1 => {
-        console.log(error1);
+    console.log(id);
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
+      if (result.value) {
+        this.http.delete(this._url_dayDetail + 'id/' + id).subscribe(
+          () => {
+            this.findAllSkips();
+            SwalUtil.topEndSuccessfully('Suppression');
+          }, error1 => {
+            console.log(error1);
+          }
+        );
       }
-    );
+    });
   }
 
   findDayDetailById(id: number) {

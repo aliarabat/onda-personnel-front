@@ -75,7 +75,7 @@ export class InterventionDayService {
   }
 
   public getReparationDuration() {
-    this.http.get<TimingVo>(this._url + 'call/' + this.interventionCreate.callIntervention + '/startOrAnd/' + this.interventionCreate.interventionStart).subscribe(
+    this.http.get<TimingVo>(this._url + 'call/' + this.interventionCreate.interventionStart + '/startOrAnd/' + this.interventionCreate.interventionEnd).subscribe(
       data => {
         this.reparationDuration = data;
       }, error1 => {
@@ -117,6 +117,7 @@ export class InterventionDayService {
               this.reparationDuration = new TimingVo('0', '0');
               this.equipement = new EquipementVo();
               this.selectedType = new TypeVo();
+              SwalUtil.savedSuccessfully('Sauvegarde');
             }, error1 => {
               console.log(error1);
             }

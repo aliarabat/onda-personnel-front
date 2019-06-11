@@ -34,8 +34,8 @@ export class ServicesMonthlyPrintComponent implements OnInit {
     return new Date(workDetailDate);
   }
 
-  print(fullYear: number, month: number) {
-    this.workService.print(fullYear, month);
+  async print(fullYear: number, month: number) {
+    await this.workService.print(fullYear, month);
   }
 
   months() {

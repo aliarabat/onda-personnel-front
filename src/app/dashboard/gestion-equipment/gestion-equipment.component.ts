@@ -10,13 +10,14 @@ import {GrantedAccess} from "../../util/granted-access";
 })
 export class GestionEquipmentComponent implements OnInit {
 
+  private isTechOrAdmin: boolean = false;
+
   constructor(private router: Router) {
   }
 
   async ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    await GrantedAccess.checkIfUserIsAdmin(this.router);
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsTechniqueOrAdmin(this.router))
+      this.isTechOrAdmin = true;
   }
-
 
 }

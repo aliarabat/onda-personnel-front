@@ -316,9 +316,9 @@ export class SidebarComponent implements OnInit {
 
   isAllowed(){
     let route = location.pathname;
-    if (route === '/login' || route === '/acceuil' || route.containes('/login/reinitialisation-de-mot-de-passe/changement-de-mot-de-passe/')) {
+    if (route.includes('/login') || route === '/acceuil') {
       return true;
     }
-    else return false;
+    return false;
   }
 }

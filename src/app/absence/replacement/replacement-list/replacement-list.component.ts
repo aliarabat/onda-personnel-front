@@ -5,6 +5,7 @@ import {MissionService} from '../../../controller/service/mission.service';
 import {DayDetailVo} from '../../../controller/model/day-detail.model';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import {DateUtil} from "../../../util/date-util";
 
 @Component({
   selector: 'app-replacement-list',
@@ -27,6 +28,10 @@ export class ReplacementListComponent implements OnInit {
 
   deleteReplacement(dayDetail: DayDetailVo) {
     return this.remplacementService.deleteReplacement(dayDetail);
+  }
+
+  formatDate(date:string){
+    return DateUtil.formatDate(date).toLocaleDateString();
   }
 
 }
