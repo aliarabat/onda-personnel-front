@@ -37,6 +37,7 @@ export class PasswordChangeComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(location.pathname)
   }
 
   passwordRecoverValidate() {
