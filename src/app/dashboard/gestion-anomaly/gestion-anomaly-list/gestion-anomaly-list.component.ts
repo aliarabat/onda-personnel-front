@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import {DateUtil} from '../../../util/date-util';
 import {MiddleWare} from "../../../util/middle-ware";
 import {Router} from "@angular/router";
+import { SwalUtil } from '../../../util/swal-util';
 
 @Component({
   selector: 'app-gestion-anomaly-list',
@@ -25,8 +26,9 @@ export class GestionAnomalyListComponent implements OnInit {
   public equipement: EquipementVo = new EquipementVo(0, '', new TimingVo(), new TypeVo());
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router))
+    if (MiddleWare.checkIfUserIsLogged(this.router)) {
       this.equipementService.findAllEquipements();
+    }
   }
 
   public get allEquipements() {
@@ -60,19 +62,11 @@ export class GestionAnomalyListComponent implements OnInit {
       if ($('#equipementDiv').is(':visible') || $('#monthIntervDiv').is(':visible')) {
         if ($('#equipementDiv').is(':visible')) {
           if (this.equipement.name === undefined || this.equipement.name === '') {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...!',
-              text: 'Merci de choisir l\'équipement'
-            });
+            SwalUtil.select('l\'équipement');
           } else {
             if ($('#monthIntervDiv').is(':visible')) {
               if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops...!',
-                  text: 'Merci de saisir le mois'
-                });
+                SwalUtil.select('le mois');
               } else {
                 this.interventionMonthService.findInterventionMonthByEquipementAndMonthAndYear(this.equipement.name);
               }
@@ -84,11 +78,7 @@ export class GestionAnomalyListComponent implements OnInit {
         }
         if ($('#monthIntervDiv').is(':visible')) {
           if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...!',
-              text: 'Merci de saisir le mois'
-            });
+            SwalUtil.select('le mois');
           } else {
             this.interventionMonthService.findInterventionMonthByMonth();
           }

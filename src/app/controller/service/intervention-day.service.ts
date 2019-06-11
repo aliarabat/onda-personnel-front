@@ -75,7 +75,7 @@ export class InterventionDayService {
   }
 
   public getReparationDuration() {
-    this.http.get<TimingVo>(this._url + 'call/' + this.interventionCreate.callIntervention + '/startOrAnd/' + this.interventionCreate.interventionStart).subscribe(
+    this.http.get<TimingVo>(this._url + 'call/' + this.interventionCreate.interventionStart + '/startOrAnd/' + this.interventionCreate.interventionEnd).subscribe(
       data => {
         this.reparationDuration = data;
       }, error1 => {

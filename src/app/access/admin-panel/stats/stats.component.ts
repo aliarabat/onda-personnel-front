@@ -74,9 +74,9 @@ export class StatsComponent implements OnInit {
     dataSkip.label = 'Absence';
     dataMission.label = 'Mission';
 
-    this.workService.searchEmployeeSats().toPromise().then(list => {
+    this.workService.searchEmployeeSats().subscribe(async list => {
       list.reverse();
-      list.forEach(item => {
+      await list.forEach(item => {
         labels.push(MonthUtil.getMonth(DateUtil.formatDate(item.workDetailVo.workDetailDate).getMonth()));
         dataVacation.data.push(item.workDetailVo.vacationNumber);
         dataReplacement.data.push(item.workDetailVo.replacementNumber);
@@ -87,7 +87,7 @@ export class StatsComponent implements OnInit {
     });
 
     let ctx = document.getElementById('mainSource');
-    await doubleChart(ctx, labels, dataSets, 'Gestion des services');
+    doubleChart(ctx, labels, dataSets, 'Gestion des services');
 
   }
 
