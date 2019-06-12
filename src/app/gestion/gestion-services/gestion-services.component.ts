@@ -10,7 +10,7 @@ import {GrantedAccess} from "../../util/granted-access";
 })
 export class GestionServicesComponent implements OnInit {
 
-  private isRespoOrAdmin: boolean = false;
+  public isRespoOrAdmin: boolean = false;
 
   constructor(private router: Router) {
   }

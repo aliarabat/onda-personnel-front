@@ -10,7 +10,7 @@ import {GrantedAccess} from "../../util/granted-access";
 })
 export class GestionEquipmentComponent implements OnInit {
 
-  private isTechOrAdmin: boolean = false;
+  public isTechOrAdmin: boolean = false;
 
   constructor(private router: Router) {
   }

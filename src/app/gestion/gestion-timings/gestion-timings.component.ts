@@ -9,7 +9,7 @@ import {GrantedAccess} from "../../util/granted-access";
   styleUrls: ['./gestion-timings.component.css']
 })
 export class GestionTimingsComponent implements OnInit {
-  private isAdmin: boolean = false;
+  public  isAdmin: boolean = false;
 
   constructor(private router: Router) {
   }

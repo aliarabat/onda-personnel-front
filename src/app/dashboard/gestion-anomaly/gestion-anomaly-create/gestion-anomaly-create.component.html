@@ -143,7 +143,7 @@
         <div class="input-group-prepend">
           <div class="input-group-text">Duree d'arrêt</div>
         </div>
-        <input type="text" class="form-control" id="smA" [(ngModel)]="breakDuration"
+        <input type="text" class="form-control" id="smA" [value]="breakDuration"
                name="smA" placeholder="0" disabled>
       </div>
     </div>
@@ -154,7 +154,7 @@
         <div class="input-group-prepend">
           <div class="input-group-text">Duree de réparation</div>
         </div>
-        <input type="text" class="form-control" id="smR" [(ngModel)]="reparationDuration"
+        <input type="text" class="form-control" id="smR" [value]="reparationDuration"
                name="smR" placeholder="0" disabled>
       </div>
     </div>
@@ -165,7 +165,7 @@
         <div class="input-group-prepend">
           <div class="input-group-text">Nbre d'arrêts</div>
         </div>
-        <input type="text" class="form-control" [(ngModel)]="breakNumberTotal" id="nbrArr" name="nbrArr" placeholder="0"
+        <input type="text" class="form-control" [value]="breakNumberTotal" id="nbrArr" name="nbrArr" placeholder="0"
                disabled>
       </div>
     </div>

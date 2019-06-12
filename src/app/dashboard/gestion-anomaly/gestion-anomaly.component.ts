@@ -9,7 +9,7 @@ import {GrantedAccess} from "../../util/granted-access";
   styleUrls: ['./gestion-anomaly.component.css']
 })
 export class GestionAnomalyComponent implements OnInit {
-  private isTechOrAdmin: boolean = false;
+  public isTechOrAdmin: boolean = false;
 
   constructor(private router: Router) {
   }
