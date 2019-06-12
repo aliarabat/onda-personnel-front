@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {MiddleWare} from "../../../util/middle-ware";
-import {Router} from "@angular/router";
+import {MiddleWare} from '../../../util/middle-ware';
+import {Router} from '@angular/router';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-services-print',
@@ -9,11 +10,12 @@ import {Router} from "@angular/router";
 })
 export class GestionServicesPrintComponent implements OnInit {
 
-  constructor(private router:Router) {
+  constructor(private router:  Router) {
   }
 
-  ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router)
+  async ngOnInit() {
+    await MiddleWare.checkIfUserIsLogged(this.router);
+    await GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router);
   }
 
 

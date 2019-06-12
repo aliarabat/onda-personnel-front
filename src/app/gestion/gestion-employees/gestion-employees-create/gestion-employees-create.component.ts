@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EmployeeServiceService} from '../../../controller/service/employee-service.service';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-employees-create',
@@ -13,8 +14,9 @@ export class GestionEmployeesCreateComponent implements OnInit {
   constructor(private employeeService: EmployeeServiceService, private router: Router) {
   }
 
-  ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
+  async ngOnInit() {
+    await MiddleWare.checkIfUserIsLogged(this.router);
+    await GrantedAccess.checkIfUserIsAdmin(this.router);
   }
 
   public get employee() {

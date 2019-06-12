@@ -3,6 +3,7 @@ import {VacationService} from '../../../controller/service/vacation.service';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
 import {DateUtil} from "../../../util/date-util";
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-vacation-list',
@@ -15,8 +16,9 @@ export class VacationListComponent implements OnInit {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.vacationService.findAllVacations();
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router)) {
+      this.vacationService.findAllVacations();
+    }
   }
 
   public get vacations() {

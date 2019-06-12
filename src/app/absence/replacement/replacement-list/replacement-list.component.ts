@@ -5,7 +5,8 @@ import {MissionService} from '../../../controller/service/mission.service';
 import {DayDetailVo} from '../../../controller/model/day-detail.model';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
-import {DateUtil} from "../../../util/date-util";
+import {DateUtil} from '../../../util/date-util';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-replacement-list',
@@ -18,8 +19,9 @@ export class ReplacementListComponent implements OnInit {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.remplacementService.findAlldayDetailsReplacement();
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router)) {
+      this.remplacementService.findAlldayDetailsReplacement();
+    }
   }
 
   public get listDayDetailsReplacement() {
@@ -30,7 +32,7 @@ export class ReplacementListComponent implements OnInit {
     return this.remplacementService.deleteReplacement(dayDetail);
   }
 
-  formatDate(date:string){
+  formatDate(date: string) {
     return DateUtil.formatDate(date).toLocaleDateString();
   }
 

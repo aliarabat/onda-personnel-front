@@ -9,7 +9,7 @@ import {MiddleWare} from '../util/middle-ware';
 })
 export class GestionComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     MiddleWare.checkIfUserIsLogged(this.router);

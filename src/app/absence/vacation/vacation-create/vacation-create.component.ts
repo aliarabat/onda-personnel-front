@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {EmployeeVo} from '../../../controller/model/employee.model';
 import {VacationService} from '../../../controller/service/vacation.service';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-vacation-create',
@@ -15,12 +15,13 @@ export class VacationCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router)) {
     this.vacationService.findAllEmployees();
+    }
   }
 
   public get vacation() {
-    return this.vacationService.vacationCreate
+    return this.vacationService.vacationCreate;
   }
 
   public saveVacation() {

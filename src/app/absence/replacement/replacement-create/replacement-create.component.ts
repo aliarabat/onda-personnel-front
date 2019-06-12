@@ -5,6 +5,7 @@ import {MissionService} from '../../../controller/service/mission.service';
 import {SkipService} from '../../../controller/service/skip.service';
 import {MiddleWare} from '../../../util/middle-ware';
 import {Router} from '@angular/router';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-replacement-create',
@@ -19,11 +20,11 @@ export class ReplacementCreateComponent implements OnInit {
     return this.skipService.details;
   }
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.dayService.findAllTechEmployees();
-    this.remplacementService.deleteAllDayDetailsWhereIsNull();
-    this.skipService.findAllDetails();
-
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router)) {
+      this.dayService.findAllTechEmployees();
+      this.remplacementService.deleteAllDayDetailsWhereIsNull();
+      this.skipService.findAllDetails();
+    }
   }
   public get employeeVo(){
     return this.dayService.employeeVo;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {MiddleWare} from "../util/middle-ware";
-import {Router} from "@angular/router";
+import {MiddleWare} from '../util/middle-ware';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,10 +9,10 @@ import {Router} from "@angular/router";
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router: Router) { }
 
-  ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
+  async ngOnInit() {
+    await MiddleWare.checkIfUserIsLogged(this.router);
   }
 
 }

@@ -9,7 +9,8 @@ import {MonthUtil} from '../../../util/month-util';
 import {DateUtil} from '../../../util/date-util';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
-import {SwalUtil} from "../../../util/swal-util";
+import {SwalUtil} from '../../../util/swal-util';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-services-list',
@@ -19,16 +20,17 @@ import {SwalUtil} from "../../../util/swal-util";
 
 export class GestionServiceListComponent implements OnInit {
   public selectedDaysFormModal: Array<DayVo> = [];
-  public hiddenStateMonth: boolean = true;
+  public hiddenStateMonth = true;
 
   constructor(public workService: WorkService, public dayService: DayServiceService, public router: Router) {
   }
 
-  public hiddenState: boolean = true;
+  public hiddenState = true;
   public employee: EmployeeVo = new EmployeeVo(0, '');
 
-  ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router)
+  async ngOnInit() {
+    await MiddleWare.checkIfUserIsLogged(this.router);
+    await GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router);
   }
 
 
@@ -47,11 +49,11 @@ export class GestionServiceListComponent implements OnInit {
       if ($('#employeeDiv').is(':visible') || $('#monthDiv').is(':visible')) {
         if ($('#employeeDiv').is(':visible')) {
           if (this.employee.matricule === undefined || this.employee.matricule === '') {
-            SwalUtil.select("l'employé");
+            SwalUtil.select('l\'employé');
           } else {
             if ($('#monthDiv').is(':visible')) {
               if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
-                SwalUtil.select("le mois");
+                SwalUtil.select('le mois');
               } else {
                 this.workService.findWorkByEmployeeAndMonthAndYear(this.employee.matricule);
               }
@@ -63,7 +65,7 @@ export class GestionServiceListComponent implements OnInit {
         }
         if ($('#monthDiv').is(':visible')) {
           if (this.dateByYear.month === undefined || this.dateByYear.month === null) {
-            SwalUtil.select("le mois");
+            SwalUtil.select('le mois');
           } else {
             this.workService.findWorksByMonth();
           }

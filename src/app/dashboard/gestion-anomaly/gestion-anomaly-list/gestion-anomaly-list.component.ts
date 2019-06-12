@@ -7,11 +7,12 @@ import {InterventionMonthService} from '../../../controller/service/intervention
 import {EquipementVo} from '../../../controller/model/equipement';
 import {TimingVo} from '../../../controller/model/timing.model';
 import {TypeVo} from '../../../controller/model/type';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import {DateUtil} from '../../../util/date-util';
-import {MiddleWare} from "../../../util/middle-ware";
-import {Router} from "@angular/router";
+import {MiddleWare} from '../../../util/middle-ware';
+import {Router} from '@angular/router';
 import { SwalUtil } from '../../../util/swal-util';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-anomaly-list',
@@ -26,7 +27,7 @@ export class GestionAnomalyListComponent implements OnInit {
   public equipement: EquipementVo = new EquipementVo(0, '', new TimingVo(), new TypeVo());
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router)) {
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsTechniqueOrAdmin(this.router)) {
       this.equipementService.findAllEquipements();
     }
   }
@@ -43,11 +44,11 @@ export class GestionAnomalyListComponent implements OnInit {
   public hiddenStateEquipement: boolean = true;
 
   selectPerYearIntervention() {
-    this.hiddenStateEquipement = !$("#inlineCheckboxperyearIntervention").is(':checked');
+    this.hiddenStateEquipement = !$('#inlineCheckboxperyearIntervention').is(':checked');
   }
 
   selectPerMonthIntervention() {
-    this.hiddenStateInterventionMonth = !$("#inlineCheckboxpermonthIntervention").is(':checked');
+    this.hiddenStateInterventionMonth = !$('#inlineCheckboxpermonthIntervention').is(':checked');
   }
 
 

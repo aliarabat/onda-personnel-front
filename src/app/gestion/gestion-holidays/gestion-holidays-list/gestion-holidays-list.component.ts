@@ -18,7 +18,7 @@ export class GestionHolidaysListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router)) {
+    if (MiddleWare.checkIfUserIsLogged(this.router)&& GrantedAccess.checkIfUserIsAdmin(this.router)) {
       this.holidayService.findAll();
     }
   }

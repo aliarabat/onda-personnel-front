@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {HolidayService} from '../../../controller/service/holiday.service';
 import {HolidayVo} from '../../../controller/model/holiday.model';
-import {DateUtil} from "../../../util/date-util";
+import {DateUtil} from '../../../util/date-util';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-holidays-create',
@@ -12,17 +13,18 @@ import {MiddleWare} from '../../../util/middle-ware';
 })
 export class GestionHolidaysCreateComponent implements OnInit {
 
-  constructor(private holidayService:HolidayService, private router:Router) { }
+  constructor(private holidayService: HolidayService, private router: Router) { }
 
-  ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
+  async ngOnInit() {
+    await MiddleWare.checkIfUserIsLogged(this.router);
+    await GrantedAccess.checkIfUserIsAdmin(this.router);
   }
 
-  get holidayCreate(){
+  get holidayCreate() {
     return this.holidayService.holidayCreate;
   }
 
-  get holidaysVo(){
+  get holidaysVo() {
     return this.holidayService.holidaysVo;
   }
 

@@ -7,7 +7,8 @@ import {MissionVo} from '../../../controller/model/mission.model';
 import {ReplacementService} from '../../../controller/service/replacement.service';
 import {MiddleWare} from '../../../util/middle-ware';
 import {Router} from '@angular/router';
-import {DateUtil} from "../../../util/date-util";
+import {DateUtil} from '../../../util/date-util';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-mission-list',
@@ -20,12 +21,12 @@ export class MissionListComponent implements OnInit {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router)) {
     this.dayService.findAllEmployees();
     this.missionService.employee1 = new EmployeeVo();
     this.missionService.mission = new MissionVo();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
-    this.missionService.findAlldayDetails();
+    this.missionService.findAlldayDetails(); }
   }
 
   public get listOfWorks() {
@@ -83,7 +84,7 @@ export class MissionListComponent implements OnInit {
     this.missionService.findEmployesByMatricule(this.missionService.theDayDetail.missionVo.employee.matricule);
   }
 
-  formatDate(date:string){
+  formatDate(date: string) {
     return DateUtil.formatDate(date).toLocaleDateString();
   }
 

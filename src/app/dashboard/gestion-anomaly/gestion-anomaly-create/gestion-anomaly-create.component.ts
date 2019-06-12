@@ -3,8 +3,9 @@ import {InterventionDayService} from '../../../controller/service/intervention-d
 import {InterventionDayVo} from '../../../controller/model/intervention-day';
 import {DateUtil} from '../../../util/date-util';
 import {EquipementVo} from '../../../controller/model/equipement';
-import {Router} from "@angular/router";
-import {MiddleWare} from "../../../util/middle-ware";
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 
 @Component({
@@ -20,8 +21,9 @@ export class GestionAnomalyCreateComponent implements OnInit {
   public interventionDetail: InterventionDayVo = new InterventionDayVo();
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router))
-      this.interventionDayService.findAllType()
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsTechniqueOrAdmin(this.router)) {
+      this.interventionDayService.findAllType();
+    }
   }
 
   public addIntervention() {
@@ -41,11 +43,11 @@ export class GestionAnomalyCreateComponent implements OnInit {
   }
 
   public get breakDuration() {
-    return this.horaire(this.interventionDayService.breakDuration.hour, this.interventionDayService.breakDuration.minute)
+    return this.horaire(this.interventionDayService.breakDuration.hour, this.interventionDayService.breakDuration.minute);
   }
 
   public get reparationDuration() {
-    return this.horaire(this.interventionDayService.reparationDuration.hour, this.interventionDayService.reparationDuration.minute)
+    return this.horaire(this.interventionDayService.reparationDuration.hour, this.interventionDayService.reparationDuration.minute);
   }
 
   public get interventions() {
@@ -53,7 +55,7 @@ export class GestionAnomalyCreateComponent implements OnInit {
   }
 
   public get equipement(): EquipementVo {
-    return this.interventionDayService.equipement
+    return this.interventionDayService.equipement;
   }
 
   public show(interv: InterventionDayVo) {
@@ -61,7 +63,7 @@ export class GestionAnomalyCreateComponent implements OnInit {
   }
 
   public get breakNumberTotal() {
-    return this.interventionDayService.breakNumberTotal
+    return this.interventionDayService.breakNumberTotal;
   }
 
   horaire(hour: string, minute: string) {
@@ -77,11 +79,11 @@ export class GestionAnomalyCreateComponent implements OnInit {
   }
 
   public findEquipmentByType() {
-    this.interventionDayService.findByType(this.selectedType)
+    this.interventionDayService.findByType(this.selectedType);
   }
 
   public get equipements() {
-    return this.interventionDayService.equipments
+    return this.interventionDayService.equipments;
   }
 
   deleteRow(id) {
