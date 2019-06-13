@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../../controller/service/user.service';
 import {User} from '../../../controller/model/user.model';
-import {Router} from "@angular/router";
-import {MiddleWare} from "../../../util/middle-ware";
-import {GrantedAccess} from "../../../util/granted-access";
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
+import {GrantedAccess} from '../../../util/granted-access';
 
 @Component({
   selector: 'app-users-list',
@@ -16,8 +16,9 @@ export class UsersListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router))
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router)) {
       this.getAllUsers();
+    }
   }
 
   public get users() {
@@ -33,10 +34,10 @@ export class UsersListComponent implements OnInit {
   }
 
   block(user: User) {
-    this.userService.block(user)
+    this.userService.block(user);
   }
 
   unblock(user: User) {
-    this.userService.unblock(user)
+    this.userService.unblock(user);
   }
 }

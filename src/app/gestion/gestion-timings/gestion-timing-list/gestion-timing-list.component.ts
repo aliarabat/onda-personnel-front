@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {DetailServiceService} from '../../../controller/service/detail-service.service';
 import {DetailVo} from '../../../controller/model/detail.model';
-import {DateUtil} from "../../../util/date-util";
+import {DateUtil} from '../../../util/date-util';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-timing-list',
@@ -17,12 +18,13 @@ export class GestionTimingListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router))
-      this.detailService.findAllDetails()
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router)) {
+      this.detailService.findAllDetails();
+    }
   }
 
   public get allDetails() {
-    return this.detailService.allDetails
+    return this.detailService.allDetails;
   }
 
   public ShowDetailInfo(detail) {
@@ -30,7 +32,7 @@ export class GestionTimingListComponent implements OnInit {
   }
 
   public updateDetail() {
-    this.detailService.updateDetail(this.newDet)
+    this.detailService.updateDetail(this.newDet);
   }
 
   public get newDetail() {
@@ -38,7 +40,7 @@ export class GestionTimingListComponent implements OnInit {
   }
 
   public deleteDetail() {
-    this.detailService.deleteDetail(this.detailInfo.wording)
+    this.detailService.deleteDetail(this.detailInfo.wording);
   }
 
   public get newDet() {
@@ -46,7 +48,7 @@ export class GestionTimingListComponent implements OnInit {
   }
 
   public findById(id: number) {
-    this.detailService.findDetailById(id)
+    this.detailService.findDetailById(id);
   }
 
   horaire(hour: string, minute: string) {

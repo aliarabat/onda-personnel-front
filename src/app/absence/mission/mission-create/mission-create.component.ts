@@ -7,6 +7,7 @@ import {ReplacementService} from '../../../controller/service/replacement.servic
 import {SkipService} from '../../../controller/service/skip.service';
 import {MiddleWare} from '../../../util/middle-ware';
 import {Router} from '@angular/router';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-mission-create',
@@ -19,12 +20,12 @@ export class MissionCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router)) {
     this.dayService.findAllEmployees();
     this.dayService.employee = new EmployeeVo();
     this.missionService.mission = new MissionVo();
     this.remplacementService.deleteAllDayDetailsWhereIsNull();
-  }
+  }}
 
   public get employee() {
     return this.dayService.employee;

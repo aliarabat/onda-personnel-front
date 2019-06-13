@@ -4,6 +4,7 @@ import {EmployeeVo} from '../../../controller/model/employee.model';
 import * as $ from 'jquery';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-employees-list',
@@ -18,8 +19,9 @@ export class GestionEmployeesListComponent implements OnInit {
   public employeeInfo: EmployeeVo = new EmployeeVo();
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router))
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router)) {
       this.employeeService.findAllEmployesExist();
+    }
   }
 
   public get employeesSearch() {
@@ -31,16 +33,16 @@ export class GestionEmployeesListComponent implements OnInit {
   }
 
   public Revert(matricule: string) {
-    this.employeeService.revert(matricule)
+    this.employeeService.revert(matricule);
 
   }
 
   public updateEmployee() {
-    this.employeeService.updateEmployee(this.newEmpl)
+    this.employeeService.updateEmployee(this.newEmpl);
   }
 
   selectPerEmployee() {
-    if ($("#inlineCheckboxperyear2").is(':checked')) {
+    if ($('#inlineCheckboxperyear2').is(':checked')) {
       this.employeeService.findAllEmployeNotExist();
     } else {
       this.employeeService.findAllEmployesExist();
@@ -49,7 +51,7 @@ export class GestionEmployeesListComponent implements OnInit {
   }
 
   public get newEmpl() {
-    return this.employeeService.newEmployee
+    return this.employeeService.newEmployee;
   }
 
   public findEmployeeById(id: number) {

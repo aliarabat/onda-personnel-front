@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {EmployeeServiceService} from "../../../controller/service/employee-service.service";
-import {ChartUtil, doubleChart} from "../../../util/chart-util";
-import {HolidayService} from "../../../controller/service/holiday.service";
-import {DetailServiceService} from "../../../controller/service/detail-service.service";
-import {WorkService} from "../../../controller/service/work.service";
-import {DateUtil} from "../../../util/date-util";
-import {MonthUtil} from "../../../util/month-util";
-import {MiddleWare} from "../../../util/middle-ware";
-import {Router} from "@angular/router";
-import {GrantedAccess} from "../../../util/granted-access";
+import {EmployeeServiceService} from '../../../controller/service/employee-service.service';
+import {ChartUtil, doubleChart} from '../../../util/chart-util';
+import {HolidayService} from '../../../controller/service/holiday.service';
+import {DetailServiceService} from '../../../controller/service/detail-service.service';
+import {WorkService} from '../../../controller/service/work.service';
+import {DateUtil} from '../../../util/date-util';
+import {MonthUtil} from '../../../util/month-util';
+import {MiddleWare} from '../../../util/middle-ware';
+import {Router} from '@angular/router';
+import {GrantedAccess} from '../../../util/granted-access';
 
 @Component({
   selector: 'app-stats',
@@ -32,7 +32,7 @@ export class StatsComponent implements OnInit {
     const dataEmployees = [];
     await this._employeeService.countAllEmployees().subscribe(data => dataEmployees.push(data));
 
-    let ctx = document.getElementById('employees');
+    const ctx = document.getElementById('employees');
     ChartUtil(ctx, ['Employés'], dataEmployees, 'Employés');
   }
 
@@ -41,7 +41,7 @@ export class StatsComponent implements OnInit {
     const dataSets = [];
     await this.holidayService.countAllHolidays().subscribe(data => dataSets.push(data));
     await this.detailService.countAllHours().subscribe(data => dataSets.push(data));
-    let ctx = document.getElementById('holidays');
+    const ctx = document.getElementById('holidays');
     ChartUtil(ctx, labels, dataSets, 'Horaires et jours féries');
 
   }
@@ -50,22 +50,22 @@ export class StatsComponent implements OnInit {
     const labels = [];
     const dataVacation = {
       label: '',
-      backgroundColor: "#3e95cd",
+      backgroundColor: '#3e95cd',
       data: []
     };
     const dataReplacement = {
       label: '',
-      backgroundColor: "#8e5ea2",
+      backgroundColor: '#8e5ea2',
       data: []
     };
     const dataSkip = {
       label: '',
-      backgroundColor: "#3cba9f",
+      backgroundColor: '#3cba9f',
       data: []
     };
     const dataMission = {
       label: '',
-      backgroundColor: "#c45850",
+      backgroundColor: '#c45850',
       data: []
     };
     const dataSets = [];
@@ -86,7 +86,7 @@ export class StatsComponent implements OnInit {
       dataSets.push(dataVacation, dataReplacement, dataSkip, dataMission);
     });
 
-    let ctx = document.getElementById('mainSource');
+    const ctx = document.getElementById('mainSource');
     doubleChart(ctx, labels, dataSets, 'Gestion des services');
 
   }

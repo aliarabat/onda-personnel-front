@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../util/middle-ware';
-import {GrantedAccess} from "../../util/granted-access";
+import {GrantedAccess} from '../../util/granted-access';
 
 @Component({
   selector: 'app-gestion-employees',
@@ -9,14 +9,15 @@ import {GrantedAccess} from "../../util/granted-access";
   styleUrls: ['./gestion-employees.component.css']
 })
 export class GestionEmployeesComponent implements OnInit {
-  isAdmin: boolean = false;
+  isAdmin = false;
 
   constructor(private router: Router) {
   }
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router))
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router)) {
       this.isAdmin = true;
+    }
   }
 
 }

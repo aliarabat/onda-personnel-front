@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {EquipementService} from '../../../controller/service/equipement.service';
 import {TypeService} from '../../../controller/service/type.service';
-import {Router} from "@angular/router";
-import {MiddleWare} from "../../../util/middle-ware";
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-equipment-list',
@@ -15,7 +16,7 @@ export class GestionEquipmentListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router)) {
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router)) {
       this.equipementService.findAllEquipements();
       this.typeService.findAllTypes();
     }

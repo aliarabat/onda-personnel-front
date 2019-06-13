@@ -4,7 +4,8 @@ import {DayDetailVo} from '../../../controller/model/day-detail.model';
 import {DayServiceService} from '../../../controller/service/day-service.service';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
-import {DateUtil} from "../../../util/date-util";
+import {DateUtil} from '../../../util/date-util';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-skip-list',
@@ -17,14 +18,14 @@ export class SkipListComponent implements OnInit {
   }
 
   ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
-    this.skipService.findAllSkips();
-    this.dayService.findAllDetails();
-
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router)) {
+      this.skipService.findAllSkips();
+      this.dayService.findAllDetails();
+    }
   }
 
   public get dayDetails() {
-    return this.skipService.dayDetails
+    return this.skipService.dayDetails;
   }
 
   findDayDetailById(id: number) {
@@ -51,7 +52,7 @@ export class SkipListComponent implements OnInit {
     this.skipService.updateSkip(daydetail);
   }
 
-  formatDate(date:string){
+  formatDate(date: string) {
     return DateUtil.formatDate(date).toLocaleDateString();
   }
 }

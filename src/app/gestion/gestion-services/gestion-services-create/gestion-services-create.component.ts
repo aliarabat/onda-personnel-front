@@ -8,6 +8,7 @@ import {DetailVo} from '../../../controller/model/detail.model';
 import {DateUtil} from "../../../util/date-util";
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-services-create',
@@ -22,11 +23,9 @@ export class GestionServicesCreateComponent implements OnInit {
   private selectedEmployee: EmployeeVo;
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router)) {
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router)) {
       this.dayService.findAllEmployees();
       this.dayService.findAllDetails();
-      //this.dayService.detail = new DetailVo();
-      //this.dayService.employee = new EmployeeVo();
     }
   }
 

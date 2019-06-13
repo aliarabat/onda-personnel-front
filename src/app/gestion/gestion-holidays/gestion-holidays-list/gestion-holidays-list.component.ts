@@ -4,6 +4,7 @@ import {HolidayVo} from '../../../controller/model/holiday.model';
 import {DateUtil} from '../../../util/date-util';
 import {Router} from '@angular/router';
 import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-holidays-list',
@@ -18,7 +19,7 @@ export class GestionHolidaysListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router)) {
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsAdmin(this.router)) {
       this.holidayService.findAll();
     }
   }

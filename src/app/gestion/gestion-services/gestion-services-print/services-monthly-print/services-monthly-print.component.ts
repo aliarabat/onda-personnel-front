@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {WorkService} from "../../../../controller/service/work.service";
-import {Router} from "@angular/router";
-import {MiddleWare} from "../../../../util/middle-ware";
-import {MonthUtil} from "../../../../util/month-util";
+import {WorkService} from '../../../../controller/service/work.service';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../../util/middle-ware';
+import {MonthUtil} from '../../../../util/month-util';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-services-monthly-print',
@@ -14,8 +15,9 @@ export class ServicesMonthlyPrintComponent implements OnInit {
   constructor(private workService: WorkService, private router: Router) {
   }
 
-  ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
+  async ngOnInit() {
+    await MiddleWare.checkIfUserIsLogged(this.router);
+    await GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router);
   }
 
   get dateToPrint() {

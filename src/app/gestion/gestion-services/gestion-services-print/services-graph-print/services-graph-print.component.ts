@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {WorkService} from "../../../../controller/service/work.service";
-import {Router} from "@angular/router";
-import {MiddleWare} from "../../../../util/middle-ware";
-import {EmployeeServiceService} from "../../../../controller/service/employee-service.service";
+import {WorkService} from '../../../../controller/service/work.service';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../../util/middle-ware';
+import {EmployeeServiceService} from '../../../../controller/service/employee-service.service';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-services-graph-print',
@@ -15,8 +16,9 @@ export class ServicesGraphPrintComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (MiddleWare.checkIfUserIsLogged(this.router))
+    if (MiddleWare.checkIfUserIsLogged(this.router) && GrantedAccess.checkIfUserIsResponsableOrAdmin(this.router)) {
       this.employeeService.findAllEmployesExist();
+    }
   }
 
   get employees() {

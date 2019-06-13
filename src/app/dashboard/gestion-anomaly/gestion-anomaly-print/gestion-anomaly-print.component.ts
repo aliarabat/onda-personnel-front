@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {MonthUtil} from '../../../util/month-util';
-import {InterventionMonthService} from "../../../controller/service/intervention-month.service";
-import {DateUtil} from "../../../util/date-util";
-import {Router} from "@angular/router";
-import {MiddleWare} from "../../../util/middle-ware";
+import {InterventionMonthService} from '../../../controller/service/intervention-month.service';
+import {DateUtil} from '../../../util/date-util';
+import {Router} from '@angular/router';
+import {MiddleWare} from '../../../util/middle-ware';
+import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
   selector: 'app-gestion-anomaly-print',
@@ -15,8 +16,9 @@ export class GestionAnomalyPrintComponent implements OnInit {
   constructor(private interventionMonthService: InterventionMonthService, private router: Router) {
   }
 
-  ngOnInit() {
-    MiddleWare.checkIfUserIsLogged(this.router);
+  async ngOnInit() {
+    await MiddleWare.checkIfUserIsLogged(this.router);
+    await GrantedAccess.checkIfUserIsTechniqueOrAdmin(this.router);
   }
 
   get dateToPrint() {
