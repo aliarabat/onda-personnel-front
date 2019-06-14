@@ -65,8 +65,6 @@ export class DayServiceService {
     this.http.get<Array<EmployeeVo>>(this._url_employees + 'allExist/isExist/' + true).subscribe(
       data => {
         data ? this._employees = data : this._employees = [];
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -75,8 +73,6 @@ export class DayServiceService {
     this.http.get<Array<EmployeeVo>>(this._url_employees + 'type/Technique').subscribe(
       data => {
         data ? this._employees = data : this._employees = [];
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -88,8 +84,6 @@ export class DayServiceService {
           this._detailsHelper = data;
           this._details = data.filter(dt => dt.mode === 'Normal');
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -111,14 +105,12 @@ export class DayServiceService {
         if (result.value) {
           this.http.post(this._url_day + 'matricule/' + this._employee.matricule, this._days).subscribe(
             data => {
-              if (data == 1) {
+              if (data === 1) {
                 this._days = [];
                 this._employee = new EmployeeVo();
                 this._day.dayDetailsVo = [];
                 this._listDate = [];
               }
-            }, error => {
-              console.log(error);
             }
           );
           SwalUtil.savedSuccessfully('Sauvegarde');
@@ -139,7 +131,6 @@ export class DayServiceService {
             for (let i = 0; i <= 6; i++) {
               let _dayClone = new DayVo(new Array<DayDetailVo>());
               let _dayDetailClone: DayDetailVo = new DayDetailVo(0, new DetailVo('', '', new TimingVo('0', '0'), new TimingVo('0', '0'), '', ''));
-
               if (i <= 4) {
                 _dayDetailClone.detailVo = this._details.find(dt => dt.wording === 'ADM' || dt.wording === 'ADM1');
               } else {
@@ -154,8 +145,6 @@ export class DayServiceService {
         } else {
           this._listDate = [];
         }
-      }, error => {
-        console.log(error);
       }
     );
   }

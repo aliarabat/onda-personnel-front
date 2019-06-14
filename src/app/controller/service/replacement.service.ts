@@ -6,6 +6,7 @@ import {DetailVo} from '../model/detail.model';
 import {DayDetailVo} from '../model/day-detail.model';
 import {SwalUtil} from '../../util/swal-util';
 import {UrlsUtil} from '../../util/urls-util';
+import { TimingVo } from '../model/timing.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,31 +29,19 @@ export class ReplacementService {
 
   findEmployesByMatricule(matricule: string) {
     this.http.get<EmployeeVo>(this._urlEmployee + 'matricule/' + matricule).subscribe(
-      data => {
-        this.orgEmployee = data;
-      }, error => {
-        console.log(error);
-      }
+      data => data ? this.orgEmployee = data : this.orgEmployee = new EmployeeVo(0, '', '', '', '', '', false)
     );
   }
 
   findReplacedEmployesByMatricule(matricule: string) {
     this.http.get<EmployeeVo>(this._urlEmployee + 'matricule/' + matricule).subscribe(
-      data => {
-        this.rempEmployee = data;
-      }, error => {
-        console.log(error);
-      }
+      data => data ? this.rempEmployee = data : this.rempEmployee = new EmployeeVo(0, '', '', '', '', '', false)
     );
   }
 
   findDetailByWording(wording: string) {
     this.http.get<DetailVo>(this._urlDetail + 'wording/' + wording).subscribe(
-      data => {
-        this.replacement.detailVo = data;
-      }, error => {
-        console.log(error);
-      }
+      data => data ? this.replacement.detailVo = data : this.replacement.detailVo = new DetailVo( '', '')
     );
   }
 
@@ -79,15 +68,15 @@ export class ReplacementService {
                 this.replacement = new ReplacementVo();
                 this.findAlldayDetailsReplacement();
                 SwalUtil.anySuccess('Remplacement effectué', 'Modification du service réussite');
-              } else if (res == -5) {
+              } else if (res === -5) {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:l\'un des employés  n\'as pas encore de service à cette date');
-              } else if (res == -4) {
+              } else if (res === -4) {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:l\'un des employés  n\'as pas encore de service à ce jour là');
-              } else if (res == -3) {
+              } else if (res === -3) {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:l\'un des employés est en vacances');
-              } else if (res == -2) {
+              } else if (res === -2) {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:Le remplacant n\'est pas libre à cette horaire');
-              } else if (res == -1) {
+              } else if (res === -1) {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:l\'un des employés est déjà absent pour une raison');
               } else {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:Erreur Inconnue');
@@ -105,12 +94,7 @@ export class ReplacementService {
 
   findAlldayDetailsReplacement() {
     this.http.get<Array<DayDetailVo>>(this._url + 'replacement/').subscribe(
-      data => {
-        data ? this.dayDetailsRemp = data : this.dayDetailsRemp = [];
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this.dayDetailsRemp = data : this.dayDetailsRemp = []);
   }
 
 
@@ -119,7 +103,7 @@ export class ReplacementService {
       if (result.value) {
         this.http.put(this._url + 'replacement/id/' + dayDetail.id, dayDetail).subscribe(
           (res) => {
-            if (res == 1) {
+            if (res === 1) {
               this.findAlldayDetailsReplacement();
               SwalUtil.anySuccess('Suppression du remplacement', 'Suppression du service réussite');
             } else {

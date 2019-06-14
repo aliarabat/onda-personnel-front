@@ -49,8 +49,6 @@ export class DetailServiceService {
     this._http.get<TimingVo>(this.url + 'between/startingHour/' + this.detailCreate.startingTimeVo.hour + '/startingMinute/' + this.detailCreate.startingTimeVo.minute + '/endingHour/' + this.detailCreate.endingTimeVo.hour + '/endingMinute/' + this.detailCreate.endingTimeVo.minute + '/isNight/' + false).subscribe(
       data => {
         data ? this._he = data : this._he = new TimingVo('00', '00');
-      }, error1 => {
-        console.log(error1);
       }
     );
   }
@@ -59,8 +57,6 @@ export class DetailServiceService {
     this._http.get<TimingVo>(this.url + 'between/startingHour/' + this.detailCreate.startingTimeVo.hour + '/startingMinute/' + this.detailCreate.startingTimeVo.minute + '/endingHour/' + this.detailCreate.endingTimeVo.hour + '/endingMinute/' + this.detailCreate.endingTimeVo.minute + '/isNight/' + true).subscribe(
       data => {
         data ? this._hn = data : this._hn = new TimingVo('00', '00');
-      }, error1 => {
-        console.log(error1);
       }
     );
   }
@@ -79,8 +75,6 @@ export class DetailServiceService {
             data => {
               this.details = new Array<DetailVo>();
               this.findAllDetails();
-            }, error1 => {
-              console.log(error1);
             }
           );
           SwalUtil.savedSuccessfully('Sauvegarde');
@@ -99,8 +93,6 @@ export class DetailServiceService {
     this._http.get<Array<DetailVo>>(this._url).subscribe(
       data => {
         data ? this._allDetails = data : this._allDetails = [];
-      }, error1 => {
-        console.log(error1);
       }
     );
   }
@@ -125,8 +117,6 @@ export class DetailServiceService {
         if (result.value) {
           this._http.put(this._url, newDetail).subscribe(data => {
               this.findAllDetails();
-            }, error1 => {
-              console.log(error1);
             }
           );
           SwalUtil.savedSuccessfully('Modification');
@@ -140,8 +130,6 @@ export class DetailServiceService {
     this.http.delete(this._url + 'wording/' + wording).subscribe(data => {
         this.findAllDetails();
         SwalUtil.topEndSuccessfully('Suppression');
-      }, error1 => {
-        console.log(error1);
       }
     );
 
@@ -151,8 +139,6 @@ export class DetailServiceService {
     this._http.get<DetailVo>(this._url + 'id/' + id).subscribe(
       data => {
         data ? this._newDetail = data : this._newDetail = new DetailVo();
-      }, error1 => {
-        console.log(error1);
       }
     );
   }

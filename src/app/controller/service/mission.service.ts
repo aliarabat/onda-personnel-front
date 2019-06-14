@@ -99,8 +99,6 @@ export class MissionService {
                   },
                 );
               }
-            }, error => {
-              console.log(error);
             }
           );
         }
@@ -115,8 +113,6 @@ export class MissionService {
           this.theDayDetail = data;
           this.theDayDetail1 = data;
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -152,17 +148,17 @@ export class MissionService {
         if (result.value) {
           this.http.put(this._url + 'mission/matricule/' + matricule, mission).subscribe(
             (res) => {
-              if (res == 1) {
+              if (res === 1) {
                 this.mission = new MissionVo();
                 this.findAlldayDetails();
                 SwalUtil.anySuccess('Ajout de Mission', 'Modification du service réussite');
-              } else if (res == -4) {
+              } else if (res === -4) {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:Cet employé n\'as pas encore de service à cette date!');
-              } else if (res == -6) {
+              } else if (res === -6) {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:Cet employé n\'as pas encore de service à ce jour là!');
-              } else if (res == -3) {
+              } else if (res === -3) {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:Cet employé est en vacances!');
-              } else if (res == -2) {
+              } else if (res === -2) {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:Cet employé est déjà absent pour une raison!');
               } else {
                 SwalUtil.any('Erreur!', 'Modification du service échouée:Erreur Inconnue!');
@@ -196,8 +192,6 @@ export class MissionService {
         } else {
           SwalUtil.any('Erreur!', 'Aucun service trouvé : Cet employé n\'as pas encore de service à cette date!');
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -206,29 +200,25 @@ export class MissionService {
     this.http.get<Array<WorkVo>>(this._urlWork).subscribe(
       data => {
         this.works = data;
-      }, error => {
-        console.log(error);
       }
     );
   }
 
   findAlldayDetails() {
     this.http.get<Array<DayDetailVo>>(this._url + 'Mission/').subscribe(
-      data => {
-        data ? this.dayDetails1 = data : this.dayDetails1 = [];
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this.dayDetails1 = data : this.dayDetails1 = []);
   }
 
   findEmployesByMatricule(matricule: string) {
     this.http.get<EmployeeVo>(this._urlEmployee + 'matricule/' + matricule).subscribe(
       data => {
-        this.theEmployee = data;
-        this.theDayDetail.missionVo.employee = data;
-      }, error => {
-        console.log(error);
+        if (data !== null) {
+          this.theEmployee = data;
+          this.theDayDetail.missionVo.employee = data;
+        } else {
+          this.theEmployee = new EmployeeVo(0, '', '', '', '', '');
+          this.theDayDetail.missionVo.employee = new EmployeeVo(0, '', '', '', '', '');
+        }
       }
     );
   }
@@ -237,8 +227,6 @@ export class MissionService {
     this.http.get<DetailVo>(this._urlDetail + 'wording/' + wording).subscribe(
       data => {
         this.theDayDetail.detailVo = data;
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -264,17 +252,10 @@ export class MissionService {
 
   getTheDayDetail(dayDetail: DayDetailVo) {
     this._theDayDetail = dayDetail;
-    console.log(this._theDayDetail);
   }
 
   deleteAllDayDetailsWhereIsNull() {
-    this.http.delete(this._url + 'null').subscribe(
-      data => {
-        console.log(data);
-      }, error => {
-        console.log(error);
-      }
-    );
+    this.http.delete(this._url + 'null').subscribe();
   }
 
   get url(): string {

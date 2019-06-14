@@ -28,7 +28,7 @@ export class TypeService {
         if (result.value) {
           this.http.post(this._url, type).subscribe(
             (res) => {
-              if (res == 1) {
+              if (res === 1) {
                 this.typeCreate = new TypeVo();
                 this.findAllTypes();
                 SwalUtil.anySuccess('Ajout du type', 'Ajout réussite');
@@ -44,22 +44,12 @@ export class TypeService {
 
   findAllTypes() {
     this.http.get<Array<TypeVo>>(this._url).subscribe(
-      data => {
-        data ? this.allTypes = data : this.allTypes = new Array<TypeVo>();
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this.allTypes = data : this.allTypes = new Array<TypeVo>());
   }
 
   findTypeById(id: number) {
     this.http.get<TypeVo>(this._url + 'id/' + id).subscribe(
-      data => {
-        data ? this.typeEdit = data : this.typeEdit = new TypeVo();
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this.typeEdit = data : this.typeEdit = new TypeVo());
   }
 
   editType(newType: TypeVo) {
@@ -72,7 +62,7 @@ export class TypeService {
         if (result.value) {
           this.http.put(this._url, newType).subscribe(
             (res) => {
-              if (res == 1) {
+              if (res === 1) {
                 this.findAllTypes();
                 SwalUtil.anySuccess('Modification du type', 'Modification du Type réussite');
                 // @ts-ignore
@@ -92,7 +82,7 @@ export class TypeService {
       if (result.value) {
         this.http.delete(this._url + 'id/' + id).subscribe(
           (res) => {
-            if (res == 1) {
+            if (res === 1) {
               this.findAllTypes();
               SwalUtil.anySuccess('Suppression du type', ' Type Supprimé');
             } else {

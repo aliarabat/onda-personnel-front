@@ -67,9 +67,6 @@ export class InterventionDayService {
     this.http.get<TimingVo>(this._url + 'call/' + this.interventionCreate.callIntervention + '/startOrAnd/' + this.interventionCreate.interventionEnd).subscribe(
       data => {
         this.breakDuration = data;
-        console.log(this.breakDuration);
-      }, error1 => {
-        console.log(error1);
       }
     );
   }
@@ -78,8 +75,6 @@ export class InterventionDayService {
     this.http.get<TimingVo>(this._url + 'call/' + this.interventionCreate.interventionStart + '/startOrAnd/' + this.interventionCreate.interventionEnd).subscribe(
       data => {
         this.reparationDuration = data;
-      }, error1 => {
-        console.log(error1);
       }
     );
   }
@@ -88,8 +83,6 @@ export class InterventionDayService {
     this.http.get<Array<TypeVo>>(this._urlType).subscribe(
       data => {
         this._allTypes = data;
-      }, error1 => {
-        console.log(error1);
       }
     );
   }
@@ -98,8 +91,6 @@ export class InterventionDayService {
     this.http.get<Array<EquipementVo>>(this._urlEquipement + 'nameEquipement/' + type.name).subscribe(
       data => {
         this.equipments = data;
-      }, error1 => {
-        console.log(error1);
       }
     );
   }
@@ -118,8 +109,6 @@ export class InterventionDayService {
               this.equipement = new EquipementVo();
               this.selectedType = new TypeVo();
               SwalUtil.savedSuccessfully('Sauvegarde');
-            }, error1 => {
-              console.log(error1);
             }
           );
         }

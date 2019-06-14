@@ -35,8 +35,6 @@ export class InterventionMonthService {
         } else {
           this._listEquipementssByYear = [];
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -50,8 +48,6 @@ export class InterventionMonthService {
         } else {
           this._listEquipementssByYear = [];
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -65,8 +61,6 @@ export class InterventionMonthService {
         } else {
           this._listEquipementssByYear = [];
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -80,8 +74,6 @@ export class InterventionMonthService {
         } else {
           this._listInterventionsByDay = [];
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -95,8 +87,6 @@ export class InterventionMonthService {
       this.http.get<InterventionMonthVo>(this._url + 'interventiontoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
         data => {
           data ? this._interventionMonthVoSearch = data : this._interventionMonthVoSearch = new InterventionMonthVo();
-        }, error => {
-          console.log(error);
         }
       );
     }

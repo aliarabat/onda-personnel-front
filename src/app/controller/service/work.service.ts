@@ -8,7 +8,7 @@ import {SwalUtil} from '../../util/swal-util';
 import {downloadfile} from '../../util/downloadfile-util';
 import {MonthUtil} from '../../util/month-util';
 import {UrlsUtil} from '../../util/urls-util';
-import {__await} from "tslib";
+import {__await} from 'tslib';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class WorkService {
   public _dateByAnnee: DateModel = new DateModel(new Date().getFullYear());
   public _dateForPrinting: DateModel = new DateModel(new Date().getFullYear());
 
-  //args for graph
+  // args for graph
   public _dateByYear: DateModel = new DateModel(new Date().getFullYear());
   public _employeeToGraph: EmployeeVo = new EmployeeVo(0, '');
   public _workToGraph: WorkVo = new WorkVo({}, {});
@@ -53,12 +53,7 @@ export class WorkService {
 
   findWorksByMonth() {
     this.http.get<Array<WorkVo>>(this._url + 'year/' + this._dateByAnnee.year + '/month/' + this._dateByAnnee.month).subscribe(
-      data => {
-        data ? this._listEmployeesByYear = data : this._listEmployeesByYear = [];
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this._listEmployeesByYear = data : this._listEmployeesByYear = []);
   }
 
   findWorkByEmployeeAndMonthAndYear(matricule: string) {
@@ -70,8 +65,6 @@ export class WorkService {
         } else {
           this._listEmployeesByYear = [];
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -83,12 +76,7 @@ export class WorkService {
       SwalUtil.insert('le mois');
     } else {
       this.http.get<WorkVo>(this._url + 'worktoprint/year/' + this._dateForPrinting.year + '/month/' + this._dateForPrinting.month).subscribe(
-        data => {
-          data ? this._workVoSearch = data : this._workVoSearch = new WorkVo({}, {});
-        }, error => {
-          console.log(error);
-        }
-      );
+        data => data ? this._workVoSearch = data : this._workVoSearch = new WorkVo({}, {}));
     }
   }
 
@@ -103,8 +91,8 @@ export class WorkService {
       title: 'Select field validation',
       input: 'select',
       inputOptions: {
-        'pdf': 'PDF',
-        'xlsx': 'XLSX'
+        pdf: 'PDF',
+        xlsx: 'XLSX'
       },
       inputPlaceholder: 'Select une format',
       showCancelButton: true,
@@ -133,7 +121,7 @@ export class WorkService {
       }
       const httpOptions = {
         responseType: 'blob' as 'arrayBuffer',
-        headers: headers
+        headers
       };
       // @ts-ignore
       return this.http.get(this._url + 'generatedoc/year/' + fullYear + '/month/' + (month + 1) + '/type/' + type, httpOptions).subscribe(async (result) => {
@@ -160,7 +148,7 @@ export class WorkService {
 
     const httpOptions = {
       responseType: 'blob' as 'arrayBuffer',
-      headers: headers
+      headers
     };
     // @ts-ignore
     return this.http.get(this._url + 'printgraph/matricule/' + matricule + '/year/' + fullyear, httpOptions).subscribe(async (result) => {

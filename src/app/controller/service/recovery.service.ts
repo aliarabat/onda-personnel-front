@@ -46,7 +46,6 @@ export class RecoveryService {
   }
 
   public passwordRecover() {
-    console.log(this.passwordRecoveryRequest);
     this.http.put(this.userUrl + 'password-recovery', this.passwordRecoveryRequest).subscribe((response) => {
       if (response === 1) {
         SwalUtil.changesSavedSuccessfully();

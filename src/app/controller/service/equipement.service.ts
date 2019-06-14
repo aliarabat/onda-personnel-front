@@ -65,8 +65,6 @@ export class EquipementService {
     this.http.get<Array<EquipementVo>>(this._url).subscribe(
       data => {
         data ? this.allEquipements = data : this.allEquipements = new Array<EquipementVo>();
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -83,7 +81,7 @@ export class EquipementService {
       if (result.value) {
         this.http.delete(this._url + 'id/' + id).subscribe(
           (res) => {
-            if (res == 1) {
+            if (res === 1) {
               this.findAllEquipements();
               SwalUtil.deleted('l\'équipement', 'Type Supprimé');
             } else {
@@ -109,14 +107,14 @@ export class EquipementService {
         if (result.value) {
           this.http.put(this._url, this._editEquipement).subscribe(
             (res) => {
-              if (res == 1) {
+              if (res === 1) {
                 this.findAllEquipements();
                 SwalUtil.updateOf('l\'équipement');
                 // @ts-ignore
                 $('#equipmentModal').modal('hide');
-              } else if (res == -3) {
+              } else if (res === -3) {
                 SwalUtil.alreadyExist('Ce nom');
-              } else if (res == -1) {
+              } else if (res === -1) {
                 SwalUtil.any('Erreur!', 'Ajout échoué:équipement indisponible!');
               } else {
                 SwalUtil.any('Erreur!', 'Modification de l\'équipement échouée:Erreur Inconnue!');
@@ -132,8 +130,6 @@ export class EquipementService {
     this.http.get<EquipementVo>(this._url + 'id/' + id).subscribe(
       data => {
         data ? this.editEquipement = data : this.editEquipement = new EquipementVo();
-      }, error => {
-        console.log(error);
       }
     );
   }

@@ -45,7 +45,7 @@ export class HolidayService {
 
   substructHoliday(h: HolidayVo) {
     let index = this._holidaysVo.indexOf(h);
-    if (index != -1) {
+    if (index !== -1) {
       this._holidaysVo.splice(index, 1);
     }
   }
@@ -63,8 +63,6 @@ export class HolidayService {
                 this._holidaysVo = new Array<HolidayVo>();
                 SwalUtil.savedSuccessfully('Sauvegarde');
               }
-            }, error => {
-              console.log(error);
             }
           );
         }
@@ -83,15 +81,13 @@ export class HolidayService {
       if (result.value) {
         this.http.put<HolidayVo>(this._url, this._holidayVoToUpdate).subscribe(
           data => {
-            if (data == 1) {
+            if (data === 1) {
               // @ts-ignore
               $('#updateHolidayModal').modal('hide');
               this.findAll();
               this._holidayVoToUpdate = new HolidayVo(0, '', '', '');
               SwalUtil.topEndSuccessfully('Mise à jour');
             }
-          }, error => {
-            console.log(error);
           }
         );
       }

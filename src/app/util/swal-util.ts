@@ -6,8 +6,8 @@ export class SwalUtil {
     Swal.fire({
       type: 'error',
       title: 'Oops...',
-      text: "L'email ou le mot de passe est incorrect!",
-    })
+      text: 'L\'email ou le mot de passe est incorrect!',
+    });
   }
 
   public static changeWarning() {
@@ -26,7 +26,7 @@ export class SwalUtil {
       confirmButtonText: 'Oui, je confirme!',
       cancelButtonText: 'Annuler',
       reverseButtons: true
-    })
+    });
   }
 
   public static actionCanceled() {
@@ -38,7 +38,7 @@ export class SwalUtil {
     });
     swalWithBootstrapButtons.fire(
       'Action anullee!',
-    )
+    );
   }
 
   public static changesSavedSuccessfully() {
@@ -47,7 +47,7 @@ export class SwalUtil {
       title: 'Changements sauvegardes avec succes !',
       showConfirmButton: false,
       timer: 1500
-    })
+    });
   }
 
   public static emailNotFound() {
@@ -55,7 +55,7 @@ export class SwalUtil {
       type: 'error',
       title: 'Oops...',
       text: 'Aucun utilisateur trouve avec l\'email que vous avez entre!',
-    })
+    });
   }
 
   public static oldPasswordNotCorrect() {
@@ -63,7 +63,7 @@ export class SwalUtil {
       type: 'error',
       title: 'Oops...',
       text: 'Ancien mot de passe incorrect'
-    })
+    });
   }
 
   public static unkownError() {
@@ -71,7 +71,7 @@ export class SwalUtil {
       type: 'error',
       title: 'Oops...',
       text: 'Erreur inconnue'
-    })
+    });
   }
 
   public static userAlreadyExists() {
@@ -79,7 +79,7 @@ export class SwalUtil {
       type: 'error',
       title: 'Oops...',
       text: 'L\'utilisateur existe deja'
-    })
+    });
   }
 
   public static unableToConnect() {
@@ -87,7 +87,7 @@ export class SwalUtil {
       type: 'error',
       title: 'Oops...',
       text: 'Nous ne pouvons pas nous connecter à Internet pour le moment ...'
-    })
+    });
   }
 
   public static emailSent() {
@@ -95,7 +95,7 @@ export class SwalUtil {
       type: 'success',
       title: 'Okay',
       text: 'Si l\'email que vous avez entré est valide, vous trouverez un email de notre part dans votre boîte de réception.'
-    })
+    });
   }
 
   public static invalidLink() {
@@ -104,7 +104,7 @@ export class SwalUtil {
       title: 'Oops...',
       text: 'Le lien que vous avez entré est invalide ...',
       timer: 1700
-    })
+    });
   }
 
   public static blockedUser() {
@@ -113,7 +113,7 @@ export class SwalUtil {
       title: 'Oops...',
       text: 'Votre compte est blocké pour le moment, veuillez contacter votre administrateur ...',
       timer: 1700
-    })
+    });
   }
 
   public static insert(subject: string) {
@@ -160,7 +160,7 @@ export class SwalUtil {
     Swal.fire({
       type: 'success',
       title: 'Suppression de ' + subject,
-      text: text,
+      text,
       timer: 1500,
       showConfirmButton: false
     });
@@ -199,8 +199,8 @@ export class SwalUtil {
   public static any(title: string, text: string) {
     Swal.fire({
       type: 'error',
-      title: title,
-      text: text,
+      title,
+      text,
       timer: 1500,
       showConfirmButton: false
     });
@@ -209,14 +209,14 @@ export class SwalUtil {
   public static anySuccess(title: string, text: string) {
     Swal.fire({
       type: 'success',
-      title: title,
-      text: text,
+      title,
+      text,
       timer: 1700,
       showConfirmButton: false
     });
   }
 
-  public static saveConfirmation(actionName: string, action: string,) {
+  public static saveConfirmation(actionName: string, action: string, ) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success ml-1',
@@ -226,13 +226,13 @@ export class SwalUtil {
     });
     return swalWithBootstrapButtons.fire({
       title: actionName,
-      text: "Etes-vous sure de " + action + " vos infos?",
+      text: 'Etes-vous sure de ' + action + ' vos infos?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Oui, ' + action + '!',
       cancelButtonText: 'Non, annuler!',
       reverseButtons: true
-    })
+    });
   }
 
   public static savedSuccessfully(actionName: string) {
@@ -245,7 +245,7 @@ export class SwalUtil {
     });
   }
 
-  public static topEndSuccessfully(actionName:string) {
+  public static topEndSuccessfully(actionName: string) {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -254,16 +254,16 @@ export class SwalUtil {
     });
     Toast.fire({
       type: 'success',
-      title: actionName+' succés'
-    })
+      title: actionName + ' succés'
+    });
   }
 
-  public static async loadAndWait(){
+  public static async loadAndWait() {
     await Swal.fire({
       timer: 1500,
-      onOpen: function () {
-        Swal.showLoading()
+      onOpen() {
+        Swal.showLoading();
       }
-    })
+    });
   }
 }

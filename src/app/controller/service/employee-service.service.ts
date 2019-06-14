@@ -37,7 +37,6 @@ export class EmployeeServiceService {
       let EmployeeClone = new EmployeeVo(0, this._employeeCreate.matricule, this._employeeCreate.firstName, this._employeeCreate.lastName, this._employeeCreate.fonction, this._employeeCreate.type, false);
       this._employees.push(EmployeeClone);
       this._employeeCreate = new EmployeeVo();
-      console.log(EmployeeClone);
     }
   }
 
@@ -55,8 +54,6 @@ export class EmployeeServiceService {
               this._employeeCreate = new EmployeeVo();
               this.employees = new Array<EmployeeVo>();
               this.findAllEmployesExist();
-            }, error1 => {
-              console.log(error1);
             }
           );
           SwalUtil.savedSuccessfully('Sauvegarde');
@@ -77,8 +74,6 @@ export class EmployeeServiceService {
           this._employeeSearch = [];
           this._allEmployees = [];
         }
-      }, error1 => {
-        console.log(error1);
       }
     );
   }
@@ -86,10 +81,13 @@ export class EmployeeServiceService {
   public findAllEmployeNotExist() {
     this._http.get<Array<EmployeeVo>>(this._url + 'allExist/isExist/' + false).subscribe(
       data => {
-        this._employeeSearch = data;
-        this._allEmployees = data;
-      }, error1 => {
-        console.log(error1);
+        if (data != null) {
+          this._employeeSearch = data;
+          this._allEmployees = data;
+        } else {
+          this._employeeSearch = [];
+          this._allEmployees = [];
+        }
       }
     );
   }
@@ -100,8 +98,6 @@ export class EmployeeServiceService {
         this._http.delete(this._url + 'matricule/' + matricule).subscribe(data => {
             this.findAllEmployesExist();
             SwalUtil.topEndSuccessfully('Suppression');
-          }, error1 => {
-            console.log(error1);
           }
         );
       }
@@ -131,8 +127,6 @@ export class EmployeeServiceService {
         if (result.value) {
           this._http.put(this._url, newEmployee).subscribe(data => {
               this.findAllEmployesExist();
-            }, error1 => {
-              console.log(error1);
             }
           );
           SwalUtil.savedSuccessfully('Sauvegarde');
@@ -145,8 +139,6 @@ export class EmployeeServiceService {
     this._http.get<EmployeeVo>(this._url + 'id/' + id).subscribe(
       data => {
         this._newEmployee = data;
-      }, error1 => {
-        console.log(error1);
       }
     );
   }

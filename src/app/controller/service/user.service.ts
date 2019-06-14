@@ -96,7 +96,7 @@ export class UserService {
 
   public getAll() {
     this.http.get<Array<User>>(this.url + 'get-all').subscribe((response) => {
-      this.users = response;
+      response ? this.users = response : this.users = [];
     });
   }
 

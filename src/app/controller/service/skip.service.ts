@@ -37,23 +37,12 @@ export class SkipService {
 
   findAllEmployees() {
     this._http.get<Array<EmployeeVo>>(this._url_employees + 'allExist/isExist/' + true).subscribe(
-      data => {
-        data ?
-          this._employees = data : this._employees = [];
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this._employees = data : this._employees = []);
   }
 
   findAllDetails() {
     this._http.get<Array<DetailVo>>(this._url_detail).subscribe(
-      data => {
-        data ? this._details = data : this._details = [];
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this._details = data : this._details = []);
   }
 
   public saveSkip() {
@@ -75,8 +64,6 @@ export class SkipService {
               this._skipCreate = new SkipVo();
               this.findAllSkips();
               this.deleteAllDayDetailsWhereIsNull();
-            }, error1 => {
-              console.log(error1);
             }
           );
           SwalUtil.savedSuccessfully('Sauvegarde');
@@ -87,22 +74,12 @@ export class SkipService {
 
   findAllSkips() {
     this._http.get<Array<DayDetailVo>>(this._url_dayDetail).subscribe(
-      data => {
-        data ? this._dayDetails = data : this._dayDetails = [];
-      }, error1 => {
-        console.log(error1);
-      }
-    );
+      data => data ? this._dayDetails = data : this._dayDetails = []);
   }
 
   findSkipedEmployesByMatricule(matricule: string) {
     this.http.get<EmployeeVo>(this._url + 'employee/matricule/' + matricule).subscribe(
-      data => {
-        this.employee = data;
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this.employee = data : this.employee = new EmployeeVo(0, '', '', '', '', '', false));
   }
 
   findDetailByWording(wording: string) {
@@ -113,8 +90,6 @@ export class SkipService {
           this.selectedDayDetail.detailVo = data;
           this.skipCreate.detailVo = data;
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
@@ -127,8 +102,6 @@ export class SkipService {
           () => {
             this.findAllSkips();
             SwalUtil.topEndSuccessfully('Suppression');
-          }, error1 => {
-            console.log(error1);
           }
         );
       }
@@ -137,14 +110,7 @@ export class SkipService {
 
   findDayDetailById(id: number) {
     this.http.get<DayDetailVo>(this._url_dayDetail + 'id/' + id).subscribe(
-      data => {
-        if (data != null) {
-          this.selectedDayDetail = data;
-        }
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this.selectedDayDetail = data : this.selectedDayDetail = new DetailVo('', '', {}, {}, '', ''));
   }
 
 
@@ -165,15 +131,15 @@ export class SkipService {
               } else {
                 this.http.put(this._urlSkip, dayDetail).subscribe(
                   (res) => {
-                    if (res == 1 || res == 2 || res == 3 || res == 7) {
+                    if (res >= 1 ) {
                       this.findAllSkips();
                       this.deleteAllDayDetailsWhereIsNull();
                       SwalUtil.anySuccess('Modification d\'absence', 'Modification du service réussite');
                       // @ts-ignore
                       $('#skipModal').modal('hide');
-                    } else if (res == -2) {
+                    } else if (res === -2) {
                       SwalUtil.any('Erreur!', 'Modification du service échouée:Ce fonctionnaire n\'a pas de service à cette date');
-                    } else if (res == -6 || res == -7) {
+                    } else if (res === -6 || res === -7) {
                       SwalUtil.any('Erreur!', 'Modification du service échouée:Ce fonctionnaire est absent à cette date');
                     } else {
                       SwalUtil.any('Erreur!', 'Modification du service échouée:Erreur Inconnue');
@@ -181,8 +147,6 @@ export class SkipService {
                   },
                 );
               }
-            }, error => {
-              console.log(error);
             }
           );
         }

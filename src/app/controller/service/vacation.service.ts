@@ -44,8 +44,6 @@ export class VacationService {
               this._vacationCreate = new VacationVo();
               this.findAllEmployees();
               this.findAllVacations();
-            }, error => {
-              console.log(error);
             }
           );
           SwalUtil.savedSuccessfully('Sauvegarde');
@@ -56,22 +54,12 @@ export class VacationService {
 
   findAllEmployees() {
     this.http.get<Array<EmployeeVo>>(this._url_employees + 'allExist/isExist/' + true).subscribe(
-      data => {
-        data ? this._employees = data : this._employees = [];
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this._employees = data : this._employees = []);
   }
 
   findAllVacations() {
     this.http.get<Array<VacationVo>>(this._urlVac).subscribe(
-      data => {
-        data ? this._vacations = data : this._vacations = [];
-      }, error => {
-        console.log(error);
-      }
-    );
+      data => data ? this._vacations = data : this._vacations = []);
   }
 
   deleteVaction(id: number) {
@@ -81,8 +69,6 @@ export class VacationService {
           () => {
             this.findAllVacations();
             SwalUtil.topEndSuccessfully('Suppression');
-          }, error1 => {
-            console.log(error1);
           }
         );
       }
@@ -90,23 +76,16 @@ export class VacationService {
   }
 
   updateEmployee(newVacation: VacationVo, matricule: string) {
-    this._http.put(this._url + 'matricule/' + matricule, newVacation).subscribe(data => {
+    this._http.put(this._url + 'matricule/' + matricule, newVacation).subscribe( () => {
         this.findAllVacations();
         SwalUtil.topEndSuccessfully('Mise à jour succés');
-      }, error1 => {
-        console.log(error1);
       }
     );
   }
 
   findVacationById(id: number) {
     this._http.get<VacationVo>(this._url + 'id/' + id).subscribe(
-      data => {
-        data ? this._newVacation = data : this._newVacation = new VacationVo(0, new EmployeeVo(), '', '', '', '');
-      }, error1 => {
-        console.log(error1);
-      }
-    );
+      data => data ? this._newVacation = data : this._newVacation = new VacationVo(0, new EmployeeVo(), '', '', '', ''));
   }
 
   get vacations(): Array<VacationVo> {
