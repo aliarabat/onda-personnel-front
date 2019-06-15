@@ -5,7 +5,7 @@ import {EmployeeVo} from '../model/employee.model';
 import {DayDetailVo} from '../model/day-detail.model';
 import {DetailVo} from '../model/detail.model';
 import {TimingVo} from '../model/timing.model';
-import {SwalUtil} from '../../util/swal-util';
+import { SwalUtil } from '../../util/swal-util';
 import {UrlsUtil} from '../../util/urls-util';
 
 @Injectable({
@@ -16,13 +16,13 @@ export class DayServiceService {
   constructor(private http: HttpClient) {
   }
 
-  //Urls
+  // Urls
   public _url = UrlsUtil.main_personnel_url;
   public _url_employees = this._url + UrlsUtil.url_employee;
   public _url_detail = this._url + UrlsUtil.url_Detail;
   public _url_day = this._url + UrlsUtil.url_day;
   public _url_work = this._url + UrlsUtil.url_work;
-  //variables declatarions
+  // variables declatarions
   public _employee: EmployeeVo = new EmployeeVo();
   public _employee1: EmployeeVo = new EmployeeVo();
   public _day: DayVo = new DayVo([]);
@@ -32,30 +32,30 @@ export class DayServiceService {
   public _details: Array<DetailVo> = new Array<DetailVo>();
   public _detailsHelper: Array<DetailVo> = new Array<DetailVo>();
   public _detail: DetailVo = new DetailVo();
-  //check date credentials
+  // check date credentials
   public _listDate: Array<string> = [];
-  //employee normal to fill the service week automaically
+  // employee normal to fill the service week automaically
   public _employeeCheckType: EmployeeVo = new EmployeeVo(0, '', '', '', '', '');
 
   public ajouter() {
-    if (this._employee.matricule === undefined) {
+    if (this.employee.matricule === undefined) {
       SwalUtil.select('l\'employé');
-    } else if (this._day.dayDetailsVo.length <= 0) {
+    } else if (this.day.dayDetailsVo.length <= 0) {
       SwalUtil.select('l\'horaire');
-    } else if (this._days.length >= 7) {
+    } else if (this.days.length >= 7) {
       SwalUtil.passed('7 jours!');
     } else {
-      this._days.push(this._day);
-      this._day = new DayVo();
+      this.days.push(this.day);
+      this.day = new DayVo();
       this.detail = new DetailVo();
     }
   }
 
   addDetailToBadges() {
-    if (this._day.dayDetailsVo.findIndex(dd => dd.detailVo.wording === this._detail.wording) === -1) {
-      let dayDetailClone: DayDetailVo = new DayDetailVo();
-      dayDetailClone.detailVo = this._details.find(d => d.wording === this._detail.wording);
-      this._day.dayDetailsVo.push(dayDetailClone);
+    if (this.day.dayDetailsVo.findIndex(dd => dd.detailVo.wording === this.detail.wording) === -1) {
+      const dayDetailClone: DayDetailVo = new DayDetailVo();
+      dayDetailClone.detailVo = this._details.find(d => d.wording === this.detail.wording);
+      this.day.dayDetailsVo.push(dayDetailClone);
     } else {
       SwalUtil.alreadyExist('Cette horaire');
     }
@@ -72,7 +72,7 @@ export class DayServiceService {
   findAllTechEmployees() {
     this.http.get<Array<EmployeeVo>>(this._url_employees + 'type/Technique').subscribe(
       data => {
-        data ? this._employees = data : this._employees = [];
+        data ? this.employees = data : this.employees = [];
       }
     );
   }
@@ -81,35 +81,42 @@ export class DayServiceService {
     this.http.get<Array<DetailVo>>(this._url_detail).subscribe(
       data => {
         if (data != null) {
-          this._detailsHelper = data;
-          this._details = data.filter(dt => dt.mode === 'Normal');
+          this.detailsHelper = data;
+          this.details = data.filter(dt => dt.mode === 'Normal');
         }
       }
     );
   }
 
   initializeList() {
-    this._days = new Array<DayVo>();
+    this.days = new Array<DayVo>();
   }
 
   deleteDay(day: DayVo) {
-    const index = this._days.indexOf(day);
+    const index = this.days.indexOf(day);
     if (index !== -1) {
-      this._days.splice(index, 1);
+      this.days.splice(index, 1);
     }
   }
 
   confirm() {
-    if (this._days.length === 7) {
+    if (this.days.length === 7) {
       SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
         if (result.value) {
-          this.http.post(this._url_day + 'matricule/' + this._employee.matricule, this._days).subscribe(
+          this.http.post(this._url_day + 'matricule/' + this.employee.matricule, this.days).subscribe(
             data => {
-              if (data === 1) {
-                this._days = [];
-                this._employee = new EmployeeVo();
-                this._day.dayDetailsVo = [];
-                this._listDate = [];
+              if (data === -1) {
+                SwalUtil.any('Oops..!', 'L\'employé n\'existe pas');
+              } else if (data === -2) {
+                SwalUtil.any('Oops..!', 'La liste est vide');
+              } else if (data === -3) {
+                SwalUtil.any('Oops..!', 'La liste est inférieure à 7 jours');
+              } else {
+                this.days = [];
+                this.employee = new EmployeeVo();
+                this.day.dayDetailsVo = [];
+                this.listDate = [];
+                this.detail = new DetailVo('', '');
               }
             }
           );
@@ -129,8 +136,8 @@ export class DayServiceService {
           this._employeeCheckType = this._employees.find(emp => parseInt(emp.matricule) === parseInt(this._employee.matricule));
           if (this._employeeCheckType.type === 'Administratif') {
             for (let i = 0; i <= 6; i++) {
-              let _dayClone = new DayVo(new Array<DayDetailVo>());
-              let _dayDetailClone: DayDetailVo = new DayDetailVo(0, new DetailVo('', '', new TimingVo('0', '0'), new TimingVo('0', '0'), '', ''));
+              const _dayClone = new DayVo(new Array<DayDetailVo>());
+              const _dayDetailClone: DayDetailVo = new DayDetailVo(0, new DetailVo('', '', new TimingVo('0', '0'), new TimingVo('0', '0'), '', ''));
               if (i <= 4) {
                 _dayDetailClone.detailVo = this._details.find(dt => dt.wording === 'ADM' || dt.wording === 'ADM1');
               } else {

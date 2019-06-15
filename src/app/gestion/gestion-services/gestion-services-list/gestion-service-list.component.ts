@@ -42,6 +42,10 @@ export class GestionServiceListComponent implements OnInit {
     return this.workService.dateByAnnee;
   }
 
+  deleteWork(id:number){
+    this.workService.deleteWork(id);
+  }
+
   findWorkByYear() {
     if (this.dateByYear.year === undefined || this.dateByYear.year === null) {
       SwalUtil.insert('l\'année');

@@ -1,9 +1,9 @@
-import {EmployeeVo} from './employee.model';
-import {WorkDatailVo} from './work-datail.model';
+import { EmployeeVo } from './employee.model';
+import { WorkDatailVo } from './work-datail.model';
 
 export class WorkVo {
 
-  constructor(public employeeVo?: EmployeeVo, public workDetailVo?: WorkDatailVo) {
+  constructor(public employeeVo?: EmployeeVo, public workDetailVo?: WorkDatailVo, public id?: number) {
   }
 
 }

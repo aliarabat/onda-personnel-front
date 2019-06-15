@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from '../../controller/service/user.service';
-import {Router} from '@angular/router';
-import {UserUtil} from '../../util/userUtil';
-import {Validator} from '../../validator/validator';
-import {SwalUtil} from '../../util/swal-util';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../controller/service/user.service';
+import { Router } from '@angular/router';
+import { UserUtil } from '../../util/userUtil';
+import { Validator } from '../../validator/validator';
+import { SwalUtil } from '../../util/swal-util';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,9 +12,9 @@ import {SwalUtil} from '../../util/swal-util';
 })
 export class SidebarComponent implements OnInit {
 
-  public emailChangeRequestLocal = {userId: 0, originalEmail: '', newEmail: ''};
-  public pwdChangeRequestLocal = {userId: 0, oldPassword: '', newPassword: ''};
-  public userDataChangeRequestLocal = {userId: 0, username: '', firstName: '', lastName: '',};
+  public emailChangeRequestLocal = { userId: 0, originalEmail: '', newEmail: '' };
+  public pwdChangeRequestLocal = { userId: 0, oldPassword: '', newPassword: '' };
+  public userDataChangeRequestLocal = { userId: 0, username: '', firstName: '', lastName: '', };
   public pwdChangeConfirmation: '';
   public pwdUserCreateConfirmation: '';
   public isUserCreationValidated = true;
@@ -24,19 +24,19 @@ export class SidebarComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {
   }
 
-  gestionState: boolean = false;
-  absencesState: boolean = false;
-  indicateursState: boolean = false;
-  //for pesonnel project
-  employeeState: boolean = false;
-  holidaysState: boolean = false;
-  detailsState: boolean = false;
+  gestionState = false;
+  absencesState = false;
+  indicateursState = false;
+  // for pesonnel project
+  employeeState = false;
+  holidaysState = false;
+  detailsState = false;
   // for dashboard project
-  equipementsState: boolean = false;
+  equipementsState = false;
 
   async ngOnInit() {
     await this.router.events.subscribe(() => {
-      let loggedUser = UserUtil.getLoggedUser();
+      const loggedUser = UserUtil.getLoggedUser();
       if (loggedUser) {
         this.userData = loggedUser;
         this.emailChangeRequestLocal.userId = loggedUser.id;
@@ -314,9 +314,9 @@ export class SidebarComponent implements OnInit {
     $('#logo').attr('src', '../../../assets/Images/logo-ONDA.png');
   }
 
-  isAllowed(){
-    let route = location.pathname;
-    if (route.includes('/login') || route === '/acceuil') {
+  isAllowed() {
+    const route = location.pathname;
+    if (route.includes('/login') || route === '/acceuil' || UserUtil.getLoggedUser() === null) {
       return true;
     }
     return false;

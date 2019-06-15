@@ -1,19 +1,20 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {WorkVo} from '../model/work.model';
-import {DateModel} from '../model/date.model';
-import {EmployeeVo} from '../model/employee.model';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { WorkVo } from '../model/work.model';
+import { DateModel } from '../model/date.model';
+import { EmployeeVo } from '../model/employee.model';
 import Swal from 'sweetalert2';
-import {SwalUtil} from '../../util/swal-util';
-import {downloadfile} from '../../util/downloadfile-util';
-import {MonthUtil} from '../../util/month-util';
-import {UrlsUtil} from '../../util/urls-util';
-import {__await} from 'tslib';
+import { SwalUtil } from '../../util/swal-util';
+import { downloadfile } from '../../util/downloadfile-util';
+import { MonthUtil } from '../../util/month-util';
+import { UrlsUtil } from '../../util/urls-util';
+import { __await } from 'tslib';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkService {
+
   constructor(public http: HttpClient) {
   }
 
@@ -69,6 +70,24 @@ export class WorkService {
     );
   }
 
+  deleteWork(id: number) {
+    SwalUtil.saveConfirmation('Suppression', 'supprimer').then((result) => {
+      if (result.value) {
+        this.http.delete(this.url + 'id/' + id).subscribe(
+          async data => {
+            if (data === -1) {
+              SwalUtil.any('Oops...!', 'Le service du mois n\'existe pas');
+            } else if (data === 1) {
+              this.listEmployeesByYear.splice(this.listEmployeesByYear.findIndex(w => w.id === id), 1);
+              SwalUtil.savedSuccessfully('Sauvegarde');
+            }
+          }
+        );
+
+      }
+    });
+  }
+
   public searchWorkToPrint() {
     if (this._dateForPrinting.year === null || this._dateForPrinting.year === undefined) {
       SwalUtil.insert('l\'année');
@@ -80,14 +99,13 @@ export class WorkService {
     }
   }
 
-
   reinitializeSearchByYearForm() {
     this._dateByAnnee = new DateModel(new Date().getFullYear());
   }
 
   async print(fullYear: number, month: number) {
     // inputOptions can be an object or Promise
-    const {value: type} = await Swal.fire({
+    const { value: type } = await Swal.fire({
       title: 'Select field validation',
       input: 'select',
       inputOptions: {

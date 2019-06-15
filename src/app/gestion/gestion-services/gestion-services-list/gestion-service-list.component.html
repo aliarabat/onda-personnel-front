@@ -9,7 +9,7 @@
             <div class="input-group-text">Année</div>
           </div>
           <input type="number" name="annee" id="annee" min="0" max="{{ date() }}" [(ngModel)]="dateByYear.year"
-                 class="form-control" placeholder="Annee">
+            class="form-control" placeholder="Annee">
         </div>
       </div>
       <div [hidden]="hiddenStateMonth" id="monthDiv" class="col-md-3">
@@ -29,10 +29,10 @@
             <div class="input-group-text">Employée</div>
           </div>
           <select class="custom-select" id="inputGroupSelectEmployee" [(ngModel)]="employee.matricule"
-                  name="employeematricule">
+            name="employeematricule">
             <option selected disabled>Selectionner un employe</option>
-            <option *ngFor="let emp of employeeVo"
-                    value="{{ emp.matricule }}">{{ emp.matricule + " (" + emp.firstName + " " + emp.lastName + ")" }}</option>
+            <option *ngFor="let emp of employeeVo" value="{{ emp.matricule }}">
+              {{ emp.matricule + " (" + emp.firstName + " " + emp.lastName + ")" }}</option>
           </select>
         </div>
       </div>
@@ -47,12 +47,12 @@
   <div class="col-md-12 d-flex">
     <div class="custom-control custom-checkbox mr-sm-1">
       <input type="checkbox" class="custom-control-input" value="option1" (click)="selectPerYear()"
-             id="inlineCheckboxperyear">
+        id="inlineCheckboxperyear">
       <label class="custom-control-label" for="inlineCheckboxperyear">Recherche par employé</label>
     </div>
     <div class="custom-control custom-checkbox">
       <input type="checkbox" class="custom-control-input" value="option1" (click)="selectPerMonth()"
-             id="inlineCheckboxpermonth">
+        id="inlineCheckboxpermonth">
       <label class="custom-control-label" for="inlineCheckboxpermonth">Recherche par mois</label>
     </div>
   </div>
@@ -60,80 +60,86 @@
 <br>
 <table class="table table-striped table-sm">
   <thead>
-  <tr>
-    <th scope="col">Matricule</th>
-    <th scope="col">Année</th>
-    <th scope="col">Nom</th>
-    <th scope="col">Prénom</th>
-    <th scope="col">Mois</th>
-    <th scope="col">Pan</th>
-    <th scope="col">Hjf</th>
-    <th scope="col">Hn</th>
-    <th scope="col">Actions</th>
-  </tr>
+    <tr>
+      <th scope="col">Matricule</th>
+      <th scope="col">Année</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom</th>
+      <th scope="col">Mois</th>
+      <th scope="col">Pan</th>
+      <th scope="col">Hjf</th>
+      <th scope="col">Hn</th>
+      <th scope="col">Actions</th>
+    </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let w of listEmployeesByYear" [class]="w.employeeVo.isExist?'':'table-danger'">
-    <td>{{ w.employeeVo.matricule }}</td>
-    <td>{{ formatDate(w.workDetailVo.workDetailDate).getFullYear() }}</td>
-    <td>{{ w.employeeVo.lastName}}</td>
-    <td>{{ w.employeeVo.firstName}}</td>
-    <td>{{ getMonth(formatDate(w.workDetailVo.workDetailDate).getMonth())}}</td>
-    <td>{{ w.workDetailVo.pan }}</td>
-    <td>{{ w.workDetailVo.hjf.hour + "h" + w.workDetailVo.hjf.minute + "min" }}</td>
-    <td>{{ w.workDetailVo.hn.hour + "h" + w.workDetailVo.hn.minute + "min" }}</td>
-    <td>
-      <button type="button" (click)="setDaysInfo(w.workDetailVo.daysVo)" class="btn btn-outline-info mr-sm-1"
-              data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
-      </button>
-    </td>
-  </tr>
+    <tr *ngFor="let w of listEmployeesByYear" [class]="w.employeeVo.isExist?'':'table-danger'">
+      <td>{{ w.employeeVo.matricule }}</td>
+      <td>{{ formatDate(w.workDetailVo.workDetailDate).getFullYear() }}</td>
+      <td>{{ w.employeeVo.lastName}}</td>
+      <td>{{ w.employeeVo.firstName}}</td>
+      <td>{{ getMonth(formatDate(w.workDetailVo.workDetailDate).getMonth())}}</td>
+      <td>{{ w.workDetailVo.pan }}</td>
+      <td>{{ w.workDetailVo.hjf.hour + "h" + w.workDetailVo.hjf.minute + "min" }}</td>
+      <td>{{ w.workDetailVo.hn.hour + "h" + w.workDetailVo.hn.minute + "min" }}</td>
+      <td class="d-flex justify-content-center">
+        <button type="button" (click)="setDaysInfo(w.workDetailVo.daysVo)" class="btn btn-outline-info mr-sm-1"
+          data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-info" aria-hidden="true"></i>
+        </button>
+        <button type="button" (click)="deleteWork(w.id)" class="btn btn-outline-danger ml-sm-1">
+          <i class="fa fa-trash-o"></i>
+        </button>
+      </td>
+    </tr>
   </tbody>
 </table>
 <!--Large Modal-->
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-     aria-hidden="true">
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="container-fluid">
         <div class="row col-md-10 offset-1">
           <table class="table table-hover table-sm">
             <thead>
-            <tr class="text-center">
-              <th scope="col">Date</th>
-              <th scope="col">Etat</th>
-            </tr>
+              <tr class="text-center">
+                <th scope="col">Date</th>
+                <th scope="col">Etat</th>
+              </tr>
             </thead>
             <tbody>
-            <tr class="col-md-5" *ngIf="selectedDaysFormModal.length===0">
-              <div class="text-center font-italic" aria-colspan="2">No items found</div>
-            </tr>
-            <tr class="col-md-5" *ngFor="let day of selectedDaysFormModal">
-              <td class="d-flex justify-content-center">{{ formatDate(day.dayDate).toLocaleDateString() }}</td>
-              <td>
-                <div class="d-flex justify-content-center">
-                  <div *ngIf="day.reference!==null">{{ day.reference + " ("}}</div>
-                  <div *ngIf="day.vacationVo!==null">
-                    {{ day.vacationVo.type + " "}}
-                  </div>
-                  <div class="d-flex justify-content-center" *ngIf="day.vacationVo===null">
-                    <div *ngFor="let dt of day.dayDetailsVo">
-                      <div *ngIf="dt.missionVo!=null">
-                        {{ dt.missionVo.reference + " (" + dt.missionVo.startingTimeVo.hour + ":" + dt.missionVo.startingTimeVo.minute + "-" + dt.missionVo.endingTimeVo.hour + ":" + dt.missionVo.endingTimeVo.minute + ") " }}</div>
-                      <div *ngIf="dt.skipVo!=null">{{ dt.skipVo.type + " (" + dt.skipVo.detailVo.wording + ") " }}</div>
-                      <div
-                        *ngIf="dt.replacementVo!=null  && dt.detailVo!=null">{{ "Remp" + " (" + dt.replacementVo.detailVo.wording + ") " }}</div>
-                      <div
-                        *ngIf="dt.replacementVo!=null  && dt.detailVo==null">{{ "Rem" + " (" + dt.replacementVo.detailVo.wording + ") " }}</div>
-                      <div class="mr-sm-1" *ngIf="dt.missionVo===null && dt.skipVo===null && dt.replacementVo===null && dt.detailVo!=null">
-                        {{ dt.detailVo.wording }}
+              <tr class="col-md-5" *ngIf="selectedDaysFormModal.length===0">
+                <div class="text-center font-italic" aria-colspan="2">No items found</div>
+              </tr>
+              <tr class="col-md-5" *ngFor="let day of selectedDaysFormModal">
+                <td class="d-flex justify-content-center">{{ formatDate(day.dayDate).toLocaleDateString() }}</td>
+                <td>
+                  <div class="d-flex justify-content-center">
+                    <div *ngIf="day.reference!==null">{{ day.reference + " ("}}</div>
+                    <div *ngIf="day.vacationVo!==null">
+                      {{ day.vacationVo.type + " "}}
+                    </div>
+                    <div class="d-flex justify-content-center" *ngIf="day.vacationVo===null">
+                      <div *ngFor="let dt of day.dayDetailsVo">
+                        <div *ngIf="dt.missionVo!=null" class="mr-sm-1">
+                          {{ dt.missionVo.reference + " (" + dt.missionVo.startingTimeVo.hour + ":" + dt.missionVo.startingTimeVo.minute + "-" + dt.missionVo.endingTimeVo.hour + ":" + dt.missionVo.endingTimeVo.minute + ") " }}
+                        </div>
+                        <div *ngIf="dt.skipVo!=null" class="mr-sm-1">{{ dt.skipVo.type + " (" + dt.skipVo.detailVo.wording + ") " }}
+                        </div>
+                        <div *ngIf="dt.replacementVo!=null  && dt.detailVo!=null" class="mr-sm-1">
+                          {{ "Remp" + " (" + dt.replacementVo.detailVo.wording + ") " }}</div>
+                        <div *ngIf="dt.replacementVo!=null  && dt.detailVo==null" class="mr-sm-1">
+                          {{ "Rem" + " (" + dt.replacementVo.detailVo.wording + ") " }}</div>
+                        <div class="mr-sm-1"
+                          *ngIf="dt.missionVo===null && dt.skipVo===null && dt.replacementVo===null && dt.detailVo!=null">
+                          {{ dt.detailVo.wording }}
+                        </div>
                       </div>
                     </div>
+                    <div *ngIf="day.reference!==null">{{ ")" }}</div>
                   </div>
-                  <div *ngIf="day.reference!==null">{{ ")" }}</div>
-                </div>
-              </td>
-            </tr>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

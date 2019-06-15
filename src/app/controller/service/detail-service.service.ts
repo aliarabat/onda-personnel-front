@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {DetailVo} from '../model/detail.model';
-import {TimingVo} from '../model/timing.model';
-import {HttpClient} from '@angular/common/http';
-import {SwalUtil} from '../../util/swal-util';
-import {UrlsUtil} from '../../util/urls-util';
+import { Injectable } from '@angular/core';
+import { DetailVo } from '../model/detail.model';
+import { TimingVo } from '../model/timing.model';
+import { HttpClient } from '@angular/common/http';
+import { SwalUtil } from '../../util/swal-util';
+import { UrlsUtil } from '../../util/urls-util';
 
 @Injectable({
   providedIn: 'root'
@@ -24,41 +24,45 @@ export class DetailServiceService {
   public addDetail() {
     if (this.detailCreate.wording === '' || this.detailCreate.wording === undefined) {
       SwalUtil.insert('le libelle!');
-    } else if (this.detailCreate.mode === '' || this.detailCreate.mode == undefined) {
+    } else if (this.detailCreate.mode === '' || this.detailCreate.mode === undefined) {
       SwalUtil.select('le mode!');
-    } else if (this.detailCreate.startingTimeVo.hour == '' || this.detailCreate.startingTimeVo.hour == undefined) {
+    } else if (this.detailCreate.startingTimeVo.hour === '' || this.detailCreate.startingTimeVo.hour === undefined) {
       SwalUtil.insert('l\'heure debut!');
-    } else if (this.detailCreate.startingTimeVo.minute == '' || this.detailCreate.startingTimeVo.minute == undefined) {
+    } else if (this.detailCreate.startingTimeVo.minute === '' || this.detailCreate.startingTimeVo.minute === undefined) {
       SwalUtil.insert('les minutes début!');
-    } else if (this.detailCreate.endingTimeVo.hour == '' || this.detailCreate.endingTimeVo.hour == undefined) {
+    } else if (this.detailCreate.endingTimeVo.hour === '' || this.detailCreate.endingTimeVo.hour === undefined) {
       SwalUtil.insert('l\'heure début!');
-    } else if (this.detailCreate.endingTimeVo.minute == '' || this.detailCreate.endingTimeVo.minute == undefined) {
+    } else if (this.detailCreate.endingTimeVo.minute === '' || this.detailCreate.endingTimeVo.minute === undefined) {
       SwalUtil.insert('les minutes fin!');
-    } else if (this.detailCreate.pan == undefined) {
+    } else if (this.detailCreate.pan === undefined) {
       SwalUtil.insert('le pan!');
+    } else if (this.details.findIndex(d => d.wording === this.detailCreate.wording) !== -1) {
+      SwalUtil.alreadyExist('Cet heure');
     } else {
-      this.getHe();
-      this.getHn();
-      let detailClone = new DetailVo(this._detailCreate.reference, this._detailCreate.wording, this._detailCreate.startingTimeVo, this._detailCreate.endingTimeVo, this._detailCreate.pan, this._detailCreate.mode);
-      this.details.push(detailClone);
-      this.detailCreate = new DetailVo();
+      this.http.get(this.url + 'wording/' + this.detailCreate.wording).subscribe(data => {
+        if (data !== null) {
+          SwalUtil.alreadyExist('Cet heure');
+        } else {
+          this.getHe();
+          this.getHn();
+          const detailClone = new DetailVo(this.detailCreate.reference, this.detailCreate.wording, this._detailCreate.startingTimeVo, this._detailCreate.endingTimeVo, this._detailCreate.pan, this._detailCreate.mode);
+          this.details.push(detailClone);
+          this.detailCreate = new DetailVo();
+        }
+      })
     }
   }
 
+
+
   public getHe() {
     this._http.get<TimingVo>(this.url + 'between/startingHour/' + this.detailCreate.startingTimeVo.hour + '/startingMinute/' + this.detailCreate.startingTimeVo.minute + '/endingHour/' + this.detailCreate.endingTimeVo.hour + '/endingMinute/' + this.detailCreate.endingTimeVo.minute + '/isNight/' + false).subscribe(
-      data => {
-        data ? this._he = data : this._he = new TimingVo('00', '00');
-      }
-    );
+      data => data ? this._he = data : this._he = new TimingVo('00', '00'));
   }
 
   public getHn() {
     this._http.get<TimingVo>(this.url + 'between/startingHour/' + this.detailCreate.startingTimeVo.hour + '/startingMinute/' + this.detailCreate.startingTimeVo.minute + '/endingHour/' + this.detailCreate.endingTimeVo.hour + '/endingMinute/' + this.detailCreate.endingTimeVo.minute + '/isNight/' + true).subscribe(
-      data => {
-        data ? this._hn = data : this._hn = new TimingVo('00', '00');
-      }
-    );
+      data => data ? this._hn = data : this._hn = new TimingVo('00', '00'));
   }
 
   public cleanForm() {
@@ -68,7 +72,7 @@ export class DetailServiceService {
   }
 
   public saveDetails() {
-    if (this.details.length != 0) {
+    if (this.details.length !== 0) {
       SwalUtil.saveConfirmation('Sauvegarde', 'sauvegarder').then((result) => {
         if (result.value) {
           this._http.post(this._url, this.details).subscribe(
@@ -100,24 +104,24 @@ export class DetailServiceService {
   updateDetail(newDetail: DetailVo) {
     if (this.newDetail.wording === '' || this.newDetail.wording === undefined) {
       SwalUtil.insert('le libelle!');
-    } else if (this.newDetail.mode === '' || this.newDetail.mode == undefined) {
+    } else if (this.newDetail.mode === '' || this.newDetail.mode === undefined) {
       SwalUtil.select('le mode!');
-    } else if (this.newDetail.startingTimeVo.hour == '' || this.newDetail.startingTimeVo.hour == undefined) {
+    } else if (this.newDetail.startingTimeVo.hour === '' || this.newDetail.startingTimeVo.hour === undefined) {
       SwalUtil.insert('l\'heure debut!');
-    } else if (this.newDetail.startingTimeVo.minute == '' || this.newDetail.startingTimeVo.minute == undefined) {
+    } else if (this.newDetail.startingTimeVo.minute === '' || this.newDetail.startingTimeVo.minute === undefined) {
       SwalUtil.insert('les minutes debut!');
-    } else if (this.newDetail.endingTimeVo.hour == '' || this.newDetail.endingTimeVo.hour == undefined) {
+    } else if (this.newDetail.endingTimeVo.hour === '' || this.newDetail.endingTimeVo.hour === undefined) {
       SwalUtil.insert('l\'heure fin!');
-    } else if (this.newDetail.endingTimeVo.minute == '' || this.newDetail.endingTimeVo.minute == undefined) {
+    } else if (this.newDetail.endingTimeVo.minute === '' || this.newDetail.endingTimeVo.minute === undefined) {
       SwalUtil.insert('les minutes fin!');
-    } else if (this.newDetail.pan == '' || this.newDetail.pan == undefined) {
+    } else if (this.newDetail.pan === '' || this.newDetail.pan === undefined) {
       SwalUtil.insert('le pan!');
     } else {
       SwalUtil.saveConfirmation('Modification', 'modifier').then((result) => {
         if (result.value) {
           this._http.put(this._url, newDetail).subscribe(data => {
-              this.findAllDetails();
-            }
+            this.findAllDetails();
+          }
           );
           SwalUtil.savedSuccessfully('Modification');
         }
@@ -128,9 +132,9 @@ export class DetailServiceService {
 
   deleteDetail(wording: string) {
     this.http.delete(this._url + 'wording/' + wording).subscribe(data => {
-        this.findAllDetails();
-        SwalUtil.topEndSuccessfully('Suppression');
-      }
+      this.findAllDetails();
+      SwalUtil.topEndSuccessfully('Suppression');
+    }
     );
 
   }

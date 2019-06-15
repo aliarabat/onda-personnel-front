@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {DayServiceService} from "../../../controller/service/day-service.service";
-import {EmployeeVo} from "../../../controller/model/employee.model";
-import {DayVo} from "../../../controller/model/day.model";
-import {DayDetailVo} from "../../../controller/model/day-detail.model";
-import {MonthUtil} from "../../../util/month-util";
-import {DetailVo} from '../../../controller/model/detail.model';
-import {DateUtil} from "../../../util/date-util";
-import {Router} from '@angular/router';
-import {MiddleWare} from '../../../util/middle-ware';
+import { Component, OnInit } from '@angular/core';
+import { DayServiceService } from "../../../controller/service/day-service.service";
+import { EmployeeVo } from "../../../controller/model/employee.model";
+import { DayVo } from "../../../controller/model/day.model";
+import { DayDetailVo } from "../../../controller/model/day-detail.model";
+import { MonthUtil } from "../../../util/month-util";
+import { DetailVo } from '../../../controller/model/detail.model';
+import { DateUtil } from "../../../util/date-util";
+import { Router } from '@angular/router';
+import { MiddleWare } from '../../../util/middle-ware';
 import { GrantedAccess } from 'src/app/util/granted-access';
 
 @Component({
@@ -107,9 +107,9 @@ export class GestionServicesCreateComponent implements OnInit {
 
   ramadanHours() {
     if ($("#inlineCheckboxHoraireRamadan").prop("checked")) {
-      this.dayService.details = this.dayService.detailsHelper.filter(dt => dt.mode === 'Ramadan')
+      this.dayService.details = this.dayService.detailsHelper.filter(dt => dt.mode === 'Ramadan' || dt.wording === 'R');
     } else {
-      this.dayService.details = this.dayService.detailsHelper.filter(dt => dt.mode === 'Normal');
+      this.dayService.details = this.dayService.detailsHelper.filter(dt => dt.mode === 'Normal' || dt.wording === 'R');
     }
   }
 
