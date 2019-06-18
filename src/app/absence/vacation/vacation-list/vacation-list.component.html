@@ -11,7 +11,7 @@
   <tr *ngFor="let v of vacations">
     <td>{{v.employeeVo.lastName}} {{v.employeeVo.firstName}}</td>
     <td>{{formatDate(v.startingDate)}}</td>
-    <td>{{formatDate(v.startingDate)}}</td>
+    <td>{{formatDate(v.endingDate)}}</td>
     <td>{{v.type}}</td>
     <td class="float-right">
       <button class="btn btn-outline-info mr-2" data-toggle="modal" (click)="findVacationById(v.id)"

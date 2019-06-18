@@ -75,7 +75,6 @@ export class StatsComponent implements OnInit {
     dataMission.label = 'Mission';
 
     this.workService.searchEmployeeSats().subscribe(async list => {
-      list.reverse();
       await list.forEach(item => {
         labels.push(MonthUtil.getMonth(DateUtil.formatDate(item.workDetailVo.workDetailDate).getMonth()));
         dataVacation.data.push(item.workDetailVo.vacationNumber);
